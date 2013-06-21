@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 
-import eu.celarcloud.celar_ms.ProbePack.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.utils.Timestamp;
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
 
 
 public interface IProbe {
@@ -49,7 +49,7 @@ public interface IProbe {
 	
 	public HashMap<Integer,Object> getLastMetricValues();
 	
-	public Timestamp getLastUpdateTime();
+	public CatascopiaTimestamp getLastUpdateTime();
 	
 	
 	//user must override these

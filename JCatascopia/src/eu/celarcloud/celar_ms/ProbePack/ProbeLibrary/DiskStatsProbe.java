@@ -33,7 +33,7 @@ public class DiskStatsProbe extends Probe{
 	}
 	
 	public DiskStatsProbe(){
-		this("DiskStatsProbe",7);
+		this("DiskStatsProbe",12);
 	}
 	
 	@Override

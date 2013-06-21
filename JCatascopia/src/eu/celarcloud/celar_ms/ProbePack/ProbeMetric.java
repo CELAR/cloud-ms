@@ -2,8 +2,8 @@ package eu.celarcloud.celar_ms.ProbePack;
 
 import java.util.HashMap;
 
-import eu.celarcloud.celar_ms.ProbePack.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.utils.Timestamp;
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
 
 /**
  * 
@@ -16,7 +16,7 @@ public class ProbeMetric {
 	/**
 	 * timestamp of collected metric
 	 */
-	private Timestamp timestamp;
+	private CatascopiaTimestamp timestamp;
 	/**
 	 * hashmap to store collected values
 	 */
@@ -27,18 +27,18 @@ public class ProbeMetric {
 	private String probeID;
 	
 	public ProbeMetric(){
-		this(new HashMap<Integer,Object>(), new Timestamp());
+		this(new HashMap<Integer,Object>(), new CatascopiaTimestamp());
 	}
 	
 	public ProbeMetric(HashMap<Integer,Object> values){
-		this(values,new Timestamp());
+		this(values,new CatascopiaTimestamp());
 	}
 	/**
 	 * 
 	 * @param values - hashmap with key the propertyID of the metric
 	 * @param timestamp - time values where collected
 	 */
-	public ProbeMetric(HashMap<Integer,Object> values, Timestamp timestamp){
+	public ProbeMetric(HashMap<Integer,Object> values, CatascopiaTimestamp timestamp){
 		this.timestamp = timestamp;
 		this.values = values;
 	}
@@ -73,14 +73,14 @@ public class ProbeMetric {
 	 * method that returns the timestamp of the collected metric
 	 * @return
 	 */
-	public Timestamp getMetricTimestamp(){
+	public CatascopiaTimestamp getMetricTimestamp(){
 		return this.timestamp;
 	}
 	/**
 	 * method that sets the timestamp of the collected metric
 	 * @return
 	 */
-	public void setMetricTimestamp(Timestamp t){
+	public void setMetricTimestamp(CatascopiaTimestamp t){
 		this.timestamp = t;
 	}
 	/**

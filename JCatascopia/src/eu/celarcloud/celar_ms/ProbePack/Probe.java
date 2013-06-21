@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eu.celarcloud.celar_ms.ProbePack.Exceptions.CatascopiaException;
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
-import eu.celarcloud.celar_ms.utils.Timestamp;
+import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
 
 /** 
  * @author Demetris Trihinas
@@ -132,6 +132,7 @@ public abstract class Probe extends Thread implements IProbe{
 	 * method that returns the Probes Description provided by the Probe Developer
 	 */
 	public abstract String getDescription();
+	
 	//initialize logging
 	private void initLogging(){
 		try{
@@ -322,7 +323,7 @@ public abstract class Probe extends Thread implements IProbe{
 	/**
 	 * method that returns last metric timestamp
 	 */
-	public Timestamp getLastUpdateTime(){
+	public CatascopiaTimestamp getLastUpdateTime(){
 		if(this.lastMetric != null)
 			return this.lastMetric.getMetricTimestamp();
 		return null;

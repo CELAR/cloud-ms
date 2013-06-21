@@ -27,7 +27,7 @@ public class MemoryProbe extends Probe{
 	}
 	
 	public MemoryProbe(){
-		this("MemoryProbe",3);
+		this("MemoryProbe",9);
 	}
 		
 	public String getDescription(){

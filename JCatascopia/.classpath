@@ -2,5 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/home/dtrihinas/git/cloud-ms/JCatascopia/lib/jeromq.jar"/>
+	<classpathentry kind="lib" path="/home/dtrihinas/git/cloud-ms/JCatascopia/lib/json-org.jar"/>
+	<classpathentry kind="lib" path="/home/dtrihinas/git/cloud-ms/JCatascopia/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

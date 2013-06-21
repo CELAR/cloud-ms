@@ -31,7 +31,7 @@ public class NetworkProbe extends Probe{
 	}
 	
 	public NetworkProbe(){
-		this("NetworkProbe",4);
+		this("NetworkProbe",11);
 	}
 	
 	@Override

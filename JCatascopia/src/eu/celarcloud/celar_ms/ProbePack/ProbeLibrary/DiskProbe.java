@@ -26,7 +26,7 @@ public class DiskProbe  extends Probe{
 	}
 	
 	public DiskProbe(){
-		this("DiskProbe",15);
+		this("DiskProbe",25);
 	}
 	
 	@Override

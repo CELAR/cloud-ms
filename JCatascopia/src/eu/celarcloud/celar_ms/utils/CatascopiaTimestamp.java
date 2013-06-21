@@ -9,15 +9,15 @@ import java.util.Date;
  * Time is expressed as UNIX time. Seconds from UNIX epoch
  *
  */
-public class Timestamp {
+public class CatascopiaTimestamp {
 	
 	private long timestamp;
 	
-	public Timestamp(){
+	public CatascopiaTimestamp(){
 		this.timestamp = System.currentTimeMillis()/1000L;
 	}
 	
-	public Timestamp(long timestamp){
+	public CatascopiaTimestamp(long timestamp){
 		this.timestamp = timestamp;
 	}
 	
@@ -30,13 +30,13 @@ public class Timestamp {
 	}
 	
 	public String getReadableTimestamp(){
-		Date d = new Date(this.timestamp*1000);
+		Date d = new Date(this.timestamp*1000L);
 		return d.toString();
 	}
 	
 	//for testing
 	public static void main(String[] args){
-		Timestamp t = new Timestamp();
+		CatascopiaTimestamp t = new CatascopiaTimestamp();
 		System.out.println(t.getTimestamp());
 		System.out.println(t.getReadableTimestamp());
 	}

@@ -31,7 +31,7 @@ public class CPUProbe extends Probe{
 	}
 	
 	public CPUProbe(){
-		this("CPUProbe",2);
+		this("CPUProbe",6);
 	}
 		
 	@Override

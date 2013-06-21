@@ -1,9 +1,9 @@
-package eu.celarcloud.celar_ms.ProbePack.Exceptions;
+package eu.celarcloud.celar_ms.Exceptions;
 
 public class CatascopiaException extends Exception{
 	private static final long serialVersionUID = 1L;
 	
-	public enum ExceptionType {ATTRIBUTE,KEY,TYPE,QUEUE,PROBE_EXISTANCE,NETWORKING,PACKAGING}; 
+	public enum ExceptionType {ATTRIBUTE,KEY,TYPE,QUEUE,PROBE_EXISTANCE,NETWORKING,PACKAGING,FILE_ERROR}; 
 
 	private String message = null;
 	private ExceptionType extype;
