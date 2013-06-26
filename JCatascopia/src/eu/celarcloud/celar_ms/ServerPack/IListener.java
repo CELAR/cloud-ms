@@ -1,4 +1,4 @@
-package eu.celarcloud.celar_ms.AppServerPack;
+package eu.celarcloud.celar_ms.ServerPack;
 
 public interface IListener {
 	/*

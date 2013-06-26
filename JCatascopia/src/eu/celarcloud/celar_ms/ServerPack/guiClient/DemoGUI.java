@@ -1,4 +1,4 @@
-package eu.celarcloud.celar_ms.AppServerPack.guiClient;
+package eu.celarcloud.celar_ms.ServerPack.guiClient;
 
 import java.awt.GridLayout;
 

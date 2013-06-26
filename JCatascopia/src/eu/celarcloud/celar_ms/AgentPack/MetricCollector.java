@@ -85,7 +85,7 @@ public class MetricCollector extends Thread{
 				obj.put("name", properties.get(key).getPropertyName());
 				obj.put("units", properties.get(key).getPropertyUnits());
 				obj.put("type", properties.get(key).getPropertyType());
-				obj.put("val", val);
+				obj.put("val", val.toString());
 				values.put(obj);
 			}	
 			msg.put("metrics", values);

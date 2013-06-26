@@ -1,12 +1,12 @@
-package eu.celarcloud.celar_ms.AppServerPack.simpleClientPrinter;
+package eu.celarcloud.celar_ms.ServerPack.simpleClientPrinter;
 
-import eu.celarcloud.celar_ms.AppServerPack.Listener;
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+import eu.celarcloud.celar_ms.ServerPack.Listener;
 
 public class SimpleMessagePrinter extends Listener{
 
-	public SimpleMessagePrinter() throws CatascopiaException {
-		super();
+	public SimpleMessagePrinter(String ip,String port,String protocol,long hwm) throws CatascopiaException {
+		super(ip,port,protocol,hwm);
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class SimpleMessagePrinter extends Listener{
 	 * @throws CatascopiaException 
 	 */
 	public static void main(String[] args) throws CatascopiaException{
-		SimpleMessagePrinter printer = new SimpleMessagePrinter();
+		SimpleMessagePrinter printer = new SimpleMessagePrinter("localhost","4242","tcp",32);
 		printer.activate();
 	}
 }

@@ -1,4 +1,4 @@
-package eu.celarcloud.celar_ms.AppServerPack.guiClient;
+package eu.celarcloud.celar_ms.ServerPack.guiClient;
 
 import java.util.Iterator;
 
@@ -7,8 +7,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import eu.celarcloud.celar_ms.AppServerPack.Listener;
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+import eu.celarcloud.celar_ms.ServerPack.Listener;
 
 /**
  * 
@@ -22,7 +22,8 @@ public class GUIClient extends Listener{
 
 	private DemoGUI gui;
 	
-	public GUIClient() throws CatascopiaException{		
+	public GUIClient(String ip,String port,String protocol,long hwm) throws CatascopiaException{		
+		super(ip,port,protocol,hwm);
 		this.gui = new DemoGUI();
 		this.gui.init();
 	}
@@ -158,7 +159,7 @@ public class GUIClient extends Listener{
 	}
 	
 	public static void main(String[] args) throws CatascopiaException {
-		GUIClient client = new GUIClient();
+		GUIClient client = new GUIClient("localhost","4242","tcp",32);
 		client.activate();
 	}
 }

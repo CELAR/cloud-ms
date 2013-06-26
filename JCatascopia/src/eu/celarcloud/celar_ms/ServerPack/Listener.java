@@ -1,4 +1,4 @@
-package eu.celarcloud.celar_ms.AppServerPack;
+package eu.celarcloud.celar_ms.ServerPack;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,44 +23,12 @@ public abstract class Listener extends Thread implements IListener{
 	private boolean firstFlag;
 	private ListenerStatus listenerStatus;
 	
-	public Listener() throws CatascopiaException{
+	public Listener(String ipAddr, String port, String protocol, long hwm) throws CatascopiaException{
 		super("Listener-Thread");
-		//parse config file
-		this.parseConfig();
-		this.subscriber = this.initSubscriber();
+		
+		this.subscriber = new Subscriber(ipAddr,port,protocol,hwm,ISubscriber.ConnectType.BIND);
 		this.listenerStatus = ListenerStatus.INACTIVE; //start as INACTIVE and wait to be ACTIVATED
 		this.firstFlag = true;	
-	}
-	
-	//parse the configuration file
-	private void parseConfig() throws CatascopiaException{
-		this.config = new Properties();
-		//load config properties file
-		try {
-			FileInputStream fis = new FileInputStream(CONFIG_PATH);
-			config.load(fis);
-			if (fis != null)
-	    		fis.close();
-		} 
-		catch (FileNotFoundException e){
-			throw new CatascopiaException("config file not found", CatascopiaException.ExceptionType.FILE_ERROR);
-		} 
-		catch (IOException e){
-			throw new CatascopiaException("config file parsing error", CatascopiaException.ExceptionType.FILE_ERROR);
-		}
-	}
-	
-	/**
-	 * Initialize the Subscriber.
-	 * Bind Subscriber to Application Server IP in order to receive incoming messages from
-	 * various Monitoring Agents
-	 */
-	private Subscriber initSubscriber(){
-		String port = this.config.getProperty("sub_port", "4242");
-		String protocol = this.config.getProperty("sub_protocol","tcp");
-    	String ip = this.config.getProperty("sub_ip","*");
-    	String hwm = this.config.getProperty("sub_hwm","32");
-		return new Subscriber(ip,port,protocol,Long.parseLong(hwm),ISubscriber.ConnectType.BIND);
 	}
 	
 	@Override

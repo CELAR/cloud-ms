@@ -141,7 +141,7 @@ public class MonitoringAgent implements IAgent{
 	}
 	
 	/**
-	 * initialize the Pub Distributer
+	 * initialize the Distributer
 	 */
 	private void initDistributor(){
 		String port = this.config.getProperty("port", "4242");
