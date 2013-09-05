@@ -6,11 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import eu.celarcloud.celar_ms.ProbePack.Probe;
 import eu.celarcloud.celar_ms.ProbePack.ProbeMetric;
 import eu.celarcloud.celar_ms.ProbePack.ProbePropertyType;
 
+/**
+ * 
+ * @author Demetris Trihinas
+ *
+ */
 public class MemoryProbe extends Probe{
 
 	private static final String PATH = "/proc/meminfo";
@@ -27,7 +33,7 @@ public class MemoryProbe extends Probe{
 	}
 	
 	public MemoryProbe(){
-		this("MemoryProbe",9);
+		this("MemoryProbe",20);
 	}
 		
 	public String getDescription(){
@@ -44,43 +50,42 @@ public class MemoryProbe extends Probe{
 		double memUsedPercent = -1;
         HashMap<Integer,Object> values = new HashMap<Integer,Object>();
 
-		File memfile = new File(PATH);
-		if (memfile.isFile()){
-		    try {
-				BufferedReader br = new BufferedReader(new FileReader(memfile));
-				String line;
-				while((line = br.readLine())!=null){
-					if (line.startsWith("MemTotal")){
-						memTotal = Integer.parseInt((line.split("\\W+")[1]));
-						continue;
-					}
-					if (line.startsWith("MemFree")){
-						memFree = Integer.parseInt((line.split("\\W+")[1]));
-						continue;
-					}
-					if (line.startsWith("Cached")){
-						memCached = Integer.parseInt((line.split("\\W+")[1]));
-						continue;
-					}
-					if (line.startsWith("SwapTotal")){
-						memSwapTotal = Integer.parseInt((line.split("\\W+")[1]));
-						continue;
-					}
-					if (line.startsWith("SwapFree")){
-						memSwapFree = Integer.parseInt((line.split("\\W+")[1]));
-						break;
-					}					
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(new File(PATH)));
+			String line;
+			while((line = br.readLine())!=null){
+				if (line.startsWith("MemTotal")){
+					memTotal = Integer.parseInt((line.split("\\W+")[1]));
+					continue;
 				}
-		        br.close();
-		        
-			} catch (FileNotFoundException e){
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}		        
-		         
-		    memUsed = memTotal - memFree - memCached;
-		    memUsedPercent = (1.0*memUsed) / memTotal;
+				if (line.startsWith("MemFree")){
+					memFree = Integer.parseInt((line.split("\\W+")[1]));
+					continue;
+				}
+				if (line.startsWith("Cached")){
+					memCached = Integer.parseInt((line.split("\\W+")[1]));
+					continue;
+				}
+				if (line.startsWith("SwapTotal")){
+					memSwapTotal = Integer.parseInt((line.split("\\W+")[1]));
+					continue;
+				}
+				if (line.startsWith("SwapFree")){
+					memSwapFree = Integer.parseInt((line.split("\\W+")[1]));
+					break;
+				}					
+			}
+			br.close();    
+		} 
+		catch (FileNotFoundException e){
+			this.writeToProbeLog(Level.SEVERE, e);
+		} 
+		catch (IOException e) {
+			this.writeToProbeLog(Level.SEVERE, e);
+		}		        
+	         
+	    memUsed = memTotal - memFree - memCached;
+	    memUsedPercent = (100.0*memUsed) / memTotal;
 //		    System.out.println("memTotal: "+memTotal);
 //		    System.out.println("memFree: "+memFree);
 //		    System.out.println("memCached: "+memCached);
@@ -89,23 +94,22 @@ public class MemoryProbe extends Probe{
 //		    System.out.println("memSwapFree: "+memSwapFree);
 //		    System.out.println("memUsedPercent: "+memUsedPercent);
 //		    System.out.println();
-		        
-		    values.put(0, memTotal);
-		    values.put(1, memFree);
-		    values.put(2, memCached);
-		    values.put(3, memUsed);
-		    values.put(4, memSwapTotal);
-		    values.put(5, memSwapFree);
-		    values.put(6, memUsedPercent);
-		}
-		return new ProbeMetric(values);
+	        
+	    values.put(0, memTotal);
+	    values.put(1, memFree);
+	    values.put(2, memCached);
+	    values.put(3, memUsed);
+	    values.put(4, memSwapTotal);
+	    values.put(5, memSwapFree);
+	    values.put(6, memUsedPercent);
+	    return new ProbeMetric(values);
 	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MemoryProbe memprobe = new MemoryProbe("MemoryProbe1",4);
+		MemoryProbe memprobe = new MemoryProbe();
 		memprobe.activate();
 	}
 }

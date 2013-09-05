@@ -23,16 +23,16 @@ public class GUIClient extends Listener{
 	private DemoGUI gui;
 	
 	public GUIClient(String ip,String port,String protocol,long hwm) throws CatascopiaException{		
-		super(ip,port,protocol,hwm);
+		super(ip,port,protocol,hwm,1000);
 		this.gui = new DemoGUI();
 		this.gui.init();
 	}
 
 	@Override
-	public void processMessage(String msg){
+	public void listen(String[] msg){
 		try {
 			JSONParser parser = new JSONParser();
-			JSONObject json = (JSONObject) parser.parse(msg);
+			JSONObject json = (JSONObject) parser.parse(msg[0]);
 			JSONArray metrics;
 			JSONObject obj;
 			String group = (String) json.get("group");

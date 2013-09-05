@@ -1,5 +1,6 @@
 package eu.celarcloud.celar_ms.ProbePack;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
@@ -14,9 +15,10 @@ import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
  */
 public class ProbeMetric {
 	/**
-	 * timestamp of collected metric
+	 * timestamp of collected metric in ms.  
+	 * Time is expressed as UNIX time. ms from UNIX epoch
 	 */
-	private CatascopiaTimestamp timestamp;
+	private long timestamp;
 	/**
 	 * hashmap to store collected values
 	 */
@@ -27,18 +29,18 @@ public class ProbeMetric {
 	private String probeID;
 	
 	public ProbeMetric(){
-		this(new HashMap<Integer,Object>(), new CatascopiaTimestamp());
+		this(new HashMap<Integer,Object>(), System.currentTimeMillis());
 	}
 	
 	public ProbeMetric(HashMap<Integer,Object> values){
-		this(values,new CatascopiaTimestamp());
+		this(values,System.currentTimeMillis());
 	}
 	/**
 	 * 
 	 * @param values - hashmap with key the propertyID of the metric
-	 * @param timestamp - time values where collected
+	 * @param timestamp - time values where collected in ms
 	 */
-	public ProbeMetric(HashMap<Integer,Object> values, CatascopiaTimestamp timestamp){
+	public ProbeMetric(HashMap<Integer,Object> values, long timestamp){
 		this.timestamp = timestamp;
 		this.values = values;
 	}
@@ -49,6 +51,10 @@ public class ProbeMetric {
 	 */
 	public void addMetricValue(int propID, Object value){
 		this.values.put(propID, value);
+	}
+	
+	public void removeMetricValue(int propID){
+		this.values.remove(propID);
 	}
 	/**
 	 * method that returns a value of a specified by the ID metric
@@ -73,16 +79,21 @@ public class ProbeMetric {
 	 * method that returns the timestamp of the collected metric
 	 * @return
 	 */
-	public CatascopiaTimestamp getMetricTimestamp(){
+	public long getMetricTimestamp(){
 		return this.timestamp;
 	}
 	/**
 	 * method that sets the timestamp of the collected metric
 	 * @return
 	 */
-	public void setMetricTimestamp(CatascopiaTimestamp t){
+	public void setMetricTimestamp(long t){
 		this.timestamp = t;
 	}
+	
+	public String getReadableTimestamp(){
+		return new Date(this.timestamp).toString();
+	}
+	
 	/**
 	 * method that returns the probeID of the metric
 	 * @return

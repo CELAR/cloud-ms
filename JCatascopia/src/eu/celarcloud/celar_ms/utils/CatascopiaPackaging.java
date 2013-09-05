@@ -92,16 +92,4 @@ public class CatascopiaPackaging{
 		}
 		return classes;
 	}
-
-	/**
-	 * @param args
-	 * @throws CatascopiaException 
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 */
-	public static void main(String[] args) throws CatascopiaException{
-		ArrayList<String> list =  CatascopiaPackaging.listClassesInPackage("eu.celarcloud.celar_ms.ProbePack.ProbeLibrary");
-		for(String l:list)			
-			System.out.println(l);	
-	}
 }

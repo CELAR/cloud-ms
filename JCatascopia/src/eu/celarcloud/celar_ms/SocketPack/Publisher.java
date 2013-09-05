@@ -2,7 +2,9 @@ package eu.celarcloud.celar_ms.SocketPack;
 
 import org.zeromq.ZMQ;
 
-public class Publisher implements IPublisher{
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+
+public class Publisher implements ISocket{
 	private final static int SOCKET_TYPE = ZMQ.PUB;
 	private String port;
 	private String ipAddress; //IP address - can be localhost
@@ -26,7 +28,7 @@ public class Publisher implements IPublisher{
 	}
 	
 	private void initPublisher(){
-        //Create Context and Socket to talk to server
+		//Create Context and Socket to talk to server
 		this.context = ZMQ.context(1);
 	    this.publisher = context.socket(Publisher.SOCKET_TYPE);
 	    this.publisher.setHWM(this.hwm); //HWM must be set before binding
@@ -61,7 +63,7 @@ public class Publisher implements IPublisher{
 	public void setProtocol(String protocol){
 		this.protocol = protocol;
 	}
-	
+
 	/**
 	 * close socket connection by terminating context and closing socket
 	 */
@@ -69,9 +71,23 @@ public class Publisher implements IPublisher{
 		this.publisher.close();
 	    this.context.term();
 	}
-	
-	public void send(String msg){
+
+	public String[] receive() throws CatascopiaException {
+		throw new CatascopiaException("receive method not available for PUB sockets",CatascopiaException.ExceptionType.TYPE);	
+	}
+
+	public String[] receiveNonBlocking() throws CatascopiaException {
+		throw new CatascopiaException("receive method not available for PUB sockets",CatascopiaException.ExceptionType.TYPE);	
+	}
+
+	public void send(String msg) throws CatascopiaException {
 		//System.out.println("Sending: " + msg);
 		this.publisher.send(msg,0);
 	}
+
+	@Override
+	public void send(String addr, String msg_type, String content) throws CatascopiaException {
+		this.publisher.send(content);
+	}
+
 }

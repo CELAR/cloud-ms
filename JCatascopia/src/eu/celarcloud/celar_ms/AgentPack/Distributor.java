@@ -1,27 +1,41 @@
 package eu.celarcloud.celar_ms.AgentPack;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
-import eu.celarcloud.celar_ms.SocketPack.IPublisher;
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.SocketPack.Publisher;
+import eu.celarcloud.celar_ms.SocketPack.ISocket;;
 
-public class Distributor extends Thread implements IDistributor{
-	
+public class Distributor extends Thread{
+	/*
+	 * INACTIVE - running but distributing messages is paused
+	 * ACTIVE   - running and distributing messages
+	 * DYING    - in the process of terminating
+	 */
+	public enum DistributorStatus{INACTIVE,ACTIVE,DYING};
 	private DistributorStatus distributorStatus;
-	private boolean firstFlag;
 	
+	private boolean firstFlag;
 	private Publisher publisher;
-	private LinkedBlockingQueue<String> msgQueue;
-
-	public Distributor(String ipAddr, String port, String protocol, long hwm, LinkedBlockingQueue<String> queue){
+	private Aggregator aggregator;
+	//aggregator settings
+	private long INTERVAL;
+	private int BUF_SIZE;
+	private IJCatascopiaAgent agent;
+	
+	public Distributor(String ipAddr, String port, String protocol, long hwm,
+			           Aggregator aggregator,long interval,int buf_size, IJCatascopiaAgent agent){
 		super("Distributor-Thread");
-		this.publisher = new Publisher(ipAddr,port,protocol,hwm,IPublisher.ConnectType.CONNECT);
+		this.publisher = new Publisher(ipAddr,port,protocol,hwm,ISocket.ConnectType.CONNECT);
 
 		this.distributorStatus = DistributorStatus.INACTIVE;
 		this.firstFlag = true;
 		
-		this.msgQueue = queue;
+		this.aggregator = aggregator;
+		this.INTERVAL = interval;
+		this.BUF_SIZE = buf_size;
+		
+		this.agent = agent;
 	}
 	
 	@Override
@@ -53,21 +67,27 @@ public class Distributor extends Thread implements IDistributor{
 	@Override
 	public void run(){
 		try{
-			String msg;
+			long interval = 0; long period = 2000;
 			while(this.distributorStatus != DistributorStatus.DYING){
 				if(this.distributorStatus == DistributorStatus.ACTIVE){
 					try{
-						//if no queue is attached to distributor NUllPointerException is thrown
-						msg = this.msgQueue.poll(500, TimeUnit.MILLISECONDS);
-						if (msg != null){
-							this.publisher.send(msg);
+						if(this.aggregator.length()>0){
+							if (interval>INTERVAL || aggregator.length()>BUF_SIZE){
+								this.publisher.send(aggregator.toMessage());
+								interval = 0;
+								this.aggregator.clear();
+								if (this.agent.inDebugMode())
+									System.out.println("Pub Distributor>> Message sent to MS Server...\n");
+							}
+							else interval += period;
 						}
-						else
-							Thread.sleep(2000);
+						Thread.sleep(period);
 					}
-					catch(NullPointerException e){
-						if (this.msgQueue == null) System.out.println("No message queue attached to Distributor");
-						Thread.sleep(3000);
+					catch(CatascopiaException e){
+						this.agent.writeToLog(Level.SEVERE, e);
+					}
+					catch(Exception e){
+						this.agent.writeToLog(Level.SEVERE, e);
 					}
 				}
 				else 
@@ -78,7 +98,7 @@ public class Distributor extends Thread implements IDistributor{
 			}
 		}
 		catch (InterruptedException e){
-			e.printStackTrace();
+			this.agent.writeToLog(Level.SEVERE, e);
 		}
 		finally{
 			this.publisher.close();

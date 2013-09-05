@@ -14,7 +14,8 @@ public class CatascopiaTimestamp {
 	private long timestamp;
 	
 	public CatascopiaTimestamp(){
-		this.timestamp = System.currentTimeMillis()/1000L;
+		//this.timestamp = System.currentTimeMillis()/1000L;
+		this.timestamp = System.currentTimeMillis();
 	}
 	
 	public CatascopiaTimestamp(long timestamp){
@@ -30,7 +31,8 @@ public class CatascopiaTimestamp {
 	}
 	
 	public String getReadableTimestamp(){
-		Date d = new Date(this.timestamp*1000L);
+		//Date d = new Date(this.timestamp*1000L);
+		Date d = new Date(this.timestamp);
 		return d.toString();
 	}
 	

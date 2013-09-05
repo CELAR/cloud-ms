@@ -14,9 +14,8 @@ import eu.celarcloud.celar_ms.ProbePack.IProbe;
  *
  */
 public class CatascopiaProbeFactory {
-	private static final String PROBE_LIB = "eu.celarcloud.celar_ms.ProbePack.ProbeLibrary.";
 	
-	public static IProbe newInstance(String myProbeClass) throws CatascopiaException {
+	public static IProbe newInstance(String PROBE_LIB,String myProbeClass) throws CatascopiaException {
 		URLClassLoader tmp = new URLClassLoader( new URL[] { getClassPath() }){ 
 			@Override
 			public synchronized Class<?> loadClass(String name) throws ClassNotFoundException {

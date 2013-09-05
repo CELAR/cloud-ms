@@ -9,7 +9,11 @@ import eu.celarcloud.celar_ms.ProbePack.Probe;
 import eu.celarcloud.celar_ms.ProbePack.ProbeMetric;
 import eu.celarcloud.celar_ms.ProbePack.ProbePropertyType;
 
-
+/**
+ * 
+ * @author Demetris Trihinas
+ *
+ */
 public class DiskProbe  extends Probe{
 	
 	private Runtime runtime;
@@ -26,7 +30,7 @@ public class DiskProbe  extends Probe{
 	}
 	
 	public DiskProbe(){
-		this("DiskProbe",25);
+		this("DiskProbe",60);
 	}
 	
 	@Override

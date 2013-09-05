@@ -3,6 +3,7 @@ package eu.celarcloud.celar_ms.AgentPack;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,11 +11,11 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ProbePack.IProbe;
-import eu.celarcloud.celar_ms.ProbePack.ProbeMetric;
 import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
 import eu.celarcloud.celar_ms.utils.CatascopiaNetworking;
 import eu.celarcloud.celar_ms.utils.CatascopiaPackaging;
@@ -22,16 +23,18 @@ import eu.celarcloud.celar_ms.utils.CatascopiaProbeFactory;
 
 /**
  * JCatascopia Monitoring Agent manages metric collecting probes
- * and distributes metrics to the Application Monitoring Server
+ * and distributes metrics to the Monitoring Server
  *  
  * @author Demetris Trihinas
  *
  */
-public class MonitoringAgent implements IAgent{
+public class MonitoringAgent implements IJCatascopiaAgent{
 	//path to config file
 	private static final String CONFIG_PATH = "resources"+File.separator+"agent.properties";
+	//path to internal private file
+	private static final String AGENT_PRIVATE_FILE = "."+File.separator+"resources"+File.separator+"agent_private.properties";
 	//path to probe library
-	private static final String PROBE_LIB_PATH = "eu.celarcloud.celar_ms.ProbePack.ProbeLibrary";
+	private static final String PROBE_LIB_PATH = "eu.celarcloud.celar_ms.ProbePack.ProbeLibrary.";
 	/**
 	 * properties read from config file
 	 */
@@ -45,29 +48,20 @@ public class MonitoringAgent implements IAgent{
 	 */
 	private String agentIPaddress;
 	/**
-	 * a human readable name to identify MS Agent
-	 */
-	private String agentName;
-	/**
 	 * HashMaps to easy retrieve probes either using ID or probeName
 	 */
-	private HashMap<String,IProbe> probeIDMap;
 	private HashMap<String,IProbe> probeNameMap;
 	/**
 	 * collector grabs metrics from metricQueue to be parsed
 	 */
 	private MetricCollector collector;
-	private final LinkedBlockingQueue<ProbeMetric> metricQueue = new LinkedBlockingQueue<ProbeMetric>(128);
-	
-	private AgentAggregator aggregator;
-	
+	private final LinkedBlockingQueue<String> metricQueue = new LinkedBlockingQueue<String>(64);
+		
 	/**
-	 * distributor publishes metrics to the MS Application Server
+	 * distributor publishes metrics to the MS Server
 	 */
 	private Distributor distributor;
-	private final LinkedBlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(64);
 	
-	private ConsoleScanner consoleScanner;
 	/**
 	 * flag to check if logging available
 	 */
@@ -77,6 +71,12 @@ public class MonitoringAgent implements IAgent{
 	 */
 	private Logger myLogger;
 	
+	protected Aggregator aggregator;
+	
+	private ProbeController probeController;
+	
+	private boolean debugMode;
+	
 	/**
 	 * JCatascopia Monitoring Agent constructor
 	 * @throws CatascopiaException
@@ -84,26 +84,37 @@ public class MonitoringAgent implements IAgent{
 	public MonitoringAgent() throws CatascopiaException {
 		//parse config file
 		this.parseConfig();
-		this.agentID = UUID.randomUUID().toString();
+		//get agentID or create one
+		this.agentID = this.getAgentIDFromFile();
+		//get ip address
 		this.agentIPaddress = CatascopiaNetworking.getMyIP();
-		//if no name specified us ip address
-		this.agentName = this.config.getProperty("agent_name",this.agentIPaddress);
-
-		this.probeIDMap = new HashMap<String,IProbe>();
+		
 		this.probeNameMap = new HashMap<String,IProbe>();
 		
-		this.aggregator = new AgentAggregator(this.msgQueue);
+		this.initLogging(); 
+				
+		this.detectAvailableProbes();
 		
-		this.collector = new MetricCollector(this.metricQueue,this, this.probeIDMap,this.aggregator);
-		this.collector.start();
-		this.initProbes();
+		this.initActivateProbes();
+
+		//ping server, tell it we are here and report available metrics
+		//if successful then we can start distributing metrics
+		this.establishConnectionWithServer();	
+		
+		this.aggregator = new Aggregator(this.agentID,this.agentIPaddress,this);
 		
 		this.initDistributor();
 		
-//		this.consoleScanner = new ConsoleScanner(this);
-//		this.consoleScanner.start();
+		this.collector = new MetricCollector(this.metricQueue,this.aggregator,this);
+		this.collector.activate();		
 		
-		this.initLogging(); 
+		this.initProbeController();
+		
+		try{
+			this.debugMode = Boolean.parseBoolean(this.config.getProperty("debug_mode", "false"));
+		}catch(Exception e){
+			this.debugMode = false;
+		}
 	}
 	
 	//parse the configuration file
@@ -129,8 +140,8 @@ public class MonitoringAgent implements IAgent{
 		this.loggingFlag = Boolean.parseBoolean(this.config.getProperty("logging", "false"));
 		if (this.loggingFlag)
 			try{
-				this.myLogger = CatascopiaLogging.getLogger("ms_agent-"+this.agentName);
-				this.myLogger.info(this.agentName+": Created and Initialized");
+				this.myLogger = CatascopiaLogging.getLogger("JCatascopiaMSAgent");
+				this.myLogger.info("JCatascopiaMSAgent: Created and Initialized");
 				this.loggingFlag = true;
 			}
 			catch (Exception e){
@@ -141,38 +152,35 @@ public class MonitoringAgent implements IAgent{
 	}
 	
 	/**
-	 * initialize the Distributer
+	 * method that logs messages to the MS Agent log
 	 */
-	private void initDistributor(){
-		String port = this.config.getProperty("port", "4242");
-		String protocol = this.config.getProperty("protocol","tcp");
-    	String ip = this.config.getProperty("server_ip","localhost");
-    	String hwm = this.config.getProperty("hwm","16");
-		this.distributor = new Distributor(ip,port,protocol,Long.parseLong(hwm),this.msgQueue);
-		distributor.activate();
+	public void writeToLog(Level level, Object msg){
+		if(this.loggingFlag)
+			this.myLogger.log(level, "JCatascopiaMSAgent"+": "+msg);
 	}
 	
 	/**
-	 * method that activates ALL available probes in Probe Library at once
+	 * method that loads ALL probes in Probe Library to the MS Agent
+	 * this method does NOT activate any Probes
 	 */
-	private void initProbes(){
+	private void detectAvailableProbes(){
 		ArrayList<String> list;
 		try{
 			list = this.listAvailableProbeClasses();
 			for(int i=0;i<list.size();i++){
 				try{
-					IProbe tempProbe = CatascopiaProbeFactory.newInstance(list.get(i));
+					IProbe tempProbe = CatascopiaProbeFactory.newInstance(PROBE_LIB_PATH,list.get(i));
+					//add detected probe to probe map
 					this.addProbe(tempProbe);
 				}
 				catch (CatascopiaException e) {
-					//TODO log this exception. Couldn't instantiate this probe
+					this.writeToLog(Level.SEVERE, e);
 					continue;
 				}	
 			}
 		}
 		catch (CatascopiaException e){
-			//TODO log this exception. Couldn't retrieve list with available probes
-			e.printStackTrace();
+			this.writeToLog(Level.SEVERE, e);
 		}
 	}
 	
@@ -186,6 +194,84 @@ public class MonitoringAgent implements IAgent{
 		return list;
 	}
 	
+	private void initActivateProbes(){
+		String probestr = this.config.getProperty("probes", "all");
+		try{
+			if (probestr.equals("all"))
+				//if all then activate all probes and use default collecting frequency specified by probe developer
+				this.activateAllProbes();
+			else{
+				//user specified specific which probes to activate
+				String[] probe_list = probestr.split(";");
+				String[] params;	
+				for(String p:probe_list){
+					params = p.split(",");
+					if(params.length>1)
+						//user wants custom collecting periods
+						this.probeNameMap.get(params[0]).setCollectPeriod(Integer.parseInt(params[1]));
+					this.activateProbe(params[0]);
+				}
+			}
+			this.getProbe("StaticInfoProbe").pull();
+		} 
+		catch(CatascopiaException e){
+			this.writeToLog(Level.SEVERE, e);
+		}
+		catch(Exception e){
+			//config file error
+			this.writeToLog(Level.SEVERE, e);
+		}	
+
+	}
+	
+	private void establishConnectionWithServer() throws CatascopiaException{
+		String serverIP = this.config.getProperty("server_ip", "127.0.0.1");
+		String port = this.config.getProperty("control_port", "4245");
+		String protocol = this.config.getProperty("control_protocol","tcp");
+		
+		if (!InitialServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress)){
+			this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at"+serverIP);
+			throw new CatascopiaException("Could not connect to MS Server",CatascopiaException.ExceptionType.CONNECTION);
+		}
+		this.writeToLog(Level.INFO, "Successfuly ping-ed MS Server at "+serverIP);
+		
+		if (!InitialServerConnector.reportAvailableMetrics(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
+			this.writeToLog(Level.SEVERE, "FAILED to report available metrics to MS Server at "+serverIP);
+			throw new CatascopiaException("FAILED to report available metrics to MS Server at "+serverIP,
+					                       CatascopiaException.ExceptionType.CONNECTION);
+		}
+		this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
+	}
+	
+	/**
+	 * initialize the Distributer
+	 */
+	private void initDistributor(){
+		//Distributor settings
+		String port = this.config.getProperty("distributor_port", "4242");
+		String protocol = this.config.getProperty("distributor_protocol","tcp");
+    	String ip = this.config.getProperty("server_ip","localhost");
+    	String hwm = this.config.getProperty("distributor_hwm","16");
+    	//Aggregator settings
+    	long agg_interval = Long.parseLong(this.config.getProperty("aggregator_interval"))*1000;
+    	int agg_buf = Integer.parseInt(this.config.getProperty("aggregator_buffer_size"));
+		this.distributor = new Distributor(ip,port,protocol,Long.parseLong(hwm),this.aggregator,agg_interval,agg_buf,this);
+		distributor.activate();
+	}
+	
+	private void initProbeController(){
+		if (this.config.getProperty("probe_controller_turnOn", "false").equals("true")){
+			String ip = this.config.getProperty("probe_controller_ip","localhost");
+			String port = this.config.getProperty("probe_controller_port","4243");
+			Long hwm = Long.parseLong(this.config.getProperty("probe_controller_hwm","8"));
+			String protocol = this.config.getProperty("probe_controller_protocol","tcp");
+			
+			this.probeController = new ProbeController(ip, port, protocol, hwm, this.metricQueue, this);
+			this.probeController.activate();
+			this.writeToLog(Level.INFO, "ProbeController enabled with parameters: "+ip+", "+port+", "+hwm+", "+protocol);
+		}
+	}
+	
 	/**
 	 * 
 	 * @return ms agent ID
@@ -193,23 +279,7 @@ public class MonitoringAgent implements IAgent{
 	public String getAgentID(){
 		return this.agentID;
 	}
-	
-	/**
-	 * 
-	 * @return ms agent name
-	 */
-	public String getAgentName(){
-		return this.agentName;
-	}
-	
-	/**
-	 * sets ms agent name to specified by parameter name
-	 * @param name
-	 */
-	public void setAgentName(String name){
-		this.agentName = name;
-	}
-	
+		
 	/**
 	 * 
 	 * @return ms agent IP address
@@ -223,28 +293,9 @@ public class MonitoringAgent implements IAgent{
 	 * @param p
 	 */
 	public void addProbe(IProbe p){
-		this.probeIDMap.put(p.getProbeID(), p);
 		this.probeNameMap.put(p.getProbeName(), p);
 		p.attachQueue(this.metricQueue);
-	}
-	
-	/**
-	 * remove probe from agent
-	 * @param probeID
-	 * @throws CatascopiaException
-	 */
-	public void removeProbeByID(String probeID) throws CatascopiaException{
-		if (this.probeIDMap.containsKey(probeID)){
-			IProbe probe = this.probeIDMap.get(probeID);
-			String probeName = probe.getProbeName();
-			probe.removeQueue();
-			probe.terminate();
-			this.probeIDMap.remove(probeID);
-			this.probeNameMap.remove(probeName);
-		}
-		else
-			throw new CatascopiaException("Remove Probe Failed, probeID given does not exist: "+probeID, 
-										   CatascopiaException.ExceptionType.KEY);
+		p.attachLogger(this.myLogger);
 	}
 	
 	/**
@@ -255,11 +306,9 @@ public class MonitoringAgent implements IAgent{
 	public void removeProbeByName(String probeName) throws CatascopiaException{
 		if (this.probeNameMap.containsKey(probeName)){
 			IProbe probe = this.probeNameMap.get(probeName);
-			String probeID = probe.getProbeID();
 			probe.removeQueue();
 			probe.terminate();
 			this.probeNameMap.remove(probeName);
-			this.probeIDMap.remove(probeID);
 		}
 		else
 			throw new CatascopiaException("Remove Probe Failed, probe name given does not exist: "+probeName, 
@@ -285,17 +334,17 @@ public class MonitoringAgent implements IAgent{
 	 */
 	public void terminate(){
 		//terminate probes
-		for (Entry<String,IProbe> entry :this.probeIDMap.entrySet()){
+		for (Entry<String,IProbe> entry :this.probeNameMap.entrySet())
 			entry.getValue().terminate();
-		}
 		//terminate collector
 		this.collector.terminate();
+		this.distributor.terminate();
 	}
 		
 	public HashMap<String,IProbe> getProbeMap(){
-		return this.probeIDMap;
+		return this.probeNameMap;
 	}
-	
+		
 	public void activateProbe(String probeName) throws CatascopiaException{
 		if (this.probeNameMap.containsKey(probeName)){
 			this.probeNameMap.get(probeName).activate();
@@ -308,7 +357,8 @@ public class MonitoringAgent implements IAgent{
 	public void activateAllProbes(){
 		for(String name : this.probeNameMap.keySet())
 			try{
-				this.activateProbe(name);
+				if (!name.equals("StaticInfoProbe"))
+					this.activateProbe(name);
 			} 
 			catch (CatascopiaException e) {
 				continue;
@@ -324,14 +374,36 @@ public class MonitoringAgent implements IAgent{
 										   CatascopiaException.ExceptionType.KEY);
 	}
 		
-	public void changeProbeName(IProbe probe,String name){
-		this.probeNameMap.remove(probe.getProbeName());
-		probe.setProbeName(name);
-		this.probeNameMap.put(name, probe);
+	private String getAgentIDFromFile() throws CatascopiaException{
+    	Properties prop = new Properties();
+    	String id;
+    	try {
+			if((new File(AGENT_PRIVATE_FILE).isFile())){
+				//load agent_private properties file
+				FileInputStream fis = new FileInputStream(AGENT_PRIVATE_FILE);
+				prop.load(fis);
+				if (fis != null)
+		    		fis.close();
+				id = prop.getProperty("agentID",UUID.randomUUID().toString().replace("-", ""));
+			}
+			else{
+				//first time agent started. Store assigned id to file
+				id = UUID.randomUUID().toString().replace("-", "");
+				prop.setProperty("agentID", id);
+				prop.store(new FileOutputStream(AGENT_PRIVATE_FILE), null);
+			}
+    	} 
+		catch (FileNotFoundException e){
+			throw new CatascopiaException("agent_private file not found", CatascopiaException.ExceptionType.FILE_ERROR);
+		} 
+		catch (IOException e){
+			throw new CatascopiaException("agent_file parsing error", CatascopiaException.ExceptionType.FILE_ERROR);
+		}	
+    	return id;
 	}
 	
-	public synchronized void setCollectorWritingStatus(boolean status){
-		this.collector.setConsoleWriting(status);
+	public boolean inDebugMode(){
+		return this.debugMode;
 	}
 	
 	/**
@@ -339,7 +411,7 @@ public class MonitoringAgent implements IAgent{
 	 * @throws CatascopiaException 
 	 */
 	public static void main(String[] args) throws CatascopiaException{
-		MonitoringAgent magent = new MonitoringAgent();
-		magent.activateAllProbes();
+		MonitoringAgent agent = new MonitoringAgent();
+		//agent.activateAllProbes();
 	}
 }

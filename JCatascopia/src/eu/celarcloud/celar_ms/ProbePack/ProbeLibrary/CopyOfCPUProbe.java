@@ -12,18 +12,19 @@ import java.util.logging.Level;
 import eu.celarcloud.celar_ms.ProbePack.Probe;
 import eu.celarcloud.celar_ms.ProbePack.ProbeMetric;
 import eu.celarcloud.celar_ms.ProbePack.ProbePropertyType;
+import eu.celarcloud.celar_ms.ProbePack.FIlters.SimpleFilter;
 
 /**
  * 
  * @author Demetris Trihinas
  *
  */
-public class CPUProbe extends Probe{
+public class CopyOfCPUProbe extends Probe{
 	
 	private static final String PATH = "/proc/stat";
 	private HashMap<String,Integer> lastValues;
 	
-	public CPUProbe(String name, int freq){
+	public CopyOfCPUProbe(String name, int freq){
 		super(name,freq);
 		this.addProbeProperty(0,"cpuTotal",ProbePropertyType.DOUBLE,"%","Total system CPU usage");
 	    this.addProbeProperty(1,"cpuUser",ProbePropertyType.DOUBLE,"%","system USER usage");
@@ -31,11 +32,13 @@ public class CPUProbe extends Probe{
 	    this.addProbeProperty(3,"cpuIdle",ProbePropertyType.DOUBLE,"%","system IDLE Usage");
 	    this.addProbeProperty(4,"cpuIOwait",ProbePropertyType.DOUBLE,"%","system IO WAIT usage");
 	    
+	    this.turnFilteringOn(0, new SimpleFilter(3));
+	    
 	    lastValues = this.calcValues();
 	}
 	
-	public CPUProbe(){
-		this("CPUProbe",10);
+	public CopyOfCPUProbe(){
+		this("CPUProbe",7);
 	}
 		
 	@Override
@@ -142,7 +145,7 @@ public class CPUProbe extends Probe{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CPUProbe cpuprobe = new CPUProbe();
+		CopyOfCPUProbe cpuprobe = new CopyOfCPUProbe();
 		cpuprobe.activate();
 	}
 }

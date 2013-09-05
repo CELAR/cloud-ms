@@ -3,7 +3,7 @@ package eu.celarcloud.celar_ms.Exceptions;
 public class CatascopiaException extends Exception{
 	private static final long serialVersionUID = 1L;
 	
-	public enum ExceptionType {ATTRIBUTE,KEY,TYPE,QUEUE,PROBE_EXISTANCE,NETWORKING,PACKAGING,FILE_ERROR}; 
+	public enum ExceptionType {ARGUMENT,ATTRIBUTE,KEY,TYPE,QUEUE,PROBE_EXISTANCE,NETWORKING,PACKAGING,FILE_ERROR,SUBCRIPTION,CONNECTION,DATABASE}; 
 
 	private String message = null;
 	private ExceptionType extype;

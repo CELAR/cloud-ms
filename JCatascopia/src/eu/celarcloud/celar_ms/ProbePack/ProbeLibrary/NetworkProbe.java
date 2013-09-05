@@ -7,12 +7,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import eu.celarcloud.celar_ms.ProbePack.Probe;
 import eu.celarcloud.celar_ms.ProbePack.ProbeMetric;
 import eu.celarcloud.celar_ms.ProbePack.ProbePropertyType;
 
-
+/**
+ * 
+ * @author Demetris Trihinas
+ *
+ */
 public class NetworkProbe extends Probe{
 	
 	private static final String path = "/proc/net/dev";
@@ -31,7 +36,7 @@ public class NetworkProbe extends Probe{
 	}
 	
 	public NetworkProbe(){
-		this("NetworkProbe",11);
+		this("NetworkProbe",35);
 	}
 	
 	@Override
@@ -58,7 +63,7 @@ public class NetworkProbe extends Probe{
 	    double netBytesOUT;
 	    double netPacketsOUT;
         
-	    if(timediff != 0){
+	    if(timediff > 0){
 	    	netBytesIN = (1.0 * diffValues.get("bytesIN")) / timediff;
 	    	netPacketsIN = (1.0 * diffValues.get("packetsIN")) / timediff;
 	    	netBytesOUT = (1.0 * diffValues.get("bytesOUT")) / timediff;
@@ -95,40 +100,39 @@ public class NetworkProbe extends Probe{
         long bytesOUT = 0;
         long packetsOUT = 0;
         
-		File netfile = new File(path);
-		if (netfile.isFile()){
-			try{
-				BufferedReader br = new BufferedReader(new FileReader(netfile));
-				String line;
-				int c = 0;
-				while((line = br.readLine())!=null){
-					if (c<2){
-                        c++;
-                        continue;
-					}
-					//grab the interface name
-					String[] tokenz = line.split(":");
-                    //don't want in calculation localhost or bond
-                    if (tokenz[0].endsWith(" lo") || tokenz[0].endsWith(" bond"))
-                        continue;
-                    //now for grabbing data
-                    tokenz = tokenz[1].split("\\W+");
-                    bytesIN += Long.parseLong(tokenz[1]);
-                    packetsIN += Long.parseLong(tokenz[2]);
-                    bytesOUT += Long.parseLong(tokenz[9]);
-                    packetsOUT += Long.parseLong(tokenz[10]);		
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(new File(path)));
+			String line;
+			int c = 0;
+			while((line = br.readLine())!=null){
+				if (c<2){
+                    c++;
+                    continue;
 				}
-				br.close();
-				stats.put("bytesIN", bytesIN);
-                stats.put("packetsIN", packetsIN);
-                stats.put("bytesOUT", bytesOUT);
-                stats.put("packetsOUT", packetsOUT);  
-			}catch (FileNotFoundException e){
-				e.printStackTrace();
-			}catch (IOException e) {
-				e.printStackTrace();
-			}		
+				//grab the interface name
+				String[] tokenz = line.split(":");
+                //don't want in calculation localhost or bond
+                if (tokenz[0].endsWith(" lo") || tokenz[0].endsWith(" bond"))
+                    continue;
+                //now for grabbing data
+                tokenz = tokenz[1].split("\\W+");
+                bytesIN += Long.parseLong(tokenz[1]);
+                packetsIN += Long.parseLong(tokenz[2]);
+                bytesOUT += Long.parseLong(tokenz[9]);
+                packetsOUT += Long.parseLong(tokenz[10]);		
+			}
+			br.close();
+			stats.put("bytesIN", bytesIN);
+            stats.put("packetsIN", packetsIN);
+            stats.put("bytesOUT", bytesOUT);
+            stats.put("packetsOUT", packetsOUT);  
 		}
+		catch (FileNotFoundException e){
+			this.writeToProbeLog(Level.SEVERE, e);
+		}
+		catch (IOException e) {
+			this.writeToProbeLog(Level.SEVERE, e);
+		}		
 		return stats;
 	}
 
@@ -136,7 +140,7 @@ public class NetworkProbe extends Probe{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		NetworkProbe netprobe = new NetworkProbe("netProbe",4);
+		NetworkProbe netprobe = new NetworkProbe();
 		netprobe.activate();
 	}
 }

@@ -13,7 +13,11 @@ import eu.celarcloud.celar_ms.ProbePack.Probe;
 import eu.celarcloud.celar_ms.ProbePack.ProbeMetric;
 import eu.celarcloud.celar_ms.ProbePack.ProbePropertyType;
 
-
+/**
+ * 
+ * @author Demetris Trihinas
+ *
+ */
 public class DiskStatsProbe extends Probe{
 	
 	private static final String PATH = "/proc/diskstats";
@@ -24,16 +28,16 @@ public class DiskStatsProbe extends Probe{
 	
 	public DiskStatsProbe(String name, int freq){
 		super(name,freq);
-		this.addProbeProperty(0,"readkbps",ProbePropertyType.FLOAT,"KB/s","The number of KBytes read per second");
-		this.addProbeProperty(1,"writekbps",ProbePropertyType.FLOAT,"KB/s","The number of KBytes written per second");
-		this.addProbeProperty(2,"iotime",ProbePropertyType.FLOAT,"%","The percent of disk time spent on I/O operations");
+		this.addProbeProperty(0,"readkbps",ProbePropertyType.DOUBLE,"KB/s","The number of KBytes read per second");
+		this.addProbeProperty(1,"writekbps",ProbePropertyType.DOUBLE,"KB/s","The number of KBytes written per second");
+		this.addProbeProperty(2,"iotime",ProbePropertyType.DOUBLE,"%","The percent of disk time spent on I/O operations");
 	
 		this.lastValues = this.calcValues();
 		this.lastTime = System.currentTimeMillis()/1000; //in seconds
 	}
 	
 	public DiskStatsProbe(){
-		this("DiskStatsProbe",12);
+		this("DiskStatsProbe",40);
 	}
 	
 	@Override
@@ -55,19 +59,19 @@ public class DiskStatsProbe extends Probe{
 		}
 //		System.out.println("diffreads: " + diffValues.get("merge_reads")+" diffwrites: "+diffValues.get("merge_writes")+" diffiotime: "+diffValues.get("iotime"));
 	    long timediff = curTime - this.lastTime;
-	    float readbps;
-	    float writebps;
-	    float iotime;
+	    double readbps;
+	    double writebps;
+	    double iotime;
 	    
 	    if (timediff > 0){
-	    	readbps = (float) ((0.001 * diffValues.get("merge_reads") * BYTES_PER_SECTOR) / timediff); //we want kbps so 0.001
-	    	writebps = (float) ((0.001 * diffValues.get("merge_writes") * BYTES_PER_SECTOR) / timediff);
-	    	iotime = (float) ((0.1 * diffValues.get("iotime")) / timediff); //iotime is in ms and we want percentage so 100/1000=0.1
+	    	readbps = (0.001 * diffValues.get("merge_reads") * BYTES_PER_SECTOR) / timediff; //we want kbps so 0.001
+	    	writebps = (0.001 * diffValues.get("merge_writes") * BYTES_PER_SECTOR) / timediff;
+	    	iotime = (0.1 * diffValues.get("iotime")) / timediff; //iotime is in ms and we want percentage so 100/1000=0.1
 	    }
 	    else{
-	    	readbps = 0;
-	    	writebps = 0;
-	    	iotime = 0;
+	    	readbps = 0.0;
+	    	writebps = 0.0;
+	    	iotime = 0.0;
 	    }	    
 //		System.out.println("readbps: " + readbps +" writebps: "+writebps+" iotime: "+iotime);
 		
@@ -88,16 +92,14 @@ public class DiskStatsProbe extends Probe{
 		long merge_writes = 0;
 		long iotime = 0;
 		
-		File diskfile = new File(PATH);
-		if (diskfile.isFile()){
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(diskfile));
-				String line;
-				while((line = br.readLine())!=null){
-					if(!line.contains("sda "))
-						continue;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(new File(PATH)));
+			String line;
+			while((line = br.readLine())!=null){
+				if(line.contains("sda ") || line.contains("vda ")){
 					String[] tokenz = line.split("\\s+");
-					//[white space]8 0 sda 25485 11086 1885590 273084 10149 13330 1076312 471656 0 100500 743000 
+					//[white space]8 0 sda 25485 11086 1885590 273084 10149 13330 1076312 471656 0 100500 743000
+					//[white space]253 0 vda 5065 1304 195506 15835 105722 154245 2068512 812391 0 288836 828134
 					//field 5 -- # of reads merged
 					//field 9 -- # of writes merged
 					//field 12 -- iotime in millisecs
@@ -105,20 +107,16 @@ public class DiskStatsProbe extends Probe{
 					merge_writes += Long.parseLong(tokenz[10]);
 					iotime += Long.parseLong(tokenz[13]); 
 				}
-				br.close();
 			}
-			catch (FileNotFoundException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (IOException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			br.close();
 		}
-		else
+		catch (FileNotFoundException e){
 			this.writeToProbeLog(Level.SEVERE, "couldn't read from disk IO stats from "+PATH);
-		
+		}
+		catch (IOException e){
+			this.writeToProbeLog(Level.SEVERE, "couldn't read from disk IO stats from "+PATH);
+		}
+			
 		//System.out.println("merge_reads: " + merge_reads + " merge_writes: " + merge_writes + " iotime: " + iotime);
 		stats.put("merge_reads", merge_reads);
 		stats.put("merge_writes", merge_writes);

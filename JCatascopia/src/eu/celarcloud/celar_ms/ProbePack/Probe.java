@@ -10,8 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
-import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
+import eu.celarcloud.celar_ms.ProbePack.FIlters.Filter;
 
 /** 
  * @author Demetris Trihinas
@@ -37,11 +36,11 @@ public abstract class Probe extends Thread implements IProbe{
 	/**
 	 * default collecting frequency 
 	 */
-	private int collectFreq;
+	private int collectPeriod;
 	/**
 	 * frequency in ms
 	 */
-	private long collectFreqMillis;
+	private long collectPeriodMillis;
 	/**
 	 * probe status - ACTIVE, INACTIVE, DYING
 	 */
@@ -62,7 +61,7 @@ public abstract class Probe extends Thread implements IProbe{
 	/**
 	 * if queue attached, push metrics
 	 */
-	private LinkedBlockingQueue<ProbeMetric> metricQueue = null;
+	private LinkedBlockingQueue<String> metricQueue = null;
 	/**
 	 * Logger to handle logging
 	 */
@@ -72,6 +71,13 @@ public abstract class Probe extends Thread implements IProbe{
 	 */
 	private boolean loggingFlag;
 	
+	private byte errorCountFlag;
+	
+	private boolean metricsPullFlag;
+	
+	private HashMap<Integer, Filter> filterMap;
+	private boolean filterFlag;
+	
 	/**
 	 * Probe Constructor
 	 * @param name - Probe name
@@ -79,18 +85,38 @@ public abstract class Probe extends Thread implements IProbe{
 	 */
 	public Probe(String name, int freq){
 		super(name);
-		this.probeID = UUID.randomUUID().toString();
+		this.probeID = UUID.randomUUID().toString().replace("-", "");
 		this.probeName = name;
-		this.collectFreq = freq;
-		this.collectFreqMillis = freq * 1000;
+		this.collectPeriod = freq;
+		this.collectPeriodMillis = freq * 1000;
 		//probe status initialized to INACTIVE
 		this.probeStatus = ProbeStatus.INACTIVE;
 		this.firstFlag = true;
 		this.probeProperties = new HashMap<Integer,ProbeProperty>();
 		this.lastMetric = null;
-		//this.initLogging(); setting flag to pause for testing reasons
 		this.loggingFlag = false;
+		this.errorCountFlag=0;
+		this.metricsPullFlag = false;
+		
+		this.filterMap = new HashMap<Integer, Filter>();
+		this.filterFlag = false;
 	}
+	
+	/**
+	 * MS Agent can attach a logger to the probe in order to log issues concerning this Probe
+	 * @param logger
+	 */
+	public void attachLogger(Logger logger){
+		try{
+			this.myLogger = logger;
+			this.loggingFlag = true;
+			this.writeToProbeLog(Level.INFO, "Logging turned ON");
+		}
+		catch(Exception e){
+			this.loggingFlag = false;
+		}
+	}
+	
 	/**
 	 * method that returns Probe ID
 	 */
@@ -110,17 +136,17 @@ public abstract class Probe extends Thread implements IProbe{
 		this.probeName = name;
 	}
 	/**
-	 * method that returns current Probe Collection Frequency (seconds)
+	 * method that returns current Probe Collection Period (seconds)
 	 */
-	public int getCollectFreq(){
-		return this.collectFreq;
+	public int getCollectPeriod(){
+		return this.collectPeriod;
 	}
 	/**
-	 * method that sets Probe Collection Frequency (seconds)
+	 * method that sets Probe Collection Period (seconds)
 	 */
-	public void setCollectFreq(int freq){
-		this.collectFreq = freq;
-		this.collectFreqMillis = freq * 1000;
+	public void setCollectPeriod(int freq){
+		this.collectPeriod = freq;
+		this.collectPeriodMillis = freq * 1000;
 	}
 	/**
 	 * method that returns Probe Status - INACTIVE, ACTIVE, DYING
@@ -132,23 +158,10 @@ public abstract class Probe extends Thread implements IProbe{
 	 * method that returns the Probes Description provided by the Probe Developer
 	 */
 	public abstract String getDescription();
-	
-	//initialize logging
-	private void initLogging(){
-		try{
-			this.myLogger = CatascopiaLogging.getLogger(this.probeName);
-			this.myLogger.info(this.probeName+": Created and Initialized");
-			this.loggingFlag = true;
-		}
-		catch (Exception e){
-			//Unable to log events
-			this.loggingFlag = false;
-		} 
-	}
 	/**
 	 * method that logs messages to this probes log
 	 */
-	public void writeToProbeLog(Level level, String msg){
+	public void writeToProbeLog(Level level, Object msg){
 		if(this.loggingFlag)
 			this.myLogger.log(level, this.probeName+": "+msg);
 	}
@@ -238,18 +251,30 @@ public abstract class Probe extends Thread implements IProbe{
 						//add probeID to metric - user doesn't have to do this
 						recvMetric.setAssignedProbeID(this.probeID);
 						this.lastMetric = recvMetric;
+						
+						if (this.filterFlag)
+							this.checkFilters(recvMetric);
+						
+						String jsonMetric = this.metricToJSON(recvMetric);
+//						System.out.println(jsonMetric);
+						
 						//add to metricQueue if attached to probe
 						if(this.metricQueue != null)
-							this.metricQueue.offer(recvMetric,1,TimeUnit.SECONDS);
+							this.metricQueue.offer(jsonMetric,500,TimeUnit.MILLISECONDS);
+						this.errorCountFlag = 0;
 					}
-					catch (CatascopiaException e){
+					catch(CatascopiaException e){
 						//TODO first error alert
 						//after a number of errors report termination and terminate
 						if (e.getExceptionType() == CatascopiaException.ExceptionType.QUEUE)
 							this.writeToProbeLog(Level.SEVERE, "Failed to write to Metric Queue: " + e);
 						else this.writeToProbeLog(Level.SEVERE,"Received Metric Failed: " + e);
+						this.errorReport();
 					}
-					Thread.sleep(this.collectFreqMillis);
+					catch(Exception e){
+						this.errorReport();
+					}
+					Thread.sleep(this.collectPeriodMillis);
 				}
 				else 
 					synchronized(this){
@@ -258,8 +283,13 @@ public abstract class Probe extends Thread implements IProbe{
 					}
 			}
 		}
-		catch (InterruptedException e){
-			e.printStackTrace();
+		catch (InterruptedException e){			
+			this.writeToProbeLog(Level.SEVERE, e);
+			this.errorReport();
+		}
+		catch (Exception e){
+			this.writeToProbeLog(Level.SEVERE, e);
+			this.errorReport();
 		}
 	}
 	/**
@@ -270,6 +300,26 @@ public abstract class Probe extends Thread implements IProbe{
 	 * optional method to clean up loose ends before probe terminates
 	 */
 	public void cleanUp(){}
+	
+	public String metricToJSON(ProbeMetric metric){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append("\"timestamp\":\""+metric.getMetricTimestamp()+"\",");
+		sb.append("\"group\":\""+this.probeName+"\",");
+		sb.append("\"metrics\":[");
+		for (Entry<Integer,Object> entry : metric.getMetricValues().entrySet()){
+			Integer key = entry.getKey();
+			Object val = entry.getValue();
+			sb.append("{\"name\":\""+this.probeProperties.get(key).getPropertyName()+"\",");
+			sb.append("\"units\":\""+this.probeProperties.get(key).getPropertyUnits()+"\",");
+			sb.append("\"type\":\""+this.probeProperties.get(key).getPropertyType()+"\",");
+			sb.append("\"val\":\""+val.toString()+"\"},");
+		}
+		sb.replace(sb.length()-1, sb.length(), "");
+		sb.append("]}");
+		return sb.toString();
+	}	
+	
 	/**
 	 * method that returns a hashmap containing probe metadata
 	 */
@@ -277,13 +327,18 @@ public abstract class Probe extends Thread implements IProbe{
 		HashMap<String,String> meta = new HashMap<String,String>();
 		meta.put("probeID", this.probeID);
 		meta.put("probeName", this.probeName);
-		meta.put("collectFreq", Integer.toString(this.collectFreq));
+		meta.put("collectFreq", Integer.toString(this.collectPeriod));
 		meta.put("probeStatus", this.probeStatus.toString());
 		meta.put("probeDesc", this.getDescription());
 		return meta;
 	}
-	//method that checks if a metric is valid
-	private void checkReceivedMetric(ProbeMetric metric) throws CatascopiaException{
+	
+	/**
+	 * 
+	 * @param metric
+	 * @throws CatascopiaException
+	 */
+	public void checkReceivedMetric(ProbeMetric metric) throws CatascopiaException{
 		if(!(ProbeMetric.class.isInstance(metric)))
 			throw new CatascopiaException("Received Metric is not valid. All metrics must be of type ProbeMetric.",
 					                       CatascopiaException.ExceptionType.TYPE);
@@ -300,6 +355,37 @@ public abstract class Probe extends Thread implements IProbe{
 			                                  +entry.getKey()+" must be of type: "+type, CatascopiaException.ExceptionType.TYPE);  	   
 		 }
 	}
+	
+	public void turnFilteringOn(int propID, Filter f){
+		if (this.probeProperties.containsKey(propID)){
+			this.filterMap.put(propID, f);
+			this.filterFlag = true;
+		}
+	}
+	
+	public void turnFilteringOff(){
+		this.filterFlag = false;
+	}
+	
+	
+	private void checkFilters(ProbeMetric metric){
+		for (Entry<Integer,Filter> entry :this.filterMap.entrySet()){
+			try {
+				if (entry.getValue().check((Double)metric.getMetricValueByID(entry.getKey())))
+					metric.removeMetricValue(entry.getKey());
+			} 
+			catch (CatascopiaException e) {
+				this.writeToProbeLog(Level.SEVERE, e);
+				this.errorReport();
+			}
+			catch (Exception e){
+				this.writeToProbeLog(Level.SEVERE, e);
+				this.errorReport();
+			}
+		}
+	}
+	
+	
 	/**
 	 * method that returns last collected metric
 	 */
@@ -323,15 +409,15 @@ public abstract class Probe extends Thread implements IProbe{
 	/**
 	 * method that returns last metric timestamp
 	 */
-	public CatascopiaTimestamp getLastUpdateTime(){
+	public long getLastUpdateTime(){
 		if(this.lastMetric != null)
 			return this.lastMetric.getMetricTimestamp();
-		return null;
+		return -1;
 	}
 	/**
-	 * method that attacheds queue to probe to push metrics to Agent
+	 * method that attaches queue to probe to push metrics to Agent
 	 */
-	public void attachQueue(LinkedBlockingQueue<ProbeMetric> queue){
+	public void attachQueue(LinkedBlockingQueue<String> queue){
 		this.metricQueue = queue;
 		this.writeToProbeLog(Level.INFO, this.probeName+": Metric Queue attached to Probe");
 	}
@@ -341,5 +427,31 @@ public abstract class Probe extends Thread implements IProbe{
 	public void removeQueue(){
 		this.metricQueue = null;
 		this.writeToProbeLog(Level.INFO, this.probeName+": Metric Queue removed from Probe");
+	}
+	
+	private synchronized void errorReport(){
+		if ((++this.errorCountFlag)>10){
+			this.probeStatus=IProbe.ProbeStatus.DYING;
+			this.writeToProbeLog(Level.SEVERE, "Probe:"+this.probeName+" terminating due to many errors");
+		}
+	}
+	
+	public boolean metricsPullable(){
+		return this.metricsPullFlag;
+	}
+	
+	public void setPullableFlag(boolean flag){
+		this.metricsPullFlag = flag;
+	}
+	
+	public void pull(){
+		if (this.metricQueue != null)
+			try {
+				this.metricQueue.offer(this.metricToJSON(this.collect()), 500, TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e) {
+				this.writeToProbeLog(Level.SEVERE, e);
+			} catch (Exception e) {
+				this.writeToProbeLog(Level.SEVERE, e);
+			}
 	}
 }

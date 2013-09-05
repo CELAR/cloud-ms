@@ -2,7 +2,9 @@ package eu.celarcloud.celar_ms.SocketPack;
 
 import org.zeromq.ZMQ;
 
-public class Subscriber implements ISubscriber{
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+
+public class Subscriber implements ISocket{
 	private final static int SOCKET_TYPE = ZMQ.SUB;
 	private String port;
 	private String ipAddress; //IP address - can be localhost
@@ -63,17 +65,27 @@ public class Subscriber implements ISubscriber{
 	}
 	
 	/**
-	 * blocking receive. Blocks forever or until it receives a message
+	 * blocking receive. Blocks forever or until it receives a message.
+	 * SUB messages are only one part messages
 	 */
-	public String receive(){
-		return this.subscriber.recvStr(0);
+	public String[] receive(){
+		String[] msg = new String[1];
+		msg[0] = this.subscriber.recvStr(0);
+		return msg;
 	}
 	
 	/**
-	 * non-blocking receive. if nothing to receive it returns NULL
+	 * non-blocking receive. if nothing to receive it returns NULL.
+	 * SUB messages are only one part messages
 	 */
-	public String receiveNonBlocking(){
-		return this.subscriber.recvStr(ZMQ.NOBLOCK);
+	public String[] receiveNonBlocking(){
+		String s = this.subscriber.recvStr(ZMQ.NOBLOCK);
+		String[] msg = null;
+		if (s != null){
+			msg = new String[1];
+			msg[0] = s;
+		}
+		return msg;
 	}
 	
 	/**
@@ -82,5 +94,15 @@ public class Subscriber implements ISubscriber{
 	public void close(){
 		this.subscriber.close();
 	    this.context.term();
+	}
+
+	@Override
+	public void send(String msg) throws CatascopiaException {
+		throw new CatascopiaException("send method not available for SUB sockets",CatascopiaException.ExceptionType.TYPE);	
+	}
+
+	@Override
+	public void send(String addr, String msg_type, String content) throws CatascopiaException {
+		throw new CatascopiaException("send method not available for SUB sockets",CatascopiaException.ExceptionType.TYPE);			
 	}
 }

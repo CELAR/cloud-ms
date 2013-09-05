@@ -7,4 +7,6 @@ public interface IListener {
 	 * DYING    - in the process of terminating
 	 */
 	public enum ListenerStatus{INACTIVE,ACTIVE,DYING};
+	
+	public enum ListenerType{SUBSCRIBER,ROUTER};
 }

@@ -1,36 +1,36 @@
 package eu.celarcloud.celar_ms.ServerPack;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.SocketPack.ISubscriber;
+import eu.celarcloud.celar_ms.SocketPack.ISocket;
+import eu.celarcloud.celar_ms.SocketPack.Router;
 import eu.celarcloud.celar_ms.SocketPack.Subscriber;
 
 public abstract class Listener extends Thread implements IListener{
-	//path to config file
-	private static final String CONFIG_PATH = "resources"+File.separator+"server.properties";
-	/**
-	 * properties read from config file
-	 */
-	private Properties config;
 	
 	//the objects that does the magic. It receives monitoring messages from the application VMs
-	private Subscriber subscriber;
+	private ISocket socket;
 	private boolean firstFlag;
 	private ListenerStatus listenerStatus;
+	private long listen_period;
 	
-	public Listener(String ipAddr, String port, String protocol, long hwm) throws CatascopiaException{
+	public Listener(ListenerType type, String ipAddr, String port, String protocol, long hwm,long listen_period) throws CatascopiaException{
 		super("Listener-Thread");
 		
-		this.subscriber = new Subscriber(ipAddr,port,protocol,hwm,ISubscriber.ConnectType.BIND);
+		if (type == ListenerType.ROUTER)
+			this.socket = new Router(ipAddr,port,protocol,hwm);
+		else 
+			this.socket = new Subscriber(ipAddr,port,protocol,hwm,ISocket.ConnectType.BIND);
+		
 		this.listenerStatus = ListenerStatus.INACTIVE; //start as INACTIVE and wait to be ACTIVATED
 		this.firstFlag = true;	
+		this.listen_period = listen_period;
 	}
 	
+	public Listener(String ipAddr, String port, String protocol, long hwm,long listen_period) throws CatascopiaException{
+		this(ListenerType.SUBSCRIBER, ipAddr, port, protocol, hwm, listen_period);
+	}
+	
+
 	@Override
 	public void start(){
 		this.activate();
@@ -52,7 +52,7 @@ public abstract class Listener extends Thread implements IListener{
 	}
 	
 	public synchronized void terminate(){
-		this.subscriber.close();
+		this.socket.close();
 		this.listenerStatus = ListenerStatus.DYING;
 		this.notify();
 	}
@@ -60,16 +60,16 @@ public abstract class Listener extends Thread implements IListener{
 	@Override
 	public void run(){
 		try{
-			String msg;
+			String[] msg;
 			while(this.listenerStatus != ListenerStatus.DYING){
 				if(this.listenerStatus == ListenerStatus.ACTIVE){
 					//the subscriber blocks until it receives a new message
-					msg = subscriber.receiveNonBlocking();
+					msg = socket.receiveNonBlocking();
 					//process the message depending on client implemented
 					if (msg != null)
-						this.processMessage(msg);
+						this.listen(msg);
 					else
-						Thread.sleep(1000);
+						Thread.sleep(this.listen_period);
 				}
 				else 
 					synchronized(this){
@@ -80,11 +80,18 @@ public abstract class Listener extends Thread implements IListener{
 		}
 		catch (InterruptedException e){
 			e.printStackTrace();
+		} 
+		catch (CatascopiaException e) {
+			e.printStackTrace();
 		}
 		finally{
-			this.subscriber.close();
+			this.socket.close();
 		}
 	}	
 	
-	public abstract void processMessage(String msg);	
+	public ISocket getListener(){
+		return this.socket;
+	}
+	
+	public abstract void listen(String[] msg);	
 }

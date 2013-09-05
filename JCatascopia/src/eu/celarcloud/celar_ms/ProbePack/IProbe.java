@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
 
 
 public interface IProbe {
@@ -19,13 +19,13 @@ public interface IProbe {
 	
 	public void setProbeName(String name);
 	
-	public int getCollectFreq();
+	public int getCollectPeriod();
 	
-	public void setCollectFreq(int freq);
+	public void setCollectPeriod(int freq);
 	
 	public ProbeStatus getProbeStatus();
 	
-	public void writeToProbeLog(Level level, String msg);
+	public void writeToProbeLog(Level level, Object msg);
 
 	public void addProbeProperty(int propID,String propName,ProbePropertyType propType, String propUnits, String desc);
 	
@@ -49,7 +49,7 @@ public interface IProbe {
 	
 	public HashMap<Integer,Object> getLastMetricValues();
 	
-	public CatascopiaTimestamp getLastUpdateTime();
+	public long getLastUpdateTime();
 	
 	
 	//user must override these
@@ -60,9 +60,18 @@ public interface IProbe {
 	
 	//user optionally can override 
 	public void cleanUp();
+	public void checkReceivedMetric(ProbeMetric metric) throws CatascopiaException;
 	//
 	
-	public void attachQueue(LinkedBlockingQueue<ProbeMetric> queue);
+	public void attachLogger(Logger logger);
+
+	public void attachQueue(LinkedBlockingQueue<String> queue);
 	
 	public void removeQueue();
+	
+	public boolean metricsPullable();
+	
+	public void setPullableFlag(boolean flag);
+	
+	public void pull();
 }
