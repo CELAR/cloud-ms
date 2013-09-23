@@ -29,10 +29,12 @@ import eu.celarcloud.celar_ms.utils.CatascopiaProbeFactory;
  *
  */
 public class MonitoringAgent implements IJCatascopiaAgent{
+	//path to JCatascopia Agent Directory
+	private String JCATASCOPIA_AGENT_HOME;
 	//path to config file
 	private static final String CONFIG_PATH = "resources"+File.separator+"agent.properties";
 	//path to internal private file
-	private static final String AGENT_PRIVATE_FILE = "."+File.separator+"resources"+File.separator+"agent_private.properties";
+	private static final String AGENT_PRIVATE_FILE = "resources"+File.separator+"agent_private.properties";
 	//path to probe library
 	private static final String PROBE_LIB_PATH = "eu.celarcloud.celar_ms.ProbePack.ProbeLibrary.";
 	/**
@@ -76,12 +78,16 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	private ProbeController probeController;
 	
 	private boolean debugMode;
+	private boolean useServer;
 	
 	/**
-	 * JCatascopia Monitoring Agent constructor
+	 * 
+	 * @param agentDirPath
 	 * @throws CatascopiaException
 	 */
-	public MonitoringAgent() throws CatascopiaException {
+	public MonitoringAgent(String agentDirPath) throws CatascopiaException {
+		//path to JCatascopia Agent Directory
+		this.JCATASCOPIA_AGENT_HOME = agentDirPath;
 		//parse config file
 		this.parseConfig();
 		//get agentID or create one
@@ -99,7 +105,13 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 
 		//ping server, tell it we are here and report available metrics
 		//if successful then we can start distributing metrics
-		this.establishConnectionWithServer();	
+		try{
+			this.useServer = Boolean.parseBoolean(this.config.getProperty("use_server", "true"));
+		}catch(Exception e){
+			this.useServer= true;
+		}
+		if (this.useServer)
+			this.establishConnectionWithServer();	
 		
 		this.aggregator = new Aggregator(this.agentID,this.agentIPaddress,this);
 		
@@ -121,8 +133,10 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	private void parseConfig() throws CatascopiaException{
 		this.config = new Properties();
 		//load config properties file
-		try {
-			FileInputStream fis = new FileInputStream(CONFIG_PATH);
+		try {	
+//			this.writeToLog(Level.INFO,"JCatascopia Agent path to config file: "+JCATASCOPIA_AGENT_HOME+File.separator+CONFIG_PATH);
+			
+			FileInputStream fis = new FileInputStream(JCATASCOPIA_AGENT_HOME+File.separator+CONFIG_PATH);
 			config.load(fis);
 			if (fis != null)
 	    		fis.close();
@@ -140,7 +154,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		this.loggingFlag = Boolean.parseBoolean(this.config.getProperty("logging", "false"));
 		if (this.loggingFlag)
 			try{
-				this.myLogger = CatascopiaLogging.getLogger("JCatascopiaMSAgent");
+				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_AGENT_HOME, "JCatascopiaMSAgent");
 				this.myLogger.info("JCatascopiaMSAgent: Created and Initialized");
 				this.loggingFlag = true;
 			}
@@ -200,7 +214,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 			if (probestr.equals("all"))
 				//if all then activate all probes and use default collecting frequency specified by probe developer
 				this.activateAllProbes();
-			else{
+			else if (!probestr.equals("")){
 				//user specified specific which probes to activate
 				String[] probe_list = probestr.split(";");
 				String[] params;	
@@ -378,9 +392,13 @@ public class MonitoringAgent implements IJCatascopiaAgent{
     	Properties prop = new Properties();
     	String id;
     	try {
-			if((new File(AGENT_PRIVATE_FILE).isFile())){
+//    		String JCATASCOPIA_AGENT_HOME = System.getenv("JCATASCOPIA_AGENT_HOME");
+//			if (JCATASCOPIA_AGENT_HOME == null)
+//				JCATASCOPIA_AGENT_HOME = ".";
+			String agentfile = JCATASCOPIA_AGENT_HOME + File.separator + AGENT_PRIVATE_FILE;
+			if((new File(agentfile).isFile())){
 				//load agent_private properties file
-				FileInputStream fis = new FileInputStream(AGENT_PRIVATE_FILE);
+				FileInputStream fis = new FileInputStream(agentfile);
 				prop.load(fis);
 				if (fis != null)
 		    		fis.close();
@@ -390,7 +408,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 				//first time agent started. Store assigned id to file
 				id = UUID.randomUUID().toString().replace("-", "");
 				prop.setProperty("agentID", id);
-				prop.store(new FileOutputStream(AGENT_PRIVATE_FILE), null);
+				prop.store(new FileOutputStream(agentfile), null);
 			}
     	} 
 		catch (FileNotFoundException e){
@@ -411,7 +429,13 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 * @throws CatascopiaException 
 	 */
 	public static void main(String[] args) throws CatascopiaException{
-		MonitoringAgent agent = new MonitoringAgent();
-		//agent.activateAllProbes();
+		try{	
+			if (args.length > 0)
+				new MonitoringAgent(args[0]);
+			else
+				new MonitoringAgent(".");
+		}catch(Exception e){
+			System.exit(1);
+		}
 	}
 }

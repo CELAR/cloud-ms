@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 
 
 public class AgentDAO{
 
-	public static synchronized void createAgent(Connection conn, AgentObj agent){
+	public static synchronized void createAgent(Connection conn, AgentObj agent) throws CatascopiaException{
 		String query = "";
         PreparedStatement stmt = null;
 
@@ -23,15 +24,12 @@ public class AgentDAO{
 
             int res = AgentDAO.dbUpdate(conn, stmt);
             if (res != 1){
-            	System.out.println("Agent already exists");
-                throw new SQLException("Agent already exists");
-            	//throw catascopia exception
+//            	System.out.println("AgentDAO>> Agent with IP address: "+agent.getAgentID()+" already exists");
+                throw new CatascopiaException("AgentDAO>> Agent with IP address: "+agent.getAgentID()+" already exists in DB", CatascopiaException.ExceptionType.DATABASE);
             }
-      		System.out.println("Succesfully inserted to catascopiaDB new Agent with id: "+agent.getAgentID()
-      				          +" and ip: "+agent.getAgentIP());
+//      		System.out.println("AgentDAO>> Succesfully inserted to catascopiaDB new Agent with id: "+agent.getAgentID() +" and ip: "+agent.getAgentIP());
 		}
         catch (SQLException e){
-        	// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         finally{
@@ -39,13 +37,12 @@ public class AgentDAO{
         		try{
         			stmt.close();
 				}catch (SQLException e){
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
         }
 	}
 	
-	public static void deleteAgent(Connection conn, String agentID){
+	public static void deleteAgent(Connection conn, String agentID) throws CatascopiaException{
 		String query = "DELETE FROM agent_table WHERE (agentID = ?) ";
 	    PreparedStatement stmt = null;
 	    try{
@@ -54,15 +51,10 @@ public class AgentDAO{
 
 	        int res = AgentDAO.dbUpdate(conn, stmt);
 	        if (res == 0){
-	        	System.out.println("Agent with id: "+agentID+" was not found in catascopiaDB");        
-				//throw new NotFoundException("Object could not be deleted! (PrimaryKey not found)");
+	        	//System.out.println("Agent with id: "+agentID+" was not found in catascopiaDB");        
+	        	throw new CatascopiaException("Agent with id: "+agentID+" was not found in catascopiaDB",CatascopiaException.ExceptionType.DATABASE);
 	        }
-        	System.out.println("Succesfully deleted from catascopiaDB Agent with id: "+agentID);        
-
-//	       if (res > 1){
-//	    	   System.out.println("PrimaryKey Error when updating DB! (Many objects were deleted!)");
-//	           throw new SQLException("PrimaryKey Error when updating DB! (Many objects were deleted!)");
-//	       }
+//        	System.out.println("Succesfully deleted from catascopiaDB Agent with id: "+agentID);        
 	     } 
 	     catch (SQLException e) {
 	    	// TODO Auto-generated catch block
@@ -79,7 +71,7 @@ public class AgentDAO{
 	     }
 	}
 	
-	public static void updateAgent(Connection conn, String agentID, String status){
+	public static void updateAgent(Connection conn, String agentID, String status) throws CatascopiaException{
 		String query = "UPDATE agent_table SET status=? WHERE agentID=?";
 	    PreparedStatement stmt = null;
 	    try{
@@ -89,15 +81,10 @@ public class AgentDAO{
 	    	
 	        int res = AgentDAO.dbUpdate(conn, stmt);
 	        if (res == 0){
-	        	System.out.println("Agent with id: "+agentID+" was not found in catascopiaDB");        
-				//throw new NotFoundException("Object could not be deleted! (PrimaryKey not found)");
+//	        	System.out.println("Agent with id: "+agentID+" was not found in catascopiaDB");        
+				throw new CatascopiaException("Agent with id: "+agentID+" was not found in catascopiaDB",CatascopiaException.ExceptionType.DATABASE);
 	        }
-        	System.out.println("Succesfully updated catascopiaDB Agent with id: "+agentID);        
-
-//	       if (res > 1){
-//	    	   System.out.println("PrimaryKey Error when updating DB! (Many objects were deleted!)");
-//	           throw new SQLException("PrimaryKey Error when updating DB! (Many objects were deleted!)");
-//	       }
+//        	System.out.println("Succesfully updated catascopiaDB Agent with id: "+agentID);        
 	     } 
 	     catch (SQLException e) {
 	    	// TODO Auto-generated catch block

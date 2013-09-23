@@ -17,8 +17,8 @@ public class CatascopiaLogging {
 	 * @throws SecurityException
 	 * @throws IOException
 	 */
-	public static Logger getLogger(String name) throws SecurityException, IOException{
-		File logfolder = new File("."+File.separator+"logs");
+	public static Logger getLogger(String path, String name) throws SecurityException, IOException{
+		File logfolder = new File(path+File.separator+"logs");
 		if (!logfolder.isDirectory())
 			logfolder.mkdir();			
 		

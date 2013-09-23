@@ -3,6 +3,7 @@ package eu.celarcloud.celar_ms.ServerPack;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj.AgentStatus;
 import eu.celarcloud.celar_ms.ServerPack.Database.AgentDAO;
@@ -59,8 +60,10 @@ public class HeartBeatMonitor extends Thread{
 		try{
 			while(this.hbmStatus != HBMStatus.DYING){
 				if(this.hbmStatus == HBMStatus.ACTIVE){
-					System.out.println("\nHeartBeatMonitoring checking...\n");
-				    AgentObj curAgent;
+					if (this.server.inDebugMode())
+						System.out.println("\nHeartBeatMonitoring>> checking...\n");
+				    
+					AgentObj curAgent;
 					for (Entry<String,AgentObj> entry : this.server.agentMap.entrySet()){
 				    	curAgent = entry.getValue();
 				    	if (!curAgent.isRunning()){
@@ -71,7 +74,12 @@ public class HeartBeatMonitor extends Thread{
 				    		}
 				    		else{
 				    			if(this.server.getDatabaseFlag())
-				    				AgentDAO.updateAgent(this.server.dbHandler.getConnection(), curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
+									try {
+										AgentDAO.updateAgent(this.server.dbHandler.getConnection(), curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
+									} 
+				    			    catch (CatascopiaException e) {
+										this.server.writeToLog(Level.SEVERE, e);
+									}
 				    		}				    			
 				    	}
 				    	curAgent.setStatus(AgentStatus.DOWN);
@@ -86,7 +94,7 @@ public class HeartBeatMonitor extends Thread{
 			}
 		}
 		catch (InterruptedException e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 	}	
 	
@@ -96,11 +104,12 @@ public class HeartBeatMonitor extends Thread{
 				this.server.metricMap.remove(met);
 			this.server.agentMap.remove(host);
 			if(this.server.getDatabaseFlag())
-				AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.DEAD.name());
+				//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.DEAD.name());
+				AgentDAO.deleteAgent(this.server.dbHandler.getConnection(), agent.getAgentID());
 		
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 	}
 }

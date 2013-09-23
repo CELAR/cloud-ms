@@ -1,4 +1,4 @@
-package eu.celarcloud.celar_ms.ProbePack.FIlters;
+package eu.celarcloud.celar_ms.ProbePack.Filters;
 
 public abstract class Filter {
 
@@ -18,14 +18,14 @@ public abstract class Filter {
 	 * @return
 	 */
 	public boolean check(double curValue){
-		System.out.println(curValue+" "+window_low+" "+window_high);
+//		System.out.println(curValue+" "+window_low+" "+window_high);
 		if (curValue <= window_high && curValue >= window_low){
 			this.checkFlag = true;
-			System.out.println("filtered");
+//			System.out.println("filtered");
 		}
 		else{
 			this.checkFlag = false;
-			System.out.println("passed");
+//			System.out.println("passed");
 		}
 		this.adjustFilter(curValue);
 		return this.checkFlag;

@@ -1,4 +1,4 @@
-package eu.celarcloud.celar_ms.ProbePack.FIlters;
+package eu.celarcloud.celar_ms.ProbePack.Filters;
 
 public class SimpleFilter extends Filter{
 	

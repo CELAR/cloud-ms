@@ -46,9 +46,9 @@ public class SubTask extends TimerTask {
 					      else if (type.equals("LONG")) result = String.valueOf(Functions.minLong(values));
 		                  else if (type.equals("DOUBLE")) result = String.valueOf(Functions.minDouble(values));
 		                  break;
-				default: System.out.println("error"); // should never get here since we use enum
+				default: 
+					; // should never get here since we use enum
 			}
-			System.out.println("\n\n\n"+result+"\n\n\n");
 			
 			if (server.getDatabaseFlag())
 				MetricDAO.insertValue(server.dbHandler.getConnection(), sub.getMetricID(), System.currentTimeMillis(), result);

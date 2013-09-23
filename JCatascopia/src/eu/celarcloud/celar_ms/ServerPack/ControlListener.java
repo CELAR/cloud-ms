@@ -17,11 +17,7 @@ public class ControlListener extends Listener{
 		if (msg[1].contains("SUBSCRIPTION"))
 			this.server.controlExecutor.process(new SubProcessor(msg,this.getListener(),this.server));		
 		else if (msg[1].contains("AGENT"))
-			this.server.controlExecutor.process(new AgentRegister(msg,this.getListener(),this.server));
-		
-		//System.out.println(msg[0]);
-		//this.getListener().send(msg[0], msg[1], "got it!");
-		
+			this.server.controlExecutor.process(new AgentRegister(msg,this.getListener(),this.server));		
 	}
 
 }

@@ -44,11 +44,9 @@ public class SubscriptionDAO{
 			}
 			stmt.executeBatch();
 
-      		System.out.println("Succesfully inserted to catascopiaDB new Subscription with id: "+sub.getSubID()
-      				          +" and metricID: "+metric.getMetricID());
+//      		System.out.println("Succesfully inserted to catascopiaDB new Subscription with id: "+sub.getSubID()+" and metricID: "+metric.getMetricID());
 		}
         catch (SQLException e){
-        	// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         finally{
@@ -56,7 +54,6 @@ public class SubscriptionDAO{
         		try{
         			stmt.close();
 				}catch (SQLException e){
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
         }
@@ -81,10 +78,9 @@ public class SubscriptionDAO{
 	    	stmt.setString(1, subID); 
 	        SubscriptionDAO.dbUpdate(conn, stmt);	        
 	        
-        	System.out.println("Succesfully deleted from catascopiaDB subscription with id: "+subID);        
+//        	System.out.println("Succesfully deleted from catascopiaDB subscription with id: "+subID);        
 	     } 
 	     catch (SQLException e) {
-	    	// TODO Auto-generated catch block
 			e.printStackTrace();
 		 } 
 	     finally{
@@ -92,7 +88,6 @@ public class SubscriptionDAO{
 	    		 try{
 	    			 stmt.close();
 	    		 }catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				 }
 	     }
@@ -108,14 +103,12 @@ public class SubscriptionDAO{
 			stmt.setString(2, agentID);
 	        SubscriptionDAO.dbUpdate(conn, stmt);
 	      
-        	System.out.println("Succesfully added to subscription: "+subID+" agent: "+agentID);        
+//        	System.out.println("Succesfully added to subscription: "+subID+" agent: "+agentID);        
 	     } 
 	     catch (MySQLIntegrityConstraintViolationException e){
-	    	 //e.printStackTrace();
-	    	 System.out.println("Duplicate primary key");
+	    	 e.printStackTrace();
 	     }
 	     catch (SQLException e) {
-	    	// TODO Auto-generated catch block
 			e.printStackTrace();
 		 } 
 	     finally{
@@ -139,10 +132,9 @@ public class SubscriptionDAO{
 			stmt.setString(2, agentID);
 	        SubscriptionDAO.dbUpdate(conn, stmt);
 	      
-        	System.out.println("Succesfully removed from subscription: "+subID+" agent: "+agentID);        
+//        	System.out.println("Succesfully removed from subscription: "+subID+" agent: "+agentID);        
 	     } 
 	     catch (SQLException e) {
-	    	// TODO Auto-generated catch block
 			e.printStackTrace();
 		 } 
 	     finally{
@@ -150,7 +142,6 @@ public class SubscriptionDAO{
 	    		 try{
 	    			 stmt.close();
 	    		 }catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				 }
 	     }

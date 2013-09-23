@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.utils.CatascopiaTimestamp;
 
 /**
  * 

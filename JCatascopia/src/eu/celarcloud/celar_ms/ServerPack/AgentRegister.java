@@ -55,7 +55,8 @@ public class AgentRegister implements Runnable{
 
 	@Override
 	public void run(){
-		System.out.println("message type: "+msg[1]+"\ncontent: "+msg[2]);	
+		if (this.server.inDebugMode())
+			System.out.println("\nAgentRegister>> processing the following message...\n"+msg[0]+" "+msg[1]+"\n"+msg[2]);	
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject json;
@@ -70,10 +71,10 @@ public class AgentRegister implements Runnable{
 				this.response(Status.ERROR, msg[1]+" request does not exist");
 		}	
 		catch (NullPointerException e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 		catch (Exception e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 	}
 	
@@ -93,10 +94,15 @@ public class AgentRegister implements Runnable{
 		AgentObj agent = this.server.agentMap.putIfAbsent(agentID, a);
 		if (agent == null){
 			agent = a;
-			this.server.writeToLog(Level.INFO, "New node Agent added, with ID: "+agentID+" IP: "+agentIP);
+			this.server.writeToLog(Level.INFO, "New node Agent added, with ID: "+agentID+" and IP: "+agentIP);
 			
 			if(this.server.getDatabaseFlag())
-				AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+				try {
+					AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+				} 
+			    catch (CatascopiaException e) {
+					this.server.writeToLog(Level.SEVERE, e);
+				}
 		}
 		else{
 			/*
@@ -109,8 +115,12 @@ public class AgentRegister implements Runnable{
 			agent.clearAttempts();
 			agent.setStatus(AgentStatus.UP);
 			if(this.server.getDatabaseFlag())
-				AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
-
+				try {
+					AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+				} 
+			    catch (CatascopiaException e) {
+					this.server.writeToLog(Level.SEVERE, e);
+				}
 		}
 		
 		JSONArray probes = (JSONArray) json.get("probes");
@@ -130,14 +140,19 @@ public class AgentRegister implements Runnable{
 
 				metric = new MetricObj(metricID,agentID,null,metric_name,(String)met.get("units"),
 						(String)met.get("type"),probeName.replace("Probe", ""));
-               
 
         		if(this.server.metricMap.putIfAbsent(metricID, metric) == null){
-        			System.out.println("Agent: "+agent.getAgentIP()+" added new metric"+metric.toString());
+        			if (this.server.inDebugMode())
+        				System.out.println("AgentRegister>> "+agent.getAgentIP()+" added new metric...\n"+metric.toString());
         			agent.addMetricToList(metricID);
         			
         			if(this.server.getDatabaseFlag())
-        				MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+						try {
+							MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+						} 
+        			    catch (CatascopiaException e) {
+							this.server.writeToLog(Level.SEVERE, e);
+						}
         			
         		}
         		else{
@@ -156,8 +171,7 @@ public class AgentRegister implements Runnable{
 			this.router.send(msg[0], msg[1], obj);
 		} 
 		catch (CatascopiaException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 	}
 	
@@ -171,7 +185,7 @@ public class AgentRegister implements Runnable{
 			agent.clearMetricList();
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 	}
 }

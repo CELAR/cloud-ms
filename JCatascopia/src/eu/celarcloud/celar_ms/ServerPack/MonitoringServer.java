@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,13 +22,15 @@ import eu.celarcloud.celar_ms.ServerPack.Database.InitializeDB;
 import eu.celarcloud.celar_ms.ServerPack.subsciptionPack.SubScheduler;
 
 /**
- * JCatascopia Monitoring Server receives metrics and manages monitoring 
- * collecting Agents
+ * JCatascopia Monitoring Server receives monitoring metrics and manages 
+ * JCatascopia Monitoring Agents
  *  
  * @author Demetris Trihinas
  *
  */
-public class MonitoringServer {
+public class MonitoringServer implements IJCatascopiaServer{
+	//path to JCatascopia Agent Directory
+	private String JCATASCOPIA_SERVER_HOME;
 	//path to config file
 	private static final String CONFIG_PATH = "resources"+File.separator+"server.properties";
 	/**
@@ -70,7 +72,13 @@ public class MonitoringServer {
 	
 	public SubScheduler subscheduler;
 	
-	public MonitoringServer() throws CatascopiaException{
+	private boolean debugMode;
+	private boolean redistMode;
+	private Distributor redistributor;
+	protected Aggregator aggregator;
+	
+	public MonitoringServer(String serverDirPath) throws CatascopiaException{
+		this.JCATASCOPIA_SERVER_HOME = serverDirPath;
 		//parse config file
 		this.parseConfig();
 		
@@ -86,10 +94,22 @@ public class MonitoringServer {
 		
 		this.subscheduler = new SubScheduler();
 		this.initControlListener();
+		
+		try{
+			this.debugMode = Boolean.parseBoolean(this.config.getProperty("debug_mode", "false"));
+		}catch(Exception e){
+			this.debugMode = false;
+		}
+		
+		this.initRedistributor();
 	}
 	
 	public String getServerID(){
 		return this.serverID;
+	}
+	
+	public String getServerIP(){
+		return this.serverIPaddress;
 	}
 	
 	//parse the configuration file
@@ -97,7 +117,7 @@ public class MonitoringServer {
 		this.config = new Properties();
 		//load config properties file
 		try {
-			FileInputStream fis = new FileInputStream(CONFIG_PATH);
+			FileInputStream fis = new FileInputStream(JCATASCOPIA_SERVER_HOME+File.separator+CONFIG_PATH);
 			config.load(fis);
 			if (fis != null)
 	    		fis.close();
@@ -115,7 +135,7 @@ public class MonitoringServer {
 		this.loggingFlag = Boolean.parseBoolean(this.config.getProperty("logging", "false"));
 		if (this.loggingFlag)
 			try{
-				this.myLogger = CatascopiaLogging.getLogger("JCatascopiaMSServer"+this.serverIPaddress);
+				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_SERVER_HOME,"JCatascopiaMSServer");
 				this.myLogger.info("JCatascopiaMSServer"+": Created and Initialized");
 				this.loggingFlag = true;
 			}
@@ -186,12 +206,12 @@ public class MonitoringServer {
 			String DATABASE = this.config.getProperty("db_database");
 			
 			this.writeToLog(Level.INFO, "DB Handler enabled: ("+HOST+" "+USER+" "+PASS+" "+DATABASE+")");
-			this.dbHandler = new DBHandler(HOST,USER,PASS,DATABASE);
+			this.dbHandler = new DBHandler(HOST,USER,PASS,DATABASE, this);
 			
 			boolean dropTables = Boolean.parseBoolean(this.config.getProperty("db_drop_tables_on_startup","false"));
 			try {
-				InitializeDB.createTables(this.dbHandler.getConnection(),dropTables);
-				this.writeToLog(Level.SEVERE, "Successfully dropped tables and created new ones");	
+				InitializeDB.createTables(this.dbHandler.getConnection(),dropTables, this);
+				this.writeToLog(Level.INFO, "Successfully dropped tables and created new ones");	
 			}catch (CatascopiaException e){
 				this.writeToLog(Level.SEVERE, e);	
 			}
@@ -233,13 +253,75 @@ public class MonitoringServer {
 	public void terminate(){
 		//TODO close everything gracefully
 	}
+	
+	public boolean inDebugMode(){
+		return this.debugMode;
+	}
+	
+	public boolean inRedistributeMode(){
+		return this.redistMode;
+	}
+	
+	private void initRedistributor() throws CatascopiaException{
+		try{
+			this.redistMode = Boolean.parseBoolean(this.config.getProperty("redist_turnOn", "false"));
+		}catch(Exception e){
+			this.redistMode = false;
+		}
+		if(this.redistMode){
+			String destIP = this.config.getProperty("redist_destIP",null);
+			if(destIP == null || destIP.equals("")){
+				this.writeToLog(Level.SEVERE, "Redistributor destination IP not set in config file...going to terminate");
+				throw new CatascopiaException("Redistributor destination IP not set in config file",CatascopiaException.ExceptionType.ARGUMENT);
+			}
+			else{
+				this.establishConnectionWithServer(destIP);	
+				//Distributor settings
+				String port = "4242";
+				String protocol = "tcp";
+			    String hwm ="16";
+			    //Aggregator settings
+				this.aggregator = new Aggregator(this);
+			    long agg_interval = Long.parseLong(this.config.getProperty("aggregator_interval"))*1000;
+			    int agg_buf = Integer.parseInt(this.config.getProperty("aggregator_buffer_size"));
+				this.redistributor = new Distributor(destIP,port,protocol,Long.parseLong(hwm),this.aggregator,agg_interval,agg_buf,this);
+				redistributor.activate();
+				this.writeToLog(Level.INFO, "Redistributor initialized with destination IP: "+destIP);
+			}
+		}
+	}
+	
+	private void establishConnectionWithServer(String destIP) throws CatascopiaException{
+		String port = "4245";
+		String protocol = "tcp";
+		
+		if (!InitialServerConnector.connect(destIP,port,protocol,this.serverID,this.serverIPaddress)){
+			this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at"+destIP);
+			throw new CatascopiaException("Could not connect to MS Server",CatascopiaException.ExceptionType.CONNECTION);
+		}
+		this.writeToLog(Level.INFO, "Successfuly ping-ed MS Server at "+destIP);
+		
+		if (!InitialServerConnector.reportAvailableMetrics(destIP,port,protocol,this.serverID,this.serverIPaddress)){
+			this.writeToLog(Level.SEVERE, "FAILED to report available metrics to MS Server at "+destIP);
+			throw new CatascopiaException("FAILED to report available metrics to MS Server at "+destIP,
+					                       CatascopiaException.ExceptionType.CONNECTION);
+		}
+		this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+destIP);
+	}
 
 	/**
 	 * @param args
 	 * @throws CatascopiaException 
 	 */
 	public static void main(String[] args) throws CatascopiaException {
-		MonitoringServer server = new MonitoringServer();
+		try{		
+			if (args.length > 0)
+				new MonitoringServer(args[0]);
+			else
+				new MonitoringServer(".");
+		}catch(Exception e){
+			System.exit(1);
+		}
 	}
 
 }

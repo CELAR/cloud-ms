@@ -1,5 +1,7 @@
 package eu.celarcloud.celar_ms.ServerPack;
 
+import java.util.logging.Level;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,15 +23,14 @@ public class MetricProcessor implements Runnable{
 	
 	@Override
 	public void run() {
-		System.out.println("\nmessage: "+msg+"\n");	
+		if (this.server.inDebugMode())
+			System.out.println("\nMetricProcessor>> processing the following message...\n"+msg);	
 		
-		JSONParser parser = new JSONParser();
-		JSONObject json;
 		try{
+			JSONParser parser = new JSONParser();
+			JSONObject json;
 			json = (JSONObject) parser.parse(msg);
 			
-//			System.out.println(json);
-
 			//TODO DON'T add metrics from NON REGISTERED Agents. Send to Agent message to register first
 			
 			String agentID = (String) json.get("agentID");
@@ -48,12 +49,13 @@ public class MetricProcessor implements Runnable{
 					if(!agent.isRunning() && this.server.getDatabaseFlag())
 		    			AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 					agent.clearAttempts();
-					agent.setStatus(AgentObj.AgentStatus.UP);
-
-					
+					agent.setStatus(AgentObj.AgentStatus.UP);	
 				}
 				else{
-					System.out.println("host: "+agentIP+" NOT REGISTERED");
+					if (this.server.inDebugMode()){
+						System.out.println("MetricProcessor>> host with IP: "+agentIP+" NOT REGISTERED");	
+						this.server.writeToLog(Level.INFO, "Agent with ID: "+agentID+" and IP: "+agentIP+" tried to inject metrics without REGISTERING");
+					}
 					return;
 				}
 
@@ -68,7 +70,8 @@ public class MetricProcessor implements Runnable{
 					MetricObj metric = new MetricObj(metricID,agentID,null,metric_name,(String)obj.get("units"),
 							(String)obj.get("type"),group, value);
 					
-					System.out.println(metric.toString());
+					if (this.server.inDebugMode())
+						System.out.println("MetricProccessor>> metric values...\n"+metric.toString());
 					
 					if(this.server.metricMap.putIfAbsent(metricID, metric) != null){
 //						System.out.println("metric exists in map: "+metric_name);
@@ -85,14 +88,16 @@ public class MetricProcessor implements Runnable{
 							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
 						}
 					}
-				}		
+				}	
+				if(server.inRedistributeMode())
+					server.aggregator.add(event.toString());
 			}
 		} 
 		catch(NullPointerException e){
-			e.printStackTrace();			
+			this.server.writeToLog(Level.SEVERE, e);			
 		}
 		catch (Exception e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);			
 		}	
 	}
 }

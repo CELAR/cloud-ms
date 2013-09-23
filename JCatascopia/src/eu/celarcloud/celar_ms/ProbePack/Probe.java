@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.ProbePack.FIlters.Filter;
+import eu.celarcloud.celar_ms.ProbePack.Filters.Filter;
 
 /** 
  * @author Demetris Trihinas
@@ -22,6 +22,7 @@ import eu.celarcloud.celar_ms.ProbePack.FIlters.Filter;
  *     getDescription - Method that provides a description of the Probe
  * Optionally: 
  *     cleanUp - Method that cleans up any messes before the Probe is terminated
+ *     checkReceivedMetric - Method that performs metric check(s) and/or validation
  *
  */
 public abstract class Probe extends Thread implements IProbe{
@@ -89,7 +90,6 @@ public abstract class Probe extends Thread implements IProbe{
 		this.probeName = name;
 		this.collectPeriod = freq;
 		this.collectPeriodMillis = freq * 1000;
-		//probe status initialized to INACTIVE
 		this.probeStatus = ProbeStatus.INACTIVE;
 		this.firstFlag = true;
 		this.probeProperties = new HashMap<Integer,ProbeProperty>();

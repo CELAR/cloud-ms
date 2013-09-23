@@ -3,12 +3,14 @@ package eu.celarcloud.celar_ms.ServerPack.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
+import eu.celarcloud.celar_ms.ServerPack.IJCatascopiaServer;
 
 public class InitializeDB {
 	
-	public static void createTables(Connection conn, boolean drop_tables) throws CatascopiaException{
+	public static void createTables(Connection conn, boolean drop_tables, IJCatascopiaServer server) throws CatascopiaException{
 		final String[] tables = {"agent_table","metric_table","metric_value_table","subscription_table","subscription_agents_table"};
 		
 		String query = "";
@@ -19,7 +21,8 @@ public class InitializeDB {
 	        		query = "DROP TABLE IF EXISTS "+table;
 	            	stmt = conn.prepareStatement(query);
 					stmt.executeUpdate();
-					System.out.println("dropped table: "+table);
+//					System.out.println("dropped table: "+table);
+					server.writeToLog(Level.INFO, "InitializeDB>> dropped table: "+table);
 	        	}
         	}
 			query = "CREATE TABLE IF NOT EXISTS `agent_table` (" +
@@ -30,7 +33,8 @@ public class InitializeDB {
 					") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = conn.prepareStatement(query);
 			stmt.executeUpdate();
-			System.out.println("created table: "+"agent_table");
+//			System.out.println("created table: "+"agent_table");
+			server.writeToLog(Level.INFO, "InitializeDB>> created table: agent_table");
 			
 			query = "CREATE TABLE IF NOT EXISTS `metric_table` (" +
 			        "`metricID` varchar(64) NOT NULL," +
@@ -44,7 +48,8 @@ public class InitializeDB {
 			        ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = conn.prepareStatement(query);
 			stmt.executeUpdate();
-			System.out.println("created table: "+"metric_table");
+//			System.out.println("created table: "+"metric_table");
+			server.writeToLog(Level.INFO, "InitializeDB>> created table: metric_table");
 			
 			query = "CREATE TABLE IF NOT EXISTS `metric_value_table` (" +
 					"`valueID` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
@@ -55,7 +60,8 @@ public class InitializeDB {
 					"ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 			stmt = conn.prepareStatement(query);
 			stmt.executeUpdate();
-			System.out.println("created table: "+"metric_value_table");
+//			System.out.println("created table: "+"metric_value_table");
+			server.writeToLog(Level.INFO, "InitializeDB>> created table: metric_value_table");
 			
 			query = "CREATE TABLE IF NOT EXISTS `subscription_table` (" +
 					"`subID` varchar(32) NOT NULL, " +
@@ -66,7 +72,8 @@ public class InitializeDB {
 					"ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = conn.prepareStatement(query);
 			stmt.executeUpdate();
-			System.out.println("created table: "+"subscription_table");
+//			System.out.println("created table: "+"subscription_table");
+			server.writeToLog(Level.INFO, "InitializeDB>> created table: subscription_table");
 			
 			query = "CREATE TABLE IF NOT EXISTS `subscription_agents_table` (" +
 					" `subID` varchar(32) NOT NULL," +
@@ -75,7 +82,8 @@ public class InitializeDB {
 					"ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = conn.prepareStatement(query);
 			stmt.executeUpdate();
-			System.out.println("created table: "+"subscription_agents_table");
+//			System.out.println("created table: "+"subscription_agents_table");
+			server.writeToLog(Level.INFO, "InitializeDB>> created table: subscription_agents_table");
 			
 		} 
         catch (SQLException e){

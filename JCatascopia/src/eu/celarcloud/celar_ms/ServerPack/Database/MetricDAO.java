@@ -3,12 +3,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 
 
 public class MetricDAO {
 	
-	public static synchronized void createMetric(Connection conn, MetricObj metric){
+	public static synchronized void createMetric(Connection conn, MetricObj metric) throws CatascopiaException{
 		String query = "";
         PreparedStatement stmt = null;
 
@@ -24,15 +25,12 @@ public class MetricDAO {
 
              int res = MetricDAO.dbUpdate(conn, stmt);
              if (res != 1) {
-            	 System.out.println("Metric already exists");
-                 throw new SQLException("Metric already exists");
-           	  //throw catascopia exception
+//            	 System.out.println("Metric already exists");
+                 throw new CatascopiaException("MetricDAO>> Metric already exists: "+metric.toString(), CatascopiaException.ExceptionType.DATABASE);
              }
-             System.out.println("Succesfully inserted to catascopiaDB new Metric with id: "+metric.getMetricID()
-				          +" and name: "+metric.getName());
+//             System.out.println("Succesfully inserted to catascopiaDB new Metric with id: "+metric.getMetricID()+" and name: "+metric.getName());
 		 }
         catch (SQLException e){
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		 }
         finally{
@@ -40,13 +38,12 @@ public class MetricDAO {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
         }
 	}
 	
-	public static void deleteMetric(Connection conn, String metricID){
+	public static void deleteMetric(Connection conn, String metricID) throws CatascopiaException{
 		String query = "DELETE FROM metric_table WHERE (metricID = ?) ";
 	    PreparedStatement stmt = null;
 	    try{
@@ -55,13 +52,12 @@ public class MetricDAO {
 
 	       int res = MetricDAO.dbUpdate(conn, stmt);
 	       if (res == 0){
-	        	System.out.println("Metric with id: "+metricID+" was not found in catascopiaDB");        
-				//throw new NotFoundException("Object could not be deleted! (PrimaryKey not found)");
+//	        	System.out.println("Metric with id: "+metricID+" was not found in catascopiaDB");        
+                throw new CatascopiaException("MetricDAO>> Metric with id:"+metricID+"was not found in catascopiaDB: ", CatascopiaException.ExceptionType.DATABASE);
 	       }
-       	   System.out.println("Succesfully deleted from catascopiaDB Agent with id: "+metricID);    
+//       	   System.out.println("Succesfully deleted from catascopiaDB Agent with id: "+metricID);    
 	    } 
 	    catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	    finally{
@@ -69,7 +65,6 @@ public class MetricDAO {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	    }
@@ -85,14 +80,11 @@ public class MetricDAO {
 			stmt.setTimestamp(2, new java.sql.Timestamp(timestamp)); 
 			stmt.setString(3, val); 
 			
-
              int res = MetricDAO.dbUpdate(conn, stmt);
-             if (res != 1) {
-            	 System.out.println("Metric value already exists");
-                 throw new SQLException("Metric value already exists");
-           	  //throw catascopia exception
-             }
-             System.out.println("Succesfully inserted to catascopiaDB new Metric value");
+//             if (res != 1){
+//            	 System.out.println("Metric value already exists");
+//             }
+//             System.out.println("Succesfully inserted to catascopiaDB new Metric value");
 		 }
         catch (SQLException e){
 			// TODO Auto-generated catch block

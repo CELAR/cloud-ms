@@ -1,6 +1,7 @@
 package eu.celarcloud.celar_ms.ServerPack;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,7 +23,7 @@ import eu.celarcloud.celar_ms.SocketPack.ISocket;
  *                "type" : "DOUBLE",
  *                "units" : "%",
  *                "group" : "CPU",
- *                "val" : "AVG:cpuTotal",
+ *                "val" : "AVG(cpuTotal)",
  *                "period" : "20",
  *                "agents" : ["10.16.21.2","10.16.21.5"]
  *               }
@@ -49,7 +50,8 @@ public class SubProcessor implements Runnable{
 
 	@Override
 	public void run(){
-		System.out.println("message type: "+msg[1]+"\ncontent: "+msg[2]);	
+		if (this.server.inDebugMode())
+			System.out.println("\nSubProcessor>> processing the following message...\n"+msg[0]+" "+msg[1]+"\n"+msg[2]);	
 		
 		try{
 			JSONParser parser = new JSONParser();
@@ -69,14 +71,15 @@ public class SubProcessor implements Runnable{
 				this.response(Status.ERROR, msg[1]+" request does not exist");
 		}
 		catch(NullPointerException e){
-			e.printStackTrace();	
+			this.server.writeToLog(Level.SEVERE, e);
 			this.response(Status.SYNTAX_ERROR, msg[1]+" Subscription is not valid");
 		}
 		catch(IllegalArgumentException e){
+			this.server.writeToLog(Level.SEVERE, e);
 			this.response(Status.SYNTAX_ERROR,"Grouping function either does not exist or is not currently supported");
 		}
 		catch (Exception e){
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 			this.response(Status.ERROR, msg[1]+" an error msg");
 		}	
 		
@@ -88,8 +91,10 @@ public class SubProcessor implements Runnable{
 			JSONObject metric = (JSONObject) json.get("metric");
 			String subName = (String) metric.get("name");
 
+			//String[] val = metric.get("val").toString().split("(");
 			String[] val = metric.get("val").toString().split(":");
 			GroupingFunction func = SubObj.GroupingFunction.valueOf(val[0]); //if not a valid function exception thrown
+			//String originMetric = val[1].replace(")", "");
 			String originMetric = val[1];
 			int period = Integer.parseInt(metric.get("period").toString());
 			String metricID = subID+":"+subName;
@@ -110,11 +115,14 @@ public class SubProcessor implements Runnable{
 			
 			SubObj subobj = new SubObj(subID,subName,metricID,originMetric,agentlist,func,period);
 			
-			System.out.println(metricobj.toString());
-			System.out.println(subobj.toString());
+			if (this.server.inDebugMode()){
+				System.out.println("SubProcessor>> MetricObj...\n"+metricobj.toString());
+				System.out.println("SubProcessor>> SubObj...\n"+subobj.toString());
+			}
 			
 			//add to subMap and metricMap
 			SubMapDAO.createSubcription(server.subMap, server.metricMap, subobj, metricobj);
+			this.server.writeToLog(Level.INFO, "SubProcessor>> created a new subscription...\n"+subobj.toString());
 			
 			//add to DB
 			if (this.server.getDatabaseFlag())
@@ -169,8 +177,7 @@ public class SubProcessor implements Runnable{
 			this.router.send(msg[0], msg[1], obj);
 		} 
 		catch (CatascopiaException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 	}
 }

@@ -13,10 +13,6 @@ public class AgentListener extends Listener{
 
 	@Override
 	public void listen(String[] msg){
-//		System.out.println(msg.length);
-//		if (msg.length>1 && msg[1].contains("AGENT")) //its an agent wanting to register
-//			this.server.controlExecutor.process(new AgentRegister(msg,this.getListener(),this.server));
-//		else //its a metric
-			this.server.processExecutor.process(new MetricProcessor(server,msg[0]));
+		this.server.processExecutor.process(new MetricProcessor(server,msg[0]));
 	}
 }
