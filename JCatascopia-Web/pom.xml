@@ -19,9 +19,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.jeromq</groupId>
-    	<artifactId>jeromq</artifactId>
-    	<version>0.2.0</version>
+    	<groupId>javax.servlet</groupId>
+    	<artifactId>servlet-api</artifactId>
+    	<version>3.0-alpha-1</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.sun.jersey</groupId>
+    	<artifactId>jersey-bundle</artifactId>
+    	<version>1.17.1</version>
     </dependency>
     <dependency>
     	<groupId>mysql</groupId>
@@ -29,9 +34,9 @@
     	<version>5.1.26</version>
     </dependency>
     <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<version>3.0-alpha-1</version>
+    	<groupId>org.jeromq</groupId>
+    	<artifactId>jeromq</artifactId>
+    	<version>0.2.0</version>
     </dependency>
     <dependency>
     	<groupId>org.json</groupId>
@@ -39,17 +44,12 @@
     	<version>20090211</version>
     </dependency>
     <dependency>
-    	<groupId>com.sun.jersey</groupId>
-    	<artifactId>jersey-client</artifactId>
-    	<version>1.17.1</version>
-    </dependency>
-    <dependency>
     	<groupId>asm</groupId>
     	<artifactId>asm-all</artifactId>
-    	<version>20070324</version>
+    	<version>3.1</version>
     </dependency>
   </dependencies>
   <build>
-    <finalName>jcatascopia</finalName>
+    <finalName>JCatascopia-Web</finalName>
   </build>
 </project>
