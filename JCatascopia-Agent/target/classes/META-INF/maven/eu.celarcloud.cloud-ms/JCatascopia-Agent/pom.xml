@@ -23,8 +23,8 @@
 	        </descriptorRefs>
 	        <archive>
 	          <manifest>
-	            <mainClass>mypack.myclass</mainClass>
-	            <packageName>mypack</packageName>
+	            <mainClass>eu.celarcloud.celar_ms.AgentPack.MonitoringAgent</mainClass>
+	            <packageName>eu.celarcloud.celar_ms.AgentPack</packageName>
 	          </manifest>
 	        </archive>
 	      </configuration>

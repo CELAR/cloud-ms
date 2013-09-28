@@ -7,7 +7,9 @@
   <modules>
   	<module>JCatascopia-Agent</module>
   	<module>JCatascopia-Server</module>
-  	<module>JCatascopia-Web</module>
+  	
   	<module>JCatascopia-XProbe</module>
+  	
+  	<module>JCatascopia-Web</module>
   </modules>
 </project>

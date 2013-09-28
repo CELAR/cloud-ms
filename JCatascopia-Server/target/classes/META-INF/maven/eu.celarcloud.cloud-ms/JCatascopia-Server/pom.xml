@@ -6,4 +6,52 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>JCatascopia-Server</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>mysql</groupId>
+  		<artifactId>mysql-connector-java</artifactId>
+  		<version>5.1.26</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jeromq</groupId>
+  		<artifactId>jeromq</artifactId>
+  		<version>0.2.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.json</groupId>
+  		<artifactId>json</artifactId>
+  		<version>20090211</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.googlecode.json-simple</groupId>
+  		<artifactId>json-simple</artifactId>
+  		<version>1.1</version>
+  	</dependency>
+  </dependencies>
+    <build>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <configuration>
+	        <descriptorRefs>
+	          <descriptorRef>jar-with-dependencies</descriptorRef>
+	        </descriptorRefs>
+	        <archive>
+	          <manifest>
+	            <mainClass>eu.celarcloud.celar_ms.ServerPack.MonitoringServer</mainClass>
+	            <packageName>eu.celarcloud.celar_ms.ServerPack</packageName>
+	          </manifest>
+	        </archive>
+	      </configuration>
+	      <executions>
+	        <execution>
+	          <phase>package</phase>
+	          <goals>
+	            <goal>single</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
+	  </plugins>
+	</build>
 </project>

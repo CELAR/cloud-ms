@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  
+  <display-name>jcatascopia</display-name>
+  <welcome-file-list>
+    <welcome-file>home.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  
+   <listener>
+    <listener-class>servletPack.ServletListener</listener-class>
+  </listener>
+
+<!--  <filter>
+   <filter-name>cross-origin</filter-name>
+   <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+   <init-param>
+    <param-name>allowedMethods</param-name>
+    <param-value>GET,POST,PUT,DELETE</param-value>
+   </init-param>
+ </filter>
+ <filter-mapping>
+     <filter-name>cross-origin</filter-name>
+     <url-pattern>/restAPI/*</url-pattern>
+ </filter-mapping> -->
+  
+  <context-param>
+    <param-name>host</param-name>
+    <param-value>83.212.124.102:3306</param-value>
+  </context-param>
+  <context-param>
+   <param-name>database</param-name>
+   <param-value>catascopiaDB</param-value>
+  </context-param>
+  <context-param>
+   <param-name>user</param-name>
+   <param-value>catascopia_user</param-value>
+  </context-param>
+  <context-param>
+   <param-name>pass</param-name>
+   <param-value>catascopia_pass</param-value>
+  </context-param>
+  <!-- <context-param>
+   <param-name>database</param-name>
+   <param-value>catascopiaDBTest</param-value>
+  </context-param>
+  <context-param>
+   <param-name>user</param-name>
+   <param-value>chrysovalantis</param-value>
+  </context-param>
+  <context-param>
+   <param-name>pass</param-name>
+   <param-value>chrysovalantispass</param-value>
+  </context-param> -->
+  
+  <context-param>
+    <param-name>serverIP</param-name>
+    <param-value>localhost</param-value>
+  </context-param>
+  <context-param>
+    <param-name>serverPort</param-name>
+    <param-value>4245</param-value>
+  </context-param>
+  
+  <servlet>
+    <servlet-name>jersey-servlet-AgentsServer</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>jcatascopia.api.agent</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jersey-servlet-AgentsServer</servlet-name>
+    <url-pattern>/restAPI/agents/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>jersey-servlet-MetricServer</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>jcatascopia.api.metrics</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jersey-servlet-MetricServer</servlet-name>
+    <url-pattern>/restAPI/metrics/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>jersey-servlet-SubscriptionsServer</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>jcatascopia.api.subscriptions</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jersey-servlet-SubscriptionsServer</servlet-name>
+    <url-pattern>/restAPI/subscriptions/*</url-pattern>
+  </servlet-mapping>  
+</web-app>

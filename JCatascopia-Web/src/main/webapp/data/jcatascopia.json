@@ -1,0 +1,354 @@
+{
+    "globals": [
+        
+    ],
+    "baseurl": "http://localhost:8080/jcatascopia/restAPI",
+    "endpoints": [
+        {
+            "name": "Agents",
+            "description": "<p>These are agent endpoints, with them you will be able to get all the agents for a specific application (optionally depending on their status) and all the available metrics for an agent</p>",
+            "methods": [
+                {
+                    "MethodName": "Get Application Agents",
+                    "Synopsis": "This will return all the agents of the specified application",
+                    "HTTPMethod": "GET",
+                    "URI": "/agents",
+                    "parameters": [
+                        {
+                            "Name": "appID",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the application"
+                        },
+                        {
+                            "Name": "status",
+                            "Required": "N",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The desired status"
+                        }
+
+                    ]
+                },
+                {
+                    "MethodName": "Get available metrics",
+                    "Synopsis": "This will return all the agent's available metrics",
+                    "HTTPMethod": "GET",
+                    "URI": "/agents/:agentid/availableMetrics",
+                    "parameters": [
+                        {
+                            "Name": "agentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The agent's id"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Metrics",
+            "description": "<p>These are metrics endpoints, with them you will be able to: get metric metadata, values, timestamps, etc.</p> <p>You can also get metric values for a specific timerange.</p>",
+            "methods": [
+                {
+                    "MethodName": "Get Registered Metrics",
+                    "Synopsis": "This will return last value for each registered metric.",
+                    "HTTPMethod": "POST",
+                    "URI": "/metrics/",
+                    "parameters": [
+                        {
+                            "Name": "metrics",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "registered metricIDs separated by comma (,)"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get Subscription's Metrics",
+                    "Synopsis": "This will return the available metrics to subscribe",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/subscriptions",
+                    "parameters": [
+                        
+                    ]
+                },
+                {
+                    "MethodName": "Get metric's values (timerange)",
+                    "Synopsis": "Gets the metric's values in this range",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/:metricid/",
+                    "parameters": [
+                        {
+                            "Name": "metricid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the metric"
+                        },
+                        {
+                            "Name": "tstart",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "Start timestamp"
+                        },
+                        {
+                            "Name": "tend",
+                            "Required": "N",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "End timestamp"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get metric's values (interval)",
+                    "Synopsis": "Gets the metric's values in this interval",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/:metricid/",
+                    "parameters": [
+                        {
+                            "Name": "metricid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the metric"
+                        },
+                        {
+                            "Name": "interval",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The interval"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get all agent metric's values (timerange)",
+                    "Synopsis": "Gets the metric's values in this range",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/agent/:agentid/",
+                    "parameters": [
+                        {
+                            "Name": "agentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the agent"
+                        },
+                        {
+                            "Name": "tstart",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "Start timestamp"
+                        },
+                        {
+                            "Name": "tend",
+                            "Required": "N",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "End timestamp"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get all agent metric's values (interval)",
+                    "Synopsis": "Gets the metric's values in this interval",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/agent/:agentid/",
+                    "parameters": [
+                        {
+                            "Name": "agentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the agent"
+                        },
+                        {
+                            "Name": "interval",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The interval"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get all deployment metric's values (timerange)",
+                    "Synopsis": "Gets the metric's values in this range",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/deployment/:deploymentid/",
+                    "parameters": [
+                        {
+                            "Name": "deploymentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the deployment"
+                        },
+                        {
+                            "Name": "tstart",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "Start timestamp"
+                        },
+                        {
+                            "Name": "tend",
+                            "Required": "N",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "End timestamp"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get all deployment metric's values (interval)",
+                    "Synopsis": "Gets the metric's values in this interval",
+                    "HTTPMethod": "GET",
+                    "URI": "/metrics/deployment/:deploymentid/",
+                    "parameters": [
+                        {
+                            "Name": "deploymentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the deployment"
+                        },
+                        {
+                            "Name": "interval",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The interval"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Subscriptions",
+            "description": "<p>These are the subscriptions endpoints.</p> <p>Add, delete subscriptions or add, remove agents from a subscription.</p>",
+            "methods": [
+                {
+                    "MethodName": "Get Subscriptions",
+                    "Synopsis": "This will get the available subscriptions",
+                    "HTTPMethod": "GET",
+                    "URI": "/subscriptions/",
+                    "parameters": [
+                       
+                    ]
+                },
+                {
+                    "MethodName": "Get Subscription Metadata",
+                    "Synopsis": "This will get the subscription metadata",
+                    "HTTPMethod": "GET",
+                    "URI": "/subscriptions/:subscriptionid",
+                    "parameters": [
+                       {
+                            "Name": "subscriptionid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the subscription"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Get Subscription Agents",
+                    "Synopsis": "This will get the subscription agents",
+                    "HTTPMethod": "GET",
+                    "URI": "/subscriptions/:subscriptionid/agents",
+                    "parameters": [
+                       {
+                            "Name": "subscriptionid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The ID of the subscription"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Create Subscription",
+                    "Synopsis": "This will create a new subscription",
+                    "HTTPMethod": "PUT",
+                    "URI": "/subscriptions/",
+                    "parameters": [
+                        {
+                            "Name": "subscription",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The json with all info"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Delete Subscription",
+                    "Synopsis": "This will delete a subscription",
+                    "HTTPMethod": "DELETE",
+                    "URI": "/subscriptions/:subscriptionid",
+                    "parameters": [
+                        {
+                            "Name": "subscriptionid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The subscription id"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Add agent to subscription",
+                    "Synopsis": "Adds an agent to a subscription",
+                    "HTTPMethod": "GET",
+                    "URI": "/subscriptions/:subscriptionid/agent/:agentid?action=addAgent",
+                    "parameters": [
+                        {
+                            "Name": "subscriptionid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The subscription id"
+                        },
+                        {
+                            "Name": "agentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The agent id"
+                        }
+                    ]
+                },
+                {
+                    "MethodName": "Remove agent from subscription",
+                    "Synopsis": "Removes an agent from a subscription",
+                    "HTTPMethod": "GET",
+                    "URI": "/subscriptions/:subscriptionid/agent/:agentid?action=removeAgent",
+                    "parameters": [
+                        {
+                            "Name": "subscriptionid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The subscription id"
+                        },
+                        {
+                            "Name": "agentid",
+                            "Required": "Y",
+                            "Default": null,
+                            "Type": "string",
+                            "Description": "The agent id"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

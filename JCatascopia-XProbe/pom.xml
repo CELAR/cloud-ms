@@ -6,4 +6,37 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>JCatascopia-XProbe</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.jeromq</groupId>
+  		<artifactId>jeromq</artifactId>
+  		<version>0.2.0</version>
+  	</dependency>
+  </dependencies>
+  <build>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <configuration>
+	        <descriptorRefs>
+	          <descriptorRef>jar-with-dependencies</descriptorRef>
+	        </descriptorRefs>
+	        <archive>
+	          <manifest>
+	            <mainClass>JCatascopia.XProbePack.XProbe</mainClass>
+	            <packageName>JCatascopia.XProbePack</packageName>
+	          </manifest>
+	        </archive>
+	      </configuration>
+	      <executions>
+	        <execution>
+	          <phase>package</phase>
+	          <goals>
+	            <goal>single</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
+	  </plugins>
+	</build>
 </project>
