@@ -21,7 +21,6 @@ public class MetricProcessor implements Runnable{
 		this.msg = msg;
 	}
 	
-	@Override
 	public void run() {
 		if (this.server.inDebugMode())
 			System.out.println("\nMetricProcessor>> processing the following message...\n"+msg);	

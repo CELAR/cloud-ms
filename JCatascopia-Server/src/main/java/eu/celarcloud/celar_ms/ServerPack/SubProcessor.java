@@ -48,7 +48,6 @@ public class SubProcessor implements Runnable{
 		this.server = server;
 	}
 
-	@Override
 	public void run(){
 		if (this.server.inDebugMode())
 			System.out.println("\nSubProcessor>> processing the following message...\n"+msg[0]+" "+msg[1]+"\n"+msg[2]);	

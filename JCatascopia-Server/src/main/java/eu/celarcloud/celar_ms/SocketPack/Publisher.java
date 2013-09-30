@@ -85,7 +85,6 @@ public class Publisher implements ISocket{
 		this.publisher.send(msg,0);
 	}
 
-	@Override
 	public void send(String addr, String msg_type, String content) throws CatascopiaException {
 		this.publisher.send(content);
 	}

@@ -96,12 +96,10 @@ public class Subscriber implements ISocket{
 	    this.context.term();
 	}
 
-	@Override
 	public void send(String msg) throws CatascopiaException {
 		throw new CatascopiaException("send method not available for SUB sockets",CatascopiaException.ExceptionType.TYPE);	
 	}
 
-	@Override
 	public void send(String addr, String msg_type, String content) throws CatascopiaException {
 		throw new CatascopiaException("send method not available for SUB sockets",CatascopiaException.ExceptionType.TYPE);			
 	}

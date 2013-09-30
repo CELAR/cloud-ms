@@ -12,7 +12,17 @@ public class DBHandler {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 	
+	private String host;
+	private String user;
+	private String pass;
+	private String database;
+	
 	public DBHandler(String host, String user, String pass, String database){
+		this.host = host;
+		this.user = user;
+		this.pass = pass;
+		this.database = database;
+		
 		this.dbConnect(host,user,pass,database);
 	}
 	
@@ -67,6 +77,13 @@ public class DBHandler {
 	}
 	
 	public Connection getConnection(){
+		try {
+			if (conn == null || conn.isClosed())
+				this.dbConnect(host, user, pass, database);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return this.conn;
 	}
 }
