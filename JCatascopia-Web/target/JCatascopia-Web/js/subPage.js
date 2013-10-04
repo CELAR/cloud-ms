@@ -8,26 +8,7 @@ $(document).ready(function() {
 	
 	addExpandCollapseFunctionalityTo(".header", "Header", "Content");
 	
-	$("#removeBtn").click(function() {
-		$("#subList input:checked").each(function(index) {
-			var id = $(this).attr("id");
-			var li = $(this).parent();
-			$.ajax({
-				type:"delete",
-				url:"restAPI/subscriptions/"+id,
-				success: function(data) {
-					console.log("subscription "+id+" deleted");
-					li.remove();
-				},
-				statusCode: {
-					404: function() {
-						alert("Could not delete subscription "+id);
-						$("#"+id).removeAttr("checked");
-					}
-				}
-			});		
-		});
-	});
+	$("#removeBtn").click(removeBtnFunc);
 	
 	$("#submitBtn").click(function() {
 		var valid = true;
@@ -123,6 +104,27 @@ $(document).ready(function() {
 	});
 });
 
+function removeBtnFunc(){
+	$("#subList input:checked").each(function(index) {
+		var id = $(this).attr("id");
+		var li = $(this).parent();
+		$.ajax({
+			type:"delete",
+			url:"restAPI/subscriptions/"+id,
+			success: function(data) {
+				console.log("subscription "+id+" deleted");
+				li.remove();
+			},
+			statusCode: {
+				404: function() {
+					alert("Could not delete subscription "+id);
+					$("#"+id).removeAttr("checked");
+				}
+			}
+		});		
+	});
+}
+
 //updates the agents list
 function updateContent(json) {
 	console.log(json);
@@ -137,8 +139,7 @@ function updateContent(json) {
 //populates subscriptions list
 function populateSubscriptions(data) {
 	$("#subListContent").html("<ul></ul>");
-	$("#subListContent").append("<div style=\"padding-left: 11px; margin-top: -5px; margin-bottom: 10px;\"><input type=\"button\" value=\"Remove Checked\" id=\"removeBtn\"/></div>");
-	
+	//$("#subListContent").append("<div style=\"padding-left: 11px; margin-top: -5px; margin-bottom: 10px;\"><input type=\"button\" value=\"Remove Checked\" id=\"removeBtn\" /></div>");
 	for(var i in data.subs) {
 		$("#subList ul").append(getSubListObj(data.subs[i]));
 	}

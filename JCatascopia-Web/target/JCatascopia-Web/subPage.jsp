@@ -25,6 +25,7 @@
 		<div id="subListContent" class="content">
 			<!-- javascript generated -->
 		</div>
+		<div style="padding-left: 11px; margin-top: -5px; margin-bottom: 10px;"><input type="button" value="Remove Checked" id="removeBtn" /></div>	
 	</section>
 	
 	<section class="block border" id="createView">

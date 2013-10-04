@@ -109,8 +109,8 @@ public class SubscriptionDAO {
 	 * @return true if the subscription was deleted, otherwise false
 	 */
 	public static boolean removeSubscription(String ip, String port, String json){   
-		boolean success = SubscriptionDAO.msConnect(ip, port, "SUBSCRIPTION.REMOVE", json);
-		System.out.println("SUBSCRIPTION.REMOVE -> " + (success? "success" : "fail"));
+		boolean success = SubscriptionDAO.msConnect(ip, port, "SUBSCRIPTION.DELETE", json);
+		System.out.println("SUBSCRIPTION.DELETE -> " + (success? "success" : "fail"));
 		return success;
 	}
 	
