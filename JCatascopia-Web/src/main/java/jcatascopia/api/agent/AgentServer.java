@@ -57,7 +57,10 @@ public class AgentServer {
 			}	
 		}
 		sb.append("]}");
-		System.out.println("Listing all agents for appID = " + appID);
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Listing all agents for appID = " + appID);
+		
 		return Response.status(Response.Status.OK)
 			           .entity(sb.toString())
 			           .build();		
@@ -91,9 +94,11 @@ public class AgentServer {
 				sb.append(m.toJSON());
 				first = false;
 			}
-		
 		sb.append("]}");
-		System.out.println("Listing available metrics for agent " + agentID);
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Listing available metrics for agent " + agentID);
+		
 		return Response.status(Response.Status.OK)
 			           .entity(sb.toString())
 			           .build();			

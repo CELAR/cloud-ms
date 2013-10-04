@@ -26,9 +26,13 @@ public class ServletListener implements ServletContextListener{
     	sc.setAttribute("serverIP", serverIP);
     	String serverPort = sc.getInitParameter("serverPort");
     	sc.setAttribute("serverPort", serverPort);
+    	
+    	System.out.println("ServletListener>> added a DBHandler as an attribute, server IP & Port as an attribute");
 
-    	System.out.println("Created ServletListener, added a DBHandler as an attribute, server IP&port as an attribute");
- 
+    	//debug_mode
+    	String debug_mode = sc.getInitParameter("debug_mode");
+    	sc.setAttribute("debug_mode", debug_mode);
+    	System.out.println("ServletListener>> debug_mode = "+debug_mode);
     }
  
 	/**

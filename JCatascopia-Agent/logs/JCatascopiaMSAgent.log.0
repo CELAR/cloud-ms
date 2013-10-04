@@ -156,3 +156,51 @@ Oct 4, 2013 10:07:20 AM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeTo
 INFO: JCatascopiaMSAgent: Successfuly reported available agent metrics to MS Server at localhost
 Oct 4, 2013 10:07:20 AM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
 INFO: JCatascopiaMSAgent: ProbeController enabled with parameters: localhost, 4243, 8, tcp
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent initLogging
+INFO: JCatascopiaMSAgent: Created and Initialized
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: CPUProbe: Logging turned ON
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: DiskProbe: Logging turned ON
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: DiskStatsProbe: Logging turned ON
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: MemoryProbe: Logging turned ON
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: NetworkProbe: Logging turned ON
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: StaticInfoProbe: Logging turned ON
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: MemoryProbe: MemoryProbe: Probe Activated
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: CPUProbe: CPUProbe: Probe Activated
+Oct 4, 2013 12:17:52 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
+INFO: JCatascopiaMSAgent: Successfuly ping-ed MS Server at localhost
+Oct 4, 2013 12:17:57 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
+INFO: JCatascopiaMSAgent: Successfuly reported available agent metrics to MS Server at localhost
+Oct 4, 2013 12:17:57 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
+INFO: JCatascopiaMSAgent: ProbeController enabled with parameters: localhost, 4243, 8, tcp
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent initLogging
+INFO: JCatascopiaMSAgent: Created and Initialized
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: CPUProbe: Logging turned ON
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: DiskProbe: Logging turned ON
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: DiskStatsProbe: Logging turned ON
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: MemoryProbe: Logging turned ON
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: NetworkProbe: Logging turned ON
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: StaticInfoProbe: Logging turned ON
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: MemoryProbe: MemoryProbe: Probe Activated
+Oct 4, 2013 12:25:55 PM eu.celarcloud.celar_ms.ProbePack.Probe writeToProbeLog
+INFO: CPUProbe: CPUProbe: Probe Activated
+Oct 4, 2013 12:25:57 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
+INFO: JCatascopiaMSAgent: Successfuly ping-ed MS Server at localhost
+Oct 4, 2013 12:26:02 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
+INFO: JCatascopiaMSAgent: Successfuly reported available agent metrics to MS Server at localhost
+Oct 4, 2013 12:26:02 PM eu.celarcloud.celar_ms.AgentPack.MonitoringAgent writeToLog
+INFO: JCatascopiaMSAgent: ProbeController enabled with parameters: localhost, 4243, 8, tcp

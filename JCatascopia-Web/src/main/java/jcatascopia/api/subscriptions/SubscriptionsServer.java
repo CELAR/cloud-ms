@@ -63,9 +63,11 @@ public class SubscriptionsServer {
 				first = false;
 			}
 		}
-		
 		sb.append("]}");
-		System.out.println("Listing available subscriptions");
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Listing available subscriptions");
+		
 		return Response.status(Response.Status.OK)
 		           .entity(sb.toString())
 		           .build();
@@ -91,7 +93,10 @@ public class SubscriptionsServer {
 		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
 		
 		SubscriptionObj sub = SubscriptionDAO.getSubMetadata(dbHandler.getConnection(), subID);
-		System.out.println("Subscription (ID: "+subID+") metadata");
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Subscription (ID: "+subID+") metadata");
+		
 		return Response.status(sub != null ? Response.Status.OK : Response.Status.NOT_FOUND)
 		           .entity(sub!=null ? sub.toJSON() : "Subscripiton with id "+subID+" not found!")
 		           .build();
@@ -129,9 +134,11 @@ public class SubscriptionsServer {
 				first = false;
 			}
 		}
-		
 		sb.append("]}");
-		System.out.println("Subscription (ID: "+subID+") agents");
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Subscription (ID: "+subID+") agents");
+		
 		return Response.status(Response.Status.OK)
 		           .entity(sb.toString())
 		           .build();
@@ -155,8 +162,10 @@ public class SubscriptionsServer {
 		String serverIP = (String) context.getAttribute("serverIP");
 		String serverPort = (String) context.getAttribute("serverPort");
 		
-		System.out.println("Message received from "+serverIP+":"+serverPort+" to add sub");
-		System.out.println(body);
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
+			System.out.println("Message received from "+serverIP+":"+serverPort+" to add sub");
+			System.out.println(body);
+		}
 		if(body.startsWith("subscription="))
 			try {
 				body = URLDecoder.decode(body.split("=")[1], "UTF-8");
@@ -169,7 +178,8 @@ public class SubscriptionsServer {
 			json.put("subID", UUID.randomUUID().toString().replace("-", ""));
 //			System.out.println(json.toString());
 			if (SubscriptionDAO.addSubscription(serverIP, serverPort, json.toString())) {
-				System.out.println("Added a new subscription with id " + json.getString("subID"));
+				if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+					System.out.println("Added a new subscription with id " + json.getString("subID"));
 				return Response.status(Response.Status.CREATED)
 					           .entity("{\"status\":\"added\",\"subID\":\""+json.getString("subID")+"\"}")
 					           .build();
@@ -202,10 +212,12 @@ public class SubscriptionsServer {
 		String serverIP = (String) context.getAttribute("serverIP");
 		String serverPort = (String) context.getAttribute("serverPort");
 
-		System.out.println("Message received from "+serverIP+":"+serverPort+" to delete sub");
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Message received from "+serverIP+":"+serverPort+" to delete sub");
 		
 		if(SubscriptionDAO.removeSubscription(serverIP, serverPort, "{\"subID\" : \""+subID+"\"}")) {
-			System.out.println("Deleted subscription with id " + subID);
+			if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+				System.out.println("Deleted subscription with id " + subID);
 			return Response.status(Response.Status.OK)
 				           .entity("{\"status\":\"success\"}")
 				           .build();
@@ -239,7 +251,8 @@ public class SubscriptionsServer {
 		String serverIP = (String) context.getAttribute("serverIP");
 		String serverPort = (String) context.getAttribute("serverPort");
 
-		System.out.println("Message received from "+serverIP+":"+serverPort+" to "+action);
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Message received from "+serverIP+":"+serverPort+" to "+action);
 		
 		boolean success = false;
 		StringBuilder sb = new StringBuilder();

@@ -39,19 +39,7 @@
    <param-name>pass</param-name>
    <param-value>catascopia_pass</param-value>
   </context-param>
-  <!-- <context-param>
-   <param-name>database</param-name>
-   <param-value>catascopiaDBTest</param-value>
-  </context-param>
-  <context-param>
-   <param-name>user</param-name>
-   <param-value>chrysovalantis</param-value>
-  </context-param>
-  <context-param>
-   <param-name>pass</param-name>
-   <param-value>chrysovalantispass</param-value>
-  </context-param> -->
-  
+ 
   <context-param>
     <param-name>serverIP</param-name>
     <param-value>localhost</param-value>
@@ -59,6 +47,11 @@
   <context-param>
     <param-name>serverPort</param-name>
     <param-value>4245</param-value>
+  </context-param>
+  
+   <context-param>
+    <param-name>debug_mode</param-name>
+    <param-value>false</param-value>
   </context-param>
   
   <servlet>

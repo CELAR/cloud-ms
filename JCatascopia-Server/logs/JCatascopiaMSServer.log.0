@@ -220,3 +220,90 @@ INFO: JCatascopiaMSServer: New node Agent added, with ID: 9bf71124b892416fb9cd43
 Oct 4, 2013 10:08:06 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
 INFO: JCatascopiaMSServer: SubProcessor>> created a new subscription...
 Subscription>> subID: b55991706c2c4b7db92f9f79f656bc1f subName: aaaa metricID: b55991706c2c4b7db92f9f79f656bc1f:aaaa originMetric: cpuTotal function: SUM update_period: 12 agents: [9bf71124b892416fb9cd43fbea208d18, ]
+Oct 4, 2013 12:17:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopiaMSServer: Created and Initialized
+Oct 4, 2013 12:17:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: ProcessExecutor Initialized with (4) threads
+Oct 4, 2013 12:17:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: ControlExecutor Initialized
+Oct 4, 2013 12:17:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: DB Handler enabled: (83.212.124.102:3306 catascopia_user catascopia_pass catascopiaDB)
+Oct 4, 2013 12:17:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: DBHandler>> creating a connection...
+Oct 4, 2013 12:17:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: DBHandler>> Connected to JCatascopia DB...
+Oct 4, 2013 12:17:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: agent_table
+Oct 4, 2013 12:17:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: metric_table
+Oct 4, 2013 12:17:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: metric_value_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: subscription_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: subscription_agents_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: agent_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: metric_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: metric_value_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: subscription_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: subscription_agents_table
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: Successfully dropped tables and created new ones
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: HeartBeatMonitor Initialized
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: AgentListener Initialized with params (localhost,4242,tcp)
+Oct 4, 2013 12:17:28 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: ControlListener Initialized with params (*,4245,tcp)
+Oct 4, 2013 12:17:55 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: New node Agent added, with ID: 9bf71124b892416fb9cd43fbea208d18 and IP: 10.16.21.203
+Oct 4, 2013 12:25:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopiaMSServer: Created and Initialized
+Oct 4, 2013 12:25:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: ProcessExecutor Initialized with (4) threads
+Oct 4, 2013 12:25:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: ControlExecutor Initialized
+Oct 4, 2013 12:25:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: DB Handler enabled: (83.212.124.102:3306 catascopia_user catascopia_pass catascopiaDB)
+Oct 4, 2013 12:25:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: DBHandler>> creating a connection...
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: DBHandler>> Connected to JCatascopia DB...
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: agent_table
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: metric_table
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: metric_value_table
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: subscription_table
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> dropped table: subscription_agents_table
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: agent_table
+Oct 4, 2013 12:25:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: metric_table
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: metric_value_table
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: subscription_table
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: InitializeDB>> created table: subscription_agents_table
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: Successfully dropped tables and created new ones
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: HeartBeatMonitor Initialized
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: AgentListener Initialized with params (localhost,4242,tcp)
+Oct 4, 2013 12:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: ControlListener Initialized with params (*,4245,tcp)
+Oct 4, 2013 12:26:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: New node Agent added, with ID: 9bf71124b892416fb9cd43fbea208d18 and IP: 10.16.21.203
+Oct 4, 2013 12:34:51 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopiaMSServer: SubProcessor>> created a new subscription...
+Subscription>> subID: 191d65e6e29d4a06b1422be60c12574f subName: aaaa metricID: 191d65e6e29d4a06b1422be60c12574f:aaaa originMetric: cpuIdle function: SUM update_period: 3 agents: [9bf71124b892416fb9cd43fbea208d18, ]

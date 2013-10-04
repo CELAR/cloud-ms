@@ -62,9 +62,10 @@ public class MetricServer {
 				first = false;
 			}
 		}
-
 		sb.append("]}");
-		System.out.println("Listing registered metrics");
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Listing registered metrics");
 
 		return Response.status(Response.Status.OK)
 				.entity(sb.toString())
@@ -100,9 +101,11 @@ public class MetricServer {
 				first = false;
 			}
 		}
-
 		sb.append("]}");
-		System.out.println("Listing available metrics to subscribe");
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Listing available metrics to subscribe");
+		
 		return Response.status(Response.Status.OK)
 				.entity(sb.toString())
 				.build();
@@ -151,9 +154,10 @@ public class MetricServer {
 				first = false;
 			}
 		}
-
 		sb.append("]}");
-		System.out.println("Listing timerange values for metric " + metricID);
+		
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+			System.out.println("Listing timerange values for metric " + metricID);
 
 		return Response.status(Response.Status.OK)
 				.entity(sb.toString())
