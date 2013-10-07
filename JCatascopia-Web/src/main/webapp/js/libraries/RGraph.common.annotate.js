@@ -140,6 +140,7 @@
     * 
     * @param object e The event object
     */
+    RGraph.ShowPalette =
     RGraph.Showpalette = function (e)
     {
         var isSafari = navigator.userAgent.indexOf('Safari') ? true : false;
@@ -160,41 +161,69 @@
         div.style.left               = 0;
         div.style.top                = 0;
         div.style.padding            = '3px';
-        div.style.paddingBottom      = 0;
-        div.style.paddingRight       = 0;
         div.style.opacity            = 0;
         div.style.boxShadow          = 'rgba(96,96,96,0.5) 3px 3px 3px';
         div.style.WebkitBoxShadow    = 'rgba(96,96,96,0.5) 3px 3px 3px';
         div.style.MozBoxShadow       = 'rgba(96,96,96,0.5) 3px 3px 3px';
-        div.style.filter             = 'progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=135)';
+
+
+        // MUST use named colors that are capitalised
+        var colors = ['Black', 'Red', 'Magenta','Black','Yellow','Green','Orange', 'White', 'Cyan'];
         
-        var common_css       = 'padding: 1px; display: inline; display: inline-block; width: 15px; height: 15px; margin-right: 3px; cursor: pointer;' + (isSafari ? 'margin-bottom: 3px' : '');
-        var common_mouseover = ' onmouseover="this.style.border = \'1px black solid\'; this.style.padding = 0"';
-        var common_mouseout  = ' onmouseout="this.style.border = 0; this.style.padding = \'1px\'" ';
+        // Add the colors to the palette
+        for (var i=0,len=colors.length; i<len; i+=1) {
+            var div2 = document.createElement('DIV');
+                div2.cssClass = 'RGraph_palette_color';
+                div2.style.fontSize = '12pt';
+                div2.style.cursor = 'pointer';
+                div2.style.padding = '1px';
+                div2.style.paddingRight = '10px';
+                
+                var span = document.createElement('SPAN');
+                    span.style.display = 'inline-block';
+                    span.style.marginRight = '3px';
+                    span.style.width = '17px';
+                    span.style.height = '17px';
+                    span.style.backgroundColor = colors[i];
+                div2.appendChild(span);
+                
+                div2.innerHTML += colors[i];
+                
 
-        var str = '';
+                div2.onmouseover = function ()
+                {
+                    this.style.backgroundColor = '#eee';
+                }
 
-        var colors = ['red', 'blue', 'green', 'black', 'yellow', 'magenta', 'pink', 'cyan', 'purple', '#ddf', 'gray', '#36905c'];
-
-        for (i=0; i<colors.length; ++i) {
-            str = str + '<span ' + common_mouseover + common_mouseout + ' style="background-color: ' + colors[i] + '; ' + common_css  + '" onclick="this.parentNode.__object__.Set(\'chart.annotate.color\', this.style.backgroundColor); this.parentNode.style.display = \'none\'; RGraph.FireCustomEvent(this.parentNode.__object__, \'onannotatecolor\')">&nbsp;</span>';
-            
-            // This makes the colours go across two levels
-            if (i == 5) {
-                str += '<br />';
-            }
+                div2.onmouseout = function ()
+                {
+                    this.style.backgroundColor = '';
+                }
+                
+                div2.onclick = function (e)
+                {
+                    var color = this.childNodes[0].style.backgroundColor;
+                    
+                    obj.Set('chart.annotate.color', color);
+                }
+            div.appendChild(div2);
         }
 
-        div.innerHTML = str;
+
         document.body.appendChild(div);
+
+        /**
+        * Now the div has been added to the document, move it up and left
+        */
+        div.style.left   = e.pageX + 'px';
+        div.style.top    = e.pageY + 'px';
         
         /**
-        * Now the div has been added to the document, move it up and left and set the width and height
+        * Chang the position if the cursor is near the right edge of the browser window
         */
-        div.style.width  = (div.offsetWidth) + 'px';
-        div.style.height = (div.offsetHeight - (RGraph.isIE9up() ? 5 : 5)) + 'px';
-        div.style.left   = Math.max(0, e.pageX - div.offsetWidth - 2) + 'px';
-        div.style.top    = (e.pageY - div.offsetHeight - 2) + 'px';
+        if ((e.pageX + (div.offsetWidth + 5) ) > document.body.offsetWidth) {
+            div.style.left   = (e.pageX - div.offsetWidth) + 'px';
+        }
 
         /**
         * Store the palette div in the registry
@@ -247,6 +276,8 @@
     }
 
 
+
+
     /**
     * Replays stored annotations
     * 
@@ -272,16 +303,23 @@
             return;
         }
 
-        for (i=0, len=annotations.length; i<len; ++i) {
-            if (!annotations[i].match(/^[0-9]+,[0-9]+$/)) {
+
+        for (i=0,len=annotations.length; i<len; ++i) {
+
+            // If the element of the array is a color - finish the path,
+            // stroke it and start a new one
+            if (annotations[i].match(/^[a-z]+$/)) {
                 context.stroke();
                 context.beginPath();
+
                 context.strokeStyle = annotations[i];
                 move = true;
                 continue;
             }
-            
+
             coords = annotations[i].split(',');
+            coords[0] = Number(coords[0]);
+            coords[1] = Number(coords[1]);
 
             if (move) {
                 context.moveTo(coords[0], coords[1]);
@@ -293,6 +331,9 @@
         
         context.stroke();
     }
+
+
+
 
     window.addEventListener('load', function (e)
     {

@@ -26,7 +26,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.data              = data;
@@ -84,6 +84,10 @@
             'chart.title.yaxis.color':      null,
             'chart.title.xaxis.pos':        null,
             'chart.title.yaxis.pos':        0.8,
+            'chart.title.yaxis.x':          null,
+            'chart.title.yaxis.y':          null,
+            'chart.title.xaxis.x':          null,
+            'chart.title.xaxis.y':          null,
             'chart.title.hpos':             null,
             'chart.title.vpos':             null,
             'chart.title.bold':             true,
@@ -97,9 +101,11 @@
             'chart.text.font':              'Arial',
             'chart.colors':                 ['Gradient(white:red)', 'Gradient(white:blue)', 'Gradient(white:green)', 'Gradient(white:pink)', 'Gradient(white:yellow)', 'Gradient(white:cyan)', 'Gradient(white:navy)', 'Gradient(white:gray)', 'Gradient(white:black)'],
             'chart.colors.sequential':      false,
+            'chart.xlabels.specific':       null,
             'chart.labels':                 [],
             'chart.labels.above':           false,
             'chart.labels.above.decimals':  0,
+            'chart.labels.above.specific':  null,
             'chart.xlabels':                true,
             'chart.xlabels.count':          5,
             'chart.contextmenu':            null,
@@ -120,8 +126,10 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart':'rgba(255,255,255,0.7)',
+            'chart.key.interactive.highlight.chart.stroke': 'black',
+            'chart.key.interactive.highlight.chart.fill':'rgba(255,255,255,0.7)',
             'chart.key.interactive.highlight.label':'rgba(255,0,0,0.2)',
+            'chart.key.text.color':         'black',
             'chart.units.pre':              '',
             'chart.units.post':             '',
             'chart.units.ingraph':          false,
@@ -509,7 +517,6 @@
             var units_post = prop['chart.units.post'];
             var text_size  = prop['chart.text.size'];
             var font       = prop['chart.text.font'];
-            var xcolors    = prop['chart.xlabels.colors'];
     
     
     
@@ -526,72 +533,132 @@
             * Draw the X axis labels
             */
             if (prop['chart.xlabels']) {
-    
-                var gap = 7;
-    
-                co.beginPath();
-                co.fillStyle = prop['chart.text.color'];
-    
-    
-                if (prop['chart.yaxispos'] == 'center') {
-    
-                    for (var i=0; i<this.scale2.labels.length; ++i) {
-                        RG.Text2(this, {'font':font,
-                                            'size':text_size,
-                                            'x':this.gutterLeft + (this.graphwidth / 2) - ((this.graphwidth / 2) * ((i+1)/this.scale2.labels.length)),
-                                            'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
-                                            'text':this.scale2.labels[i],
-                                            'valign':'center',
-                                            'halign':'center',
-                                    'tag': 'scale'});
+            
+                /**
+                * Specific X labels
+                */
+                if (RGraph.is_array(prop['chart.xlabels.specific'])) {
+                    
+                    if (prop['chart.yaxispos'] == 'center') {
+
+                        var halfGraphWidth = this.graphwidth / 2;
+                        var labels         = prop['chart.xlabels.specific'];
+                        var interval       = (this.graphwidth / 2) / (labels.length - 1);
+
+                        co.fillStyle = prop['chart.text.color'];
+                        
+                        for (var i=0; i<labels.length; i+=1) {
+                                RG.Text2(this, {'font':font,
+                                                'size':text_size,
+                                                'x':this.gutterLeft + halfGraphWidth + (interval * i),
+                                                'y':ca.height - this.gutterBottom,
+                                                'text':labels[i],
+                                                'valign':'top',
+                                                'halign':'center',
+                                                'tag': 'scale'});
+                        }
+                        
+                        for (var i=(labels.length - 1); i>0; i-=1) {
+                                RG.Text2(this, {'font':font,
+                                                'size':text_size,
+                                                'x':this.gutterLeft + (interval * (labels.length - i - 1)),
+                                                'y':ca.height - this.gutterBottom,
+                                                'text':labels[i],
+                                                'valign':'top',
+                                                'halign':'center',
+                                                'tag': 'scale'});
+                        }
+
+                    } else {
+
+                        var labels   = prop['chart.xlabels.specific'];
+                        var interval = this.graphwidth / (labels.length - 1);
+                        
+                        co.fillStyle = prop['chart.text.color'];
+                        
+                        for (var i=0; i<labels.length; i+=1) {
+                                RG.Text2(this, {'font':font,
+                                                'size':text_size,
+                                                'x':this.gutterLeft + (interval * i),
+                                                'y':ca.height - this.gutterBottom,
+                                                'text':labels[i],
+                                                'valign':'top',
+                                                'halign':'center',
+                                                'tag': 'scale'});
+                        }
                     }
+
+                /**
+                * Draw an X scale
+                */
+                } else {
     
-                    for (var i=0; i<this.scale2.labels.length; ++i) {
-                        RG.Text2(this, {'font':font,
-                                            'size':text_size,
-                                            'x':this.gutterLeft + ((this.graphwidth / 2) * ((i+1)/this.scale2.labels.length)) + (this.graphwidth / 2),
-                                            'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
-                                            'text':this.scale2.labels[i],
-                                            'valign':'center',
-                                            'halign':'center',
-                                    'tag': 'scale'});
+                    var gap = 7;
+        
+                    co.beginPath();
+                    co.fillStyle = prop['chart.text.color'];
+        
+        
+                    if (prop['chart.yaxispos'] == 'center') {
+        
+                        for (var i=0; i<this.scale2.labels.length; ++i) {
+                            RG.Text2(this, {'font':font,
+                                                'size':text_size,
+                                                'x':this.gutterLeft + (this.graphwidth / 2) - ((this.graphwidth / 2) * ((i+1)/this.scale2.labels.length)),
+                                                'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
+                                                'text':this.scale2.labels[i],
+                                                'valign':'center',
+                                                'halign':'center',
+                                        'tag': 'scale'});
+                        }
+        
+                        for (var i=0; i<this.scale2.labels.length; ++i) {
+                            RG.Text2(this, {'font':font,
+                                                'size':text_size,
+                                                'x':this.gutterLeft + ((this.graphwidth / 2) * ((i+1)/this.scale2.labels.length)) + (this.graphwidth / 2),
+                                                'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
+                                                'text':this.scale2.labels[i],
+                                                'valign':'center',
+                                                'halign':'center',
+                                        'tag': 'scale'});
+                        }
+            
+                    } else {
+                    
+                        for (var i=0; i<this.scale2.labels.length; ++i) {
+                            RG.Text2(this, {'font':font,
+                                                'size':text_size,
+                                                'x':this.gutterLeft + (this.graphwidth * ((i+1)/this.scale2.labels.length)),
+                                                'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
+                                                'text':this.scale2.labels[i],
+                                                'valign':'center',
+                                                'halign':'center',
+                                                'tag': 'scale'
+                                               });
+                        }
                     }
         
-                } else {
-                
-                    for (var i=0; i<this.scale2.labels.length; ++i) {
+                    /**
+                    * If xmin is not zero - draw that
+                    */
+                    if (prop['chart.xmin'] > 0 || prop['chart.noyaxis'] == true) {
+        
+                        var x = prop['chart.yaxispos'] == 'center' ?  this.gutterLeft + (this.graphwidth / 2): this.gutterLeft;
+        
                         RG.Text2(this, {'font':font,
                                             'size':text_size,
-                                            'x':this.gutterLeft + (this.graphwidth * ((i+1)/this.scale2.labels.length)),
+                                            'x':x,
                                             'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
-                                            'text':this.scale2.labels[i],
+                                            'text':RG.number_format(this, prop['chart.xmin'].toFixed(prop['chart.scale.decimals']), units_pre, units_post),
                                             'valign':'center',
                                             'halign':'center',
                                             'tag': 'scale'
                                            });
                     }
+        
+                    co.fill();
+                    co.stroke();
                 }
-    
-                /**
-                * If xmin is not zero - draw that
-                */
-                if (prop['chart.xmin'] > 0 || prop['chart.noyaxis'] == true) {
-    
-                    var x = prop['chart.yaxispos'] == 'center' ?  this.gutterLeft + (this.graphwidth / 2): this.gutterLeft;
-    
-                    RG.Text2(this, {'font':font,
-                                        'size':text_size,
-                                        'x':x,
-                                        'y':this.gutterTop + this.halfTextHeight + this.graphheight + gap,
-                                        'text':RG.number_format(this, prop['chart.xmin'].toFixed(prop['chart.scale.decimals']), units_pre, units_post),
-                                        'valign':'center',
-                                        'halign':'center',
-                                        'tag': 'scale'
-                                       });
-                }
-    
-                co.fill();
-                co.stroke();
             }
     
             /**
@@ -968,12 +1035,20 @@
                     RG.NoShadow(this);
     
                     var border = (coords[i][0] + coords[i][2] + 7 + co.measureText(prop['chart.units.pre'] + this.coords[i][5] + prop['chart.units.post']).width) > ca.width ? true : false;
-    
+                    
+                    /**
+                    * Default to the value - then check for specific labels
+                    */
+                    var text = RG.number_format(this, (this.coords[i][5]).toFixed(prop['chart.labels.above.decimals']), prop['chart.units.pre'], prop['chart.units.post']);
+                    if (typeof prop['chart.labels.above.specific'] == 'object' && prop['chart.labels.above.specific'] && prop['chart.labels.above.specific'][i]) {
+                        text = prop['chart.labels.above.specific'][i];
+                    }
+
                     RG.Text2(this, {'font':font,
                                         'size':size,
                                         'x':coords[i][0] + coords[i][2] + 5,
                                         'y':coords[i][1] + (coords[i][3] / 2),
-                                        'text':RG.number_format(this, (this.coords[i][5]).toFixed(prop['chart.labels.above.decimals']), prop['chart.units.pre'], prop['chart.units.post']),
+                                        'text': text,
                                         'valign':'center',
                                         'halign':'left',
                                         'tag': 'labels.above'
@@ -1282,8 +1357,8 @@
                 var shape = obj.coords2[idx][index]
                 var pre_linewidth = co.lineWidth;
                 co.lineWidth = 2;
-                co.fillStyle   = prop['chart.key.interactive.highlight.chart'];
-                co.strokeStyle = 'black';
+                co.fillStyle   = prop['chart.key.interactive.highlight.chart.fill'];
+                co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
                 co.fillRect(shape[0], shape[1], shape[2], shape[3]);
                 co.strokeRect(shape[0], shape[1], shape[2], shape[3]);
                 

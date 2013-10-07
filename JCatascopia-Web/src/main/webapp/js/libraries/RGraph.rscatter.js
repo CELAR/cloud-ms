@@ -24,7 +24,7 @@
     RGraph.Rscatter = function (id)
     {
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext('2d');
         this.canvas.__object__ = this;
         this.type              = 'rscatter';
@@ -88,8 +88,9 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart':'rgba(255,0,0,0.9)',
+            'chart.key.interactive.highlight.chart.fill':'rgba(255,0,0,0.9)',
             'chart.key.interactive.highlight.label':'rgba(255,0,0,0.2)',
+            'chart.key.text.color':         'black',
             'chart.contextmenu':            null,
             'chart.tooltips':               null,
             'chart.tooltips.event':        'onmousemove',
@@ -975,7 +976,7 @@
                 this.coords2[index].forEach(function (value, idx, arr)
                 {
                     co.beginPath();
-                    co.fillStyle = prop['chart.key.interactive.highlight.chart'];
+                    co.fillStyle = prop['chart.key.interactive.highlight.chart.fill'];
                     co.arc(value[0], value[1], prop['chart.ticksize'] + 2, 0, TWOPI, false);
                     co.fill();
                 });

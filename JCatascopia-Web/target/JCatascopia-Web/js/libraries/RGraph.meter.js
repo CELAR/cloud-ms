@@ -26,7 +26,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'meter';
@@ -766,7 +766,7 @@
         {
             var mouseXY = RG.getMouseXY(e);
             var angle   = RG.getAngleByXY(this.centerx, this.centery, mouseXY[0], mouseXY[1]);
-            
+
             // Work out the radius
             var radius = RG.getHypLength(this.centerx, this.centery, mouseXY[0], mouseXY[1]);
             if (radius > this.radius) {
@@ -775,14 +775,14 @@
     
     
             if (angle < HALFPI) {
-                angle = TWOPI;
+                angle += TWOPI;
             }
-    
+
             var value = (((angle - prop['chart.angles.start']) / (prop['chart.angles.end'] - prop['chart.angles.start'])) * (this.max - this.min)) + this.min;
-            
+
             value = Math.max(value, this.min);
             value = Math.min(value, this.max);
-    
+
             return value;
         }
 
@@ -807,7 +807,7 @@
                    mouseXY[0] > (this.centerx - this.radius)
                 && mouseXY[0] < (this.centerx + this.radius)
                 && mouseXY[1] > (this.centery - this.radius)
-                && mouseXY[1] < (this.centery + 25)
+                && mouseXY[1] < (this.centery + this.radius)
                 && radius <= this.radius
                 ) {
     

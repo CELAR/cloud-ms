@@ -26,7 +26,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'cornergauge';
@@ -365,6 +365,8 @@
             * Fire the RGraph ondraw event
             */
             RGraph.FireCustomEvent(this, 'ondraw');
+            
+            return this;
         }
 
 

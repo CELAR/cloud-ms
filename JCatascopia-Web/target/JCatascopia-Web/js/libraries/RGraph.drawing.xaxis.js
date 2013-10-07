@@ -34,7 +34,7 @@
     RGraph.Drawing.XAxis = function (id, y)
     {
         this.id         = id;
-        this.canvas     = document.getElementById(id);
+        this.canvas     = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context    = this.canvas.getContext('2d');
         this.canvas.__object__ = this;
         this.y          = y;

@@ -37,7 +37,7 @@
     RGraph.Drawing.Marker1 = function (id, x, y, radius, text)
     {
         this.id      = id;
-        this.canvas  = document.getElementById(id);
+        this.canvas  = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.colorsParsed = false;
         this.canvas.__object__ = this;
@@ -133,13 +133,13 @@
 
 
 
-        /*
+        /**
         * Translate half a pixel for antialiasing purposes - but only if it hasn't beeen
         * done already
         */
         if (!this.canvas.__rgraph_aa_translated__) {
             this.context.translate(0.5,0.5);
-            
+
             this.canvas.__rgraph_aa_translated__ = true;
         }
 

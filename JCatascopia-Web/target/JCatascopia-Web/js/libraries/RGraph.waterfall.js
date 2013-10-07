@@ -24,7 +24,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'waterfall';
@@ -98,6 +98,10 @@
             'chart.title.xaxis.bold':       true,
             'chart.title.xaxis.size':       null,
             'chart.title.xaxis.font':       null,
+            'chart.title.yaxis.x':          null,
+            'chart.title.yaxis.y':          null,
+            'chart.title.xaxis.x':          null,
+            'chart.title.xaxis.y':          null,
             'chart.title.x':                null,
             'chart.title.y':                null,
             'chart.title.halign':           null,

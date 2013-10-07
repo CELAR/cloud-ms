@@ -24,7 +24,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'funnel';
@@ -98,8 +98,10 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,255,255,0.7)',
+            'chart.key.interactive.highlight.chart.stroke': 'black',
+            'chart.key.interactive.highlight.chart.fill': 'rgba(255,255,255,0.7)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
+            'chart.key.text.color':         'black',
             'chart.tooltips':               null,
             'chart.tooltips.effect':        'fade',
             'chart.tooltips.css.class':     'RGraph_tooltip',
@@ -779,8 +781,8 @@
                 var pre_linewidth = co.lineWidth;
 
                 co.lineWidth   = 2;
-                co.strokeStyle = 'black';
-                co.fillStyle   = prop['chart.key.interactive.highlight.chart'];
+                co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
+                co.fillStyle   = prop['chart.key.interactive.highlight.chart.fill'];
                 
                 co.beginPath();
                     co.moveTo(coords[0], coords[1]);

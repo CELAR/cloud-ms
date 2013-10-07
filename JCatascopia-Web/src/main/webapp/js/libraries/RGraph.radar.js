@@ -24,7 +24,7 @@
     RGraph.Radar = function (id, data)
     {
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext('2d');
         this.canvas.__object__ = this;
         this.type              = 'radar';
@@ -78,6 +78,7 @@
             'chart.labels':                [],
             'chart.labels.offset':         10,
             'chart.background.circles':    true,
+            'chart.background.circles.count': null,
             'chart.background.circles.color': '#ddd',
             'chart.background.circles.poly':  true,
             'chart.text.size':             10,
@@ -113,8 +114,9 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,0,0,0.3)',
+            'chart.key.interactive.highlight.chart.stroke': 'rgba(255,0,0,0.3)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
+            'chart.key.text.color':        'black',
             'chart.contextmenu':           null,
             'chart.annotatable':           false,
             'chart.annotate.color':        'black',
@@ -530,7 +532,11 @@
                 // Draw the concentric circles
                 co.strokeStyle = color;
                co.beginPath();
-                   for (var r=0; r<=this.radius; r+=(this.radius / 5)) {
+                    
+                    var numrings = typeof(prop['chart.background.circles.count']) == 'number' ? prop['chart.background.circles.count'] : prop['chart.labels.count'];
+
+                    // TODO Currently set to 5 - needs changing
+                   for (var r=0; r<=this.radius; r+=(this.radius / numrings)) {
                         co.moveTo(this.centerx, this.centery);
                         co.arc(this.centerx, this.centery,r, 0, TWOPI, false);
                     }
@@ -591,7 +597,10 @@
                 * Draw the lines that go around the Radar chart
                 */
                 co.strokeStyle = color;
-                    for (var r=0; r<=this.radius; r+=(this.radius / 5)) {
+                
+                    var numrings = typeof(prop['chart.background.circles.count']) == 'number' ? prop['chart.background.circles.count'] : prop['chart.labels.count'];
+
+                    for (var r=0; r<=this.radius; r+=(this.radius / numrings)) {
                         co.beginPath();
                             for (var a=0; a<=360; a+=(360 / this.data[0].length)) {
                                 co.arc(this.centerx,
@@ -1494,7 +1503,7 @@
 
                 co.lineWidth   = prop['chart.linewidth'] + 10;
                 co.lineCap     = 'round';
-                co.strokeStyle = prop['chart.key.interactive.highlight.chart'];
+                co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
 
                 
                 co.beginPath();

@@ -24,7 +24,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.canvas.__object__ = this;
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.max               = 0;
@@ -114,6 +114,10 @@
             'chart.title.yaxis.color':      null,
             'chart.title.xaxis.pos':        null,
             'chart.title.yaxis.pos':        null,
+            'chart.title.yaxis.x':          null,
+            'chart.title.yaxis.y':          null,
+            'chart.title.xaxis.x':          null,
+            'chart.title.xaxis.y':          null,
             'chart.title.x':                null,
             'chart.title.y':                null,
             'chart.title.halign':           null,
@@ -169,13 +173,14 @@
             'chart.key.position.y':         null,
             
             'chart.key.interactive': false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,0,0,0.9)',
+            'chart.key.interactive.highlight.chart.fill': 'rgba(255,0,0,0.9)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
             
             'chart.key.color.shape':        'square',
             'chart.key.rounded':            true,
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
+            'chart.key.text.color':         'black',
             'chart.axis.color':             'black',
             'chart.zoom.factor':            1.5,
             'chart.zoom.fade.in':           true,
@@ -1173,9 +1178,11 @@
                     }
                 } else {
                     xmax = prop['chart.xmax'];
+                    xmin = prop['chart.xmin']
                 }
 
                 this.xscale2 = RG.getScale2(this, {'max':xmax,
+                                                   'min': xmin,
                                                        'scale.decimals': decimals,
                                                        'scale.point': point,
                                                        'scale.thousand': thousand,
@@ -1729,20 +1736,26 @@
         {
             var vbars = prop['chart.background.vbars'];
             var graphWidth = ca.width - this.gutterLeft - this.gutterRight;
-            
+
             if (vbars) {
             
-                var xmax = prop['chart.xmax'];
-    
-                for (var i=0; i<vbars.length; ++i) {
-                    var startX = ((vbars[i][0] / xmax) * graphWidth) + this.gutterLeft;
-                    var width  = (vbars[i][1] / xmax) * graphWidth;
-    
-                    co.beginPath();
-                        co.fillStyle = vbars[i][2];
-                        co.fillRect(startX, this.gutterTop, width, (ca.height - this.gutterTop - this.gutterBottom));
-                    co.fill();
-                }
+                var xmax       = prop['chart.xmax'];
+                var xmin       = prop['chart.xmin'];
+
+                RGraph.each (vbars, function (key, value)
+                {
+                    /**
+                    * Accomodate date/time values
+                    */
+                    if (typeof value[0] == 'string') value[0] = Date.parse(value[0]);
+                    if (typeof value[1] == 'string') value[1] = Date.parse(value[1]) - value[0];
+
+                    var x     = (( (value[0] - xmin) / (xmax - xmin) ) * graphWidth) + this.gutterLeft;
+                    var width = (value[1] / (xmax - xmin) ) * graphWidth;
+
+                    co.fillStyle = value[2];
+                    co.fillRect(x, this.gutterTop, width, (ca.height - this.gutterTop - this.gutterBottom));
+                }, this);
             }
         }
 
@@ -2353,11 +2366,11 @@
         
                         co.beginPath();
                         co.fillStyle = RG.RadialGradient(obj,
-                                                              obj.coords[0][i][0] + 5,
-                                                              obj.coords[0][i][1] - 5,
+                                                              obj.coords[0][i][0] + (r / 2.5),
+                                                              obj.coords[0][i][1] - (r / 2.5),
                                                               0,
-                                                              obj.coords[0][i][0] + 5,
-                                                              obj.coords[0][i][1] - 5,
+                                                              obj.coords[0][i][0] + (r / 2.5),
+                                                              obj.coords[0][i][1] - (r / 2.5),
                                                               50,
                                                               'white',
                                                               obj.data[0][i][2] ? obj.data[0][i][2] : obj.properties['chart.defaultcolor']
@@ -2478,7 +2491,7 @@
                 this.coords[index].forEach(function (value, idx, arr)
                 {
                     co.beginPath();
-                    co.fillStyle = prop['chart.key.interactive.highlight.chart'];
+                    co.fillStyle = prop['chart.key.interactive.highlight.chart.fill'];
                     co.arc(value[0], value[1], prop['chart.ticksize'] + 3, 0, TWOPI, false);
                     co.fill();
                 });

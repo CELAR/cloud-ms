@@ -1113,7 +1113,7 @@
         var obj = canvas;
         var i = 0;
 
-        while (obj.tagName.toLowerCase() != 'body' && i < 99) {
+        while (obj && obj.tagName.toLowerCase() != 'body' && i < 99) {
 
             if (obj.style.position == 'fixed') {
                 return obj;
@@ -1194,6 +1194,9 @@
         * First clear the canvas
         */
         if (!arguments[1] || (typeof(arguments[1]) == 'boolean' && !arguments[1] == false) ) {
+            
+            // TODO This function should really support passing a color as the second optional argument - which is then used in the below
+            // call
             RGraph.Clear(canvas);
         }
 
@@ -1261,6 +1264,21 @@
                 vpos = ca.height - (gutterBottom * prop['chart.title.xaxis.pos']);
             }
 
+
+
+
+            // Specifically specified X/Y positions
+            if (typeof prop['chart.title.xaxis.x'] == 'number') {
+                hpos = prop['chart.title.xaxis.x'];
+            }
+
+            if (typeof prop['chart.title.xaxis.y'] == 'number') {
+                vpos = prop['chart.title.xaxis.y'];
+            }
+
+
+
+
             RG.Text2(obj, {'font':font,
                            'size':size,
                            'x':hpos,
@@ -1303,12 +1321,23 @@
             } else {
                 yaxis_title_pos = yaxis_title_pos;
             }
+            
+            var y = ((ca.height - gutterTop - gutterBottom) / 2) + gutterTop;
+            
+            // Specifically specified X/Y positions
+            if (typeof prop['chart.title.yaxis.x'] == 'number') {
+                yaxis_title_pos = prop['chart.title.yaxis.x'];
+            }
+
+            if (typeof prop['chart.title.yaxis.y'] == 'number') {
+                y = prop['chart.title.yaxis.y'];
+            }
 
             co.fillStyle = color;
             RG.Text2(obj, {'font':font,
                            'size':size,
                            'x':yaxis_title_pos,
-                           'y':((ca.height - gutterTop - gutterBottom) / 2) + gutterTop,
+                           'y':y,
                            'valign':'center',
                            'halign':'center',
                            'angle':angle,
@@ -1433,7 +1462,7 @@
 
         // Reset the line dash
         if (typeof co.setLineDash == 'function') {
-            co.setLineDash(null);
+            co.setLineDash([1,0]);
         }
 
         // If it's a bar and 3D variant, translate
@@ -3670,15 +3699,47 @@
 
 
     /**
-    * A sihm for the forEach array function so that it's available for older browsers that
-    * don't have it
+    * Similar to the jQuery each() function - this lets you iterate easily over an array. The 'this' variable is set]
+    * to the array in the callback function.
+    * 
+    * @param array    arr The array
+    * @param function func The function to call
+    * @param object        Optionally you can specify the object that the "this" variable is set to
     */
-    if ( !Array.prototype.forEach ) {
-      Array.prototype.forEach = function(fn, scope) {
-        for(var i = 0, len = this.length; i < len; ++i) {
-          fn.call(scope, this[i], i, this);
+    RGraph.each = function (arr, func)
+    {
+        for(var i=0, len=arr.length; i<len; i+=1) {
+                
+            if (typeof arguments[2] !== 'undefined') {
+                var ret = func.call(arguments[2], i, arr[i]);
+            } else {
+                var ret = func.call(arr, i, arr[i]);
+            }
+            
+            if (ret === false) {
+                return;
+            }
         }
-      }
+    }
+
+
+
+
+    /**
+    * Checks whether strings or numbers are empty or not. It also
+    * handles null or variables set to undefined. If a variable really
+    * is undefined - ie it hasn't been declared at all - you need to use
+    * "typeof variable" and check the return value - which will be undefined.
+    * 
+    * @param mixed value The variable to check
+    */
+    function empty (value)
+    {
+        if (!value || value.length <= 0) {
+            return true;
+        }
+        
+        return false;
     }
 
 
@@ -3750,6 +3811,90 @@
 
 
 
+    RGraph.HTML = {
+
+        /**
+        * Creates an HTML tag
+        * 
+        * @param string type
+        * @param obj    parent
+        * @param obj
+        * @param obj
+        */
+        create: function (type, parent)
+        {
+            var obj = document.createElement(type);
+
+
+
+
+            // Add the attributes
+            if (arguments[2]) {
+                this.attr(obj, arguments[2]);
+            }
+
+
+
+
+            // Add the styles
+            if (arguments[3]) {
+                this.css(obj, arguments[3]);
+            }
+
+
+
+
+            /**
+            * Add the tag to the document
+            */
+            parent.appendChild(obj);
+
+
+            return obj;
+        },
+
+
+
+
+        /**
+        * Sets attributes on a HTML object
+        * 
+        * @param object obj
+        * @param object attr
+        */
+        attr: function (obj, attr)
+        {
+            for (i in attr) {
+                if (typeof i == 'string') {
+                    obj[i] = attr[i];
+                }
+            }
+        },
+
+
+
+
+        /**
+        * Sets CSS on a HTML object
+        * 
+        * @param object obj
+        * @param object css
+        */
+        css: function (obj, styles)
+        {
+            var style = obj.style;
+
+            for (i in styles) {
+                if (typeof i == 'string') {
+                    style[i] = styles[i];
+                }
+            }
+        }
+    }
+
+
+
+
 // Some other functions. Because they're rarely changed - they're hand minified
 RGraph.LinearGradient=function(obj,x1,y1,x2,y2,color1,color2){var gradient=obj.context.createLinearGradient(x1,y1,x2,y2);var numColors=arguments.length-5;for (var i=5;i<arguments.length;++i){var color=arguments[i];var stop=(i-5)/(numColors-1);gradient.addColorStop(stop,color);}return gradient;}
 RGraph.RadialGradient=function(obj,x1,y1,r1,x2,y2,r2,color1,color2){var gradient=obj.context.createRadialGradient(x1,y1,r1,x2,y2,r2);var numColors=arguments.length-7;for(var i=7;i<arguments.length; ++i){var color=arguments[i];var stop=(i-7)/(numColors-1);gradient.addColorStop(stop,color);}return gradient;}
@@ -3758,6 +3903,7 @@ RGraph.AddEventListener=function(id,e,func){var type=arguments[3]?arguments[3]:'
 RGraph.ClearEventListeners=function(id){if(id&&id=='window'){window.removeEventListener('mousedown',window.__rgraph_mousedown_event_listener_installed__,false);window.removeEventListener('mouseup',window.__rgraph_mouseup_event_listener_installed__,false);}else{var canvas = document.getElementById(id);canvas.removeEventListener('mouseup',canvas.__rgraph_mouseup_event_listener_installed__,false);canvas.removeEventListener('mousemove',canvas.__rgraph_mousemove_event_listener_installed__,false);canvas.removeEventListener('mousedown',canvas.__rgraph_mousedown_event_listener_installed__,false);canvas.removeEventListener('click',canvas.__rgraph_click_event_listener_installed__,false);}}
 RGraph.HidePalette=function(){var div=RGraph.Registry.Get('palette');if(typeof(div)=='object'&&div){div.style.visibility='hidden';div.style.display='none';RGraph.Registry.Set('palette',null);}}
 RGraph.random=function(min,max){var dp=arguments[2]?arguments[2]:0;var r=Math.random();return Number((((max - min) * r) + min).toFixed(dp));}
+RGraph.random.array=function(num,min,max){var arr = [];for(var i=0;i<num;i++)arr.push(RGraph.random(min,max));return arr;}
 RGraph.NoShadow=function(obj){obj.context.shadowColor='rgba(0,0,0,0)';obj.context.shadowBlur=0;obj.context.shadowOffsetX=0;obj.context.shadowOffsetY=0;}
 RGraph.SetShadow=function(obj,color,offsetx,offsety,blur){obj.context.shadowColor=color;obj.context.shadowOffsetX=offsetx;obj.context.shadowOffsetY=offsety;obj.context.shadowBlur=blur;}
 RGraph.array_reverse=function(arr){var newarr=[];for(var i=arr.length-1;i>=0;i--){newarr.push(arr[i]);}return newarr;}

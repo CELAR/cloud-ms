@@ -23,7 +23,7 @@
     RGraph.Rose = function (id, data)
     {
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext('2d');
         this.data              = data;
         this.canvas.__object__ = this;
@@ -103,8 +103,10 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,255,255,0.7)',
+            'chart.key.interactive.highlight.chart.stroke': 'black',
+            'chart.key.interactive.highlight.chart.fill': 'rgba(255,255,255,0.7)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
+            'chart.key.text.color':         'black',
             'chart.contextmenu':            null,
             'chart.tooltips':               null,
             'chart.tooltips.event':         'onclick',
@@ -1344,8 +1346,8 @@
                 if (segment) {
                     co.beginPath();
                         co.lineWidth = 2;
-                        co.fillStyle = prop['chart.key.interactive.highlight.chart'];
-                        co.strokeStyle = 'black';
+                        co.fillStyle = prop['chart.key.interactive.highlight.chart.fill'];
+                        co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
                         co.arc(segment[4], segment[5], segment[2], segment[0], segment[1], false);
                         co.arc(segment[4], segment[5], segment[3], segment[1], segment[0], true);
                     co.closePath();

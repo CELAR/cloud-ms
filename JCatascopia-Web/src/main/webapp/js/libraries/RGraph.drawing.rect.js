@@ -37,7 +37,7 @@
     RGraph.Drawing.Rect = function (id, x, y, w, h)
     {
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.colorsParsed      = false;
         this.canvas.__object__ = this;

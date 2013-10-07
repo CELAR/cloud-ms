@@ -23,9 +23,9 @@
     RGraph.Gantt = function (id, data)
     {
         // Get the canvas and context objects
-        this.id      = id;
-        this.canvas  = document.getElementById(id);
-        this.context = this.canvas.getContext("2d");
+        this.id                = id;
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
+        this.context           = this.canvas.getContext("2d");
         this.canvas.__object__ = this;
         this.type              = 'gantt';
         this.isRGraph          = true;
@@ -44,8 +44,8 @@
         
         // Set some defaults
         this.properties = {
-            'chart.background.barcolor1':   'white',
-            'chart.background.barcolor2':   'white',
+            'chart.background.barcolor1':   'rgba(0,0,0,0)',
+            'chart.background.barcolor2':   'rgba(0,0,0,0)',
             'chart.background.grid':        true,
             'chart.background.grid.width':  1,
             'chart.background.grid.color':  '#ddd',
@@ -86,6 +86,11 @@
             'chart.title.yaxis.pos':        null,
             'chart.title.yaxis.color':      null,
             'chart.title.yaxis.position':   'right',
+            'chart.title.yaxis.x':          null,
+            'chart.title.yaxis.y':          null,
+            'chart.title.xaxis.x':          null,
+            'chart.title.xaxis.y':          null,
+            'chart.title.xaxis.bold':       true,
             'chart.title.x':                null,
             'chart.title.y':                null,
             'chart.title.halign':           null,
@@ -244,17 +249,6 @@
             RG.FireCustomEvent(this, 'onbeforedraw');
     
     
-            /**
-            * Parse the colors. This allows for simple gradient syntax
-            */
-            if (!this.colorsParsed) {
-                this.parseColors();
-                
-                // Don't want to do this again
-                this.colorsParsed = true;
-            }
-    
-    
     
             /**
             * This is new in May 2011 and facilitates indiviual gutter settings,
@@ -265,6 +259,17 @@
             this.gutterTop    = prop['chart.gutter.top'];
             this.gutterBottom = prop['chart.gutter.bottom'];
     
+    
+            /**
+            * Parse the colors. This allows for simple gradient syntax
+            */
+            if (!this.colorsParsed) {
+                this.parseColors();
+                
+                // Don't want to do this again
+                this.colorsParsed = true;
+            }
+
             /**
             * Work out the graphArea
             */
@@ -386,7 +391,7 @@
                                'size':size,
                                'x': x - 5,
                                'y': y,
-                               'text': RG.is_array(ev[0]) ? (ev[0][3] ? String(ev[0][3]) : '') : String(ev[3]),
+                               'text': RG.is_array(ev[0]) ? (ev[0][3] ? String(ev[0][3]) : '') : (typeof ev[3] == 'string' ? ev[3] : ''),
                                'halign':'right',
                                'valign':'center',
                                'tag': 'labels.vertical'
@@ -439,12 +444,13 @@
             /**
             * Draw the events
             */
+            var sequentialIndex = 0;
             for (i=0; i<events.length; ++i) {
                 if (typeof(events[i][0]) == 'number') {
-                    this.DrawSingleEvent(events[i], i);
+                    this.DrawSingleEvent(events[i], i, null);
                 } else {
                     for (var j=0; j<events[i].length; ++j) {
-                        this.DrawSingleEvent(events[i][j], i);
+                        this.DrawSingleEvent(events[i][j], i, sequentialIndex++);
                     }
                 }
     
@@ -505,7 +511,7 @@
         /**
         * Draws a single event
         */
-        this.DrawSingleEvent = function (ev, index)
+        this.DrawSingleEvent = function (ev, index, sequentialIndex)
         {
             var min     = prop['chart.xmin'];
     
@@ -568,9 +574,9 @@
             /**
             * Draw the inbar label if it's defined
             */
-            if (prop['chart.labels.inbar'] && prop['chart.labels.inbar'][index]) {
+            if (prop['chart.labels.inbar'] && (prop['chart.labels.inbar'][sequentialIndex] || prop['chart.labels.inbar'][index])) {
                 
-                var label = String(prop['chart.labels.inbar'][index]);
+                var label = String(prop['chart.labels.inbar'][sequentialIndex] || prop['chart.labels.inbar'][index]);
                 var halign = prop['chart.labels.inbar.align'] == 'left' ? 'left' : 'center';
                     halign = prop['chart.labels.inbar.align'] == 'right' ? 'right' : halign;
                 
@@ -797,6 +803,34 @@
 
 
         /**
+        * Returns the value given EITHER the event object OR a two element array containing the X/Y coords
+        */
+        this.getValue = function (arg)
+        {
+            if (arg.length == 2) {
+                var mouseXY = arg;
+            } else {
+                var mouseXY = RGraph.getMouseXY(arg);
+            }
+            
+            var mouseX = mouseXY[0];
+            var mouseY = mouseXY[1];
+            
+            var value = (mouseX - this.gutterLeft) / (ca.width - this.gutterLeft - this.gutterRight);
+                value *= (prop['chart.xmax'] - prop['chart.xmin']);
+            
+            // Bounds checking
+            if (value < prop['chart.xmin'] || value > prop['chart.xmax']) {
+                value = null;
+            }
+            
+            return value;
+        }
+
+
+
+
+        /**
         * This allows for easy specification of gradients. Could optimise this not to repeatedly call parseSingleColors()
         */
         this.parseColors = function ()
@@ -804,6 +838,13 @@
             for (var i=0; i<this.data.length; ++i) {
                 if (typeof(this.data[i][4]) == 'string') this.data[i][4] = this.parseSingleColorForGradient(this.data[i][4]);
                 if (typeof(this.data[i][5]) == 'string') this.data[i][5] = this.parseSingleColorForGradient(this.data[i][5]);
+                
+                if (typeof this.data[i][0] == 'object' && typeof this.data[i][0][0] == 'number') {
+                    for (var j=0,len=this.data[i].length; j<len; j+=1) {
+                        this.data[i][j][4] = this.parseSingleColorForGradient(this.data[i][j][4]);
+                        this.data[i][j][5] = this.parseSingleColorForGradient(this.data[i][j][5]);
+                    }
+                }
             }
             
             prop['chart.background.barcolor1']  = this.parseSingleColorForGradient(prop['chart.background.barcolor1']);
@@ -831,6 +872,7 @@
                 var parts = RegExp.$1.split(':');
     
                 // Create the gradient
+
                 var grad = co.createLinearGradient(this.gutterLeft,0,ca.width - this.gutterRight,0);
     
                 var diff = 1 / (parts.length - 1);

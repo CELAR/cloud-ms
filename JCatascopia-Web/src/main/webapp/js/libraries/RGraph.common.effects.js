@@ -1682,7 +1682,7 @@
     RGraph.Effects.Line.Trace2 = function (obj)
     {
         var callback  = arguments[2];
-        var numFrames = (arguments[1] && arguments[1].frames) ? arguments[1].frames : 60;
+        var numFrames = (arguments[1] && arguments[1].frames) ? arguments[1].frames : 15;
         var frame     = 0;
         
         obj.Set('animation.trace.clip', 0);

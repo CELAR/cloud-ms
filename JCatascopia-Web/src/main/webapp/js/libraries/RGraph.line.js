@@ -24,7 +24,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'line';
@@ -33,12 +33,12 @@
         this.coords2           = [];
         this.coords.key        = [];
         this.coordsText        = [];
+        this.coordsSpline      = [];
         this.hasnegativevalues = false;
         this.isRGraph          = true;
         this.uid               = RGraph.CreateUID();
         this.canvas.uid        = this.canvas.uid ? this.canvas.uid : RGraph.CreateUID();
         this.colorsParsed      = false;
-
 
 
         /**
@@ -85,7 +85,7 @@
             'chart.largeyticks':            5,
             'chart.numyticks':              10,
             'chart.linewidth':              1.01,
-            'chart.colors':                 ['red', '#0f0', '#00f', '#f0f', '#ff0', '#0ff'],
+            'chart.colors':                 ['red', '#0f0', '#00f', '#f0f', '#ff0', '#0ff','green','pink','blue','black'],
             'chart.hmargin':                0,
             'chart.tickmarks.dot.color':    'white',
             'chart.tickmarks':              null,
@@ -124,6 +124,10 @@
             'chart.title.yaxis.color':      null,
             'chart.title.xaxis.pos':        null,
             'chart.title.yaxis.pos':        null,
+            'chart.title.yaxis.x':          null,
+            'chart.title.yaxis.y':          null,
+            'chart.title.xaxis.x':          null,
+            'chart.title.xaxis.y':          null,
             'chart.title.x':                null,
             'chart.title.y':                null,
             'chart.title.halign':           null,
@@ -161,8 +165,9 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,0,0,0.3)',
+            'chart.key.interactive.highlight.chart.stroke': 'rgba(255,0,0,0.3)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
+            'chart.key.text.color':         'black',
             'chart.contextmenu':            null,
             'chart.ylabels':                true,
             'chart.ylabels.count':          5,
@@ -457,7 +462,7 @@
         *        +-DrawSpline()
         */
         this.Draw = function ()
-        {    
+        {
             // MUST be the first thing done!
             if (typeof(prop['chart.background.image']) == 'string') {
                 RG.DrawBackgroundImage(this);
@@ -777,6 +782,49 @@
                     co.stroke();
                     co.fill();
                 }
+            
+            } else if (prop['chart.filled'] && prop['chart.filled.accumulative'] && prop['chart.curvy']) {
+
+                // Restroke the curvy filled accumulative lines
+
+                for (var i=0; i<this.coordsSpline.length; i+=1) {
+                    co.beginPath();
+                    co.strokeStyle = prop['chart.colors'][i];
+                    co.lineWidth = this.GetLineWidth(i);
+
+                    for (var j=0,len=this.coordsSpline[i].length; j<len; j+=1) {
+                        
+                        var point = this.coordsSpline[i][j];
+                        
+                        j == 0 ? co.moveTo(point[0], point[1]) : co.lineTo(point[0], point[1]);
+                    }
+
+                   co.stroke();
+                }
+
+
+
+                for (var i=0,len=this.coords2.length; i<len; i+=1) {
+                    for (var j=0,len2=this.coords2[i].length; j<len2; ++j) {
+                        if (typeof(this.coords2[i][j]) == 'object' && typeof(this.coords2[i][j][0]) == 'number' && typeof(this.coords2[i][j][1]) == 'number') {
+                            
+                            var tickmarks = typeof prop['chart.tickmarks'] == 'object' && !RGraph.is_null(prop['chart.tickmarks']) ? prop['chart.tickmarks'][i] : prop['chart.tickmarks'];
+                            co.strokeStyle = prop['chart.colors'][i];
+                            this.DrawTick(  this.coords2[i],
+                                            this.coords2[i][j][0],
+                                            this.coords2[i][j][1],
+                                            prop['chart.colors'][i],
+                                            false,
+                                            j == 0 ? 0 : this.coords2[i][j - 1][0],
+                                            j == 0 ? 0 : this.coords2[i][j - 1][1],
+                                            tickmarks,
+                                            j);
+                        }
+                    }
+                }
+
+
+
             }
         co.restore();
     
@@ -1088,7 +1136,7 @@
         * Draw the text labels for the axes
         */
         this.DrawLabels = function ()
-        {    
+        {
             co.strokeStyle = 'black';
             co.fillStyle   = prop['chart.text.color'];
             co.lineWidth   = 1;
@@ -1825,14 +1873,14 @@
             * By using the clip() method the Trace animation can be updated.
             * NOTE: Needs to be done for the filled part as well
             */
-            co.save()
+            co.save();
                 co.beginPath();
                 co.rect(0,0,ca.width * prop['chart.animation.trace.clip'],ca.height);
                 co.clip();
     
                 // Now redraw the lines with the correct line width
                 this.SetShadow(index);
-                this.RedrawLine(lineCoords, color, linewidth);
+                this.RedrawLine(lineCoords, color, linewidth, index);
                 co.stroke();
                 RG.NoShadow(this);
     
@@ -2198,7 +2246,7 @@
         * 
         * @param array coords The coordinates of the line
         */
-        this.RedrawLine = function (coords, color, linewidth)
+        this.RedrawLine = function (coords, color, linewidth, index)
         {
             var ca   = this.canvas;
             var co   = this.context;
@@ -2214,12 +2262,26 @@
             if (!prop['chart.line.visible']) {
                 co.strokeStyle = 'rgba(0,0,0,0)';
             }
-    
+
+
+
+
+
+
+
+
             if (!ISOLD && (prop['chart.curvy'] || prop['chart.spline'])) {
-                this.DrawCurvyLine(coords, !prop['chart.line.visible'] ? 'rgba(0,0,0,0)' : color, linewidth);
+                this.DrawCurvyLine(coords, !prop['chart.line.visible'] ? 'rgba(0,0,0,0)' : color, linewidth, index);
                 return;
             }
-    
+
+
+
+
+
+
+
+
             co.beginPath();
     
             var len    = coords.length;
@@ -2351,7 +2413,7 @@
                         yCoords.push(coords[i][1])
                     }
     
-                    this.DrawSpline(co, yCoords, color);
+                    this.DrawSpline(co, yCoords, color, null);
     
                 } else {
                     co.moveTo(coords[0][0], coords[0][1]);
@@ -2501,9 +2563,9 @@
 
 
         /**
-        * Draw a curvy line. This isn't 100% accurate but may be more to your tastes
+        * Draw a curvy line.
         */
-        this.DrawCurvyLine = function (coords, color, linewidth)
+        this.DrawCurvyLine = function (coords, color, linewidth, index)
         {
             var ca   = this.canvas;
             var co   = this.context;
@@ -2522,12 +2584,20 @@
             if (prop['chart.filled']) {
                 co.beginPath();
                     co.moveTo(coords[0][0],ca.height - this.gutterBottom);
-                    this.DrawSpline(co, yCoords, color);
-                    co.lineTo(coords[coords.length - 1][0],ca.height - this.gutterBottom);
+                    this.DrawSpline(co, yCoords, color, index);
+
+                    if (prop['chart.filled.accumulative'] && index > 0) {
+                        for (var i=(this.coordsSpline[index - 1].length - 1); i>=0; i-=1) {
+                            co.lineTo(this.coordsSpline[index - 1][i][0], this.coordsSpline[index - 1][i][1]);
+                        }
+                    } else {
+                        co.lineTo(coords[coords.length - 1][0],ca.height - this.gutterBottom);
+                    }
                 co.fill();
             }
+
             co.beginPath();    
-                this.DrawSpline(co, yCoords, color);
+            this.DrawSpline(co, yCoords, color, index);
             co.stroke();
         }
 
@@ -2788,12 +2858,13 @@
         * @param object context The  2D context
         * @param array  coords  The coordinates
         */
-        this.DrawSpline = function (context, coords, color)
+        this.DrawSpline = function (context, coords, color, index)
         {
             var co          = context;
             var ca          = co.canvas;
             var prop        = this.properties;
 
+            this.coordsSpline[index] = [];
             var xCoords     = [];
             var gutterLeft  = prop['chart.gutter.left'];
             var gutterRight = prop['chart.gutter.right'];
@@ -2808,7 +2879,7 @@
             */
             coords.forEach(function (value, idx, arr)
             {
-                if (typeof value == 'object' && value.length == 2) {
+                if (typeof value == 'object' && value && value.length == 2) {
                     arr[idx] = Number(value[1]);
                 }
             });
@@ -2832,12 +2903,27 @@
     
                     xCoords.push(((j-1) * interval) + (t * (interval / 10)) + gutterLeft + hmargin);
                     co.lineTo(xCoords[xCoords.length - 1], yCoord);
+                    
+                    if (typeof index == 'number') {
+                        this.coordsSpline[index].push([xCoords[xCoords.length - 1], yCoord]);
+                    }
                 }
             }
-            
+
+
+
+
+
             // Draw the last section
             co.lineTo(((j-1) * interval) + gutterLeft + hmargin, P[j]);
-    
+            if (typeof index == 'number') {
+                this.coordsSpline[index].push([((j-1) * interval) + gutterLeft + hmargin, P[j]]);
+            }
+
+
+
+
+
     
             function Spline (t, P0, P1, P2, P3)
             {
@@ -3001,12 +3087,12 @@
                 
                 co.lineWidth   = prop['chart.linewidth'] + 10;
                 co.lineCap     = 'round';
-                co.strokeStyle = prop['chart.key.interactive.highlight.chart'];
+                co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
 
                 
                 co.beginPath();
                 if (prop['chart.curvy']) {
-                    this.DrawSpline(co, coords, prop['chart.key.interactive.highlight.chart']);
+                    this.DrawSpline(co, coords, prop['chart.key.interactive.highlight.chart'], null);
                 } else {
                     for (var i=0,len=coords.length; i<len; i+=1) {
                         if (   i == 0

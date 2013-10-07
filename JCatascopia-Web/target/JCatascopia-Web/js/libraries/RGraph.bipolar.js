@@ -27,7 +27,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext('2d');
         this.canvas.__object__ = this;
         this.type              = 'bipolar';
@@ -516,7 +516,7 @@
             co.lineWidth = prop['chart.linewidth'];
     
             for (i=0; i<this.left.length; ++i) {
-    
+
                 /**
                 * Turn on a shadow if requested
                 */
@@ -531,7 +531,9 @@
                     
                     // If chart.colors.sequential is specified - handle that
                     if (prop['chart.colors.sequential']) {
-                        co.fillStyle = prop['chart.colors'][this.sequentialColorIndex++];
+                        co.fillStyle = prop['chart.colors'][this.sequentialColorIndex];
+                        this.sequentialColorIndex++;
+
                     } else {
                         co.fillStyle = prop['chart.colors'][0];
                     }
@@ -660,11 +662,29 @@
         this.DrawLabels = function ()
         {
             co.fillStyle = prop['chart.text.color'];
-    
-            var labelPoints = new Array();
-            var font = prop['chart.text.font'];
-            var size = prop['chart.text.size'];
+
+            //var labelPoints = new Array();
+            var font   = prop['chart.text.font'];
+            var size   = prop['chart.text.size'];
+            var labels = prop['chart.labels'];
+            var barAreaHeight = ca.height - this.gutterTop - this.gutterBottom;
             
+            for (var i=0,len=labels.length; i<len; i+=1) {
+                RG.Text2(this, {'font':font,
+                                'size':size,
+                                'x':this.gutterLeft + this.axisWidth + (prop['chart.gutter.center'] / 2),
+                                'y':this.gutterTop + ((barAreaHeight / labels.length) * (i)) + ((barAreaHeight / labels.length) / 2),
+                                'text':String(labels[i] ? String(labels[i]) : ''),
+                                'halign':'center',
+                                'valign':'center',
+                                'marker':false,
+                                'tag': 'labels'
+                               });
+            }
+            
+/*
+* OLD STYLE LABELS
+* 
             var max = Math.max(this.left.length, this.right.length);
             
             for (i=0; i<max; ++i) {
@@ -686,7 +706,11 @@
                                     'tag': 'labels'
                                    });
             }
-    
+*/
+
+
+
+
             if (prop['chart.xlabels']) {
             
                 var grapharea = (ca.width - prop['chart.gutter.center'] - this.gutterLeft - this.gutterRight) / 2;
@@ -1033,7 +1057,12 @@
                         // Draw the bar itself
                         co.strokeRect(coords[i][0], coords[i][1], coords[i][2], coords[i][3]);
                         co.fillRect(coords[i][0], coords[i][1], coords[i][2], coords[i][3]);
-                    } 
+
+                    } else {
+
+                        // Even if there's no redrawing - the color index needs incrementing
+                        this.sequentialColorIndex++
+                    }
                 }
             co.stroke();
             co.fill();

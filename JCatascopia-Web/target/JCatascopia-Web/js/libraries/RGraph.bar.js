@@ -24,7 +24,7 @@
     {
         // Get the canvas and context objects
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'bar';
@@ -80,6 +80,7 @@
             'chart.labels.above':           false,
             'chart.labels.above.decimals':  0,
             'chart.labels.above.size':      null,
+            'chart.labels.above.color':     null,
             'chart.labels.above.angle':     null,
             'chart.ylabels':                true,
             'chart.ylabels.count':          5,
@@ -110,6 +111,10 @@
             'chart.title.yaxis.color':      null, // Gradients aren't supported for this color
             'chart.title.xaxis.pos':        null,
             'chart.title.yaxis.pos':        null,
+            'chart.title.yaxis.x':          null,
+            'chart.title.yaxis.y':          null,
+            'chart.title.xaxis.x':          null,
+            'chart.title.xaxis.y':          null,
             'chart.title.x':                null,
             'chart.title.y':                null,
             'chart.title.halign':           null,
@@ -145,7 +150,8 @@
             'chart.key.position.x':         null,
             'chart.key.position.y':         null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart':'rgba(255,0,0,0.9)',
+            'chart.key.interactive.highlight.chart.stroke':'black',
+            'chart.key.interactive.highlight.chart.fill':'rgba(255,255,255,0.7)',
             'chart.key.interactive.highlight.label':'rgba(255,0,0,0.2)',
             'chart.key.halign':             'right',
             'chart.key.color.shape':        'square',
@@ -153,6 +159,7 @@
             'chart.key.text.size':          10,
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
+            'chart.key.text.color':         'black',
             'chart.contextmenu':            null,
             'chart.units.pre':              '',
             'chart.units.post':             '',
@@ -868,12 +875,18 @@
                             } else {
                                 // On 9th April 2013 these two were swapped around so that the stroke happens SECOND so that any
                                 // shadow that is cast by the fill does not overwrite the stroke
-                                //co.beginPath();
-                                //   co.rect(x + hmargin, y, barWidth, height);
-                                //co.fill();
-                                //co.stroke();
-                                co.fillRect(x + hmargin, y, barWidth, height);
-                                co.strokeRect(x + hmargin, y, barWidth, height);
+
+                                co.beginPath();
+                                co.rect(x + hmargin, y, barWidth, height);
+                                co.fill();
+                                
+                                // Turn the shadow off so that the stroke doesn't cast any "extra" shadow
+                                // that would show inside the bar
+                                RG.NoShadow(this);
+                                
+                                co.beginPath();
+                                co.rect(x + hmargin, y, barWidth, height);
+                                co.stroke();
                             }
     
                             // 3D effect
@@ -983,8 +996,13 @@
                                     var halign = 'center';
                                     var valign = 'bottom';
                                 }
-    
-                                co.fillStyle = prop['chart.text.color'];
+
+                                // Above labels color
+                                if (typeof this.properties['chart.labels.above.color'] == 'string') {
+                                    co.fillStyle = prop['chart.labels.above.color'];
+                                } else {
+                                    co.fillStyle = prop['chart.text.color'];
+                                }
     
                                 RGraph.Text2(this, {'font': prop['chart.text.font'],
                                                     'size': typeof(prop['chart.labels.above.size']) == 'number' ? prop['chart.labels.above.size'] : prop['chart.text.size'] - 3,
@@ -1023,13 +1041,14 @@
     
                             co.stroke();
                             co.fill();
+
     
     
                         // Unknown variant type
                         } else {
                             alert('[BAR] Warning! Unknown chart.variant: ' + variant);
                         }
-    
+
                         this.coords.push([x + hmargin, y, width - (2 * hmargin), height]);
     
                             if (typeof this.coords2[i] == 'undefined') {
@@ -1090,7 +1109,7 @@
                             }
     
                             var height = (dataset[j] / this.scale2.max) * (ca.height - this.gutterTop - this.gutterBottom );
-    
+
                             // If the X axis pos is in the center, we need to half the  height
                             if (xaxispos == 'center') {
                                 height /= 2;
@@ -1112,9 +1131,11 @@
                                 this.DrawIEShadow([x + hmargin, y, width - (2 * hmargin), height + 1]);
                             }
     
-                            co.strokeRect(x + hmargin, y, width - (2 * hmargin), height);
-                            co.fillRect(x + hmargin, y, width - (2 * hmargin), height);
-    
+                            if (height > 0) {
+                                co.strokeRect(x + hmargin, y, width - (2 * hmargin), height);
+                                co.fillRect(x + hmargin, y, width - (2 * hmargin), height);
+                            }
+
                             
                             if (j == 0) {
                                 var startY = y;
@@ -1200,7 +1221,12 @@
                             // Turn off any shadow
                             RG.NoShadow(this);
     
-                            co.fillStyle = prop['chart.text.color'];
+                            // Above labels color
+                            if (typeof this.properties['chart.labels.above.color'] == 'string') {
+                                co.fillStyle = prop['chart.labels.above.color'];
+                            } else {
+                                co.fillStyle = prop['chart.text.color'];
+                            }
     
                             // Angled above labels
                             if (prop['chart.labels.above.angle']) {
@@ -1432,7 +1458,12 @@
                                     }
                                 }
     
-                                co.fillStyle = prop['chart.text.color'];
+                                // Above labels color
+                                if (typeof this.properties['chart.labels.above.color'] == 'string') {
+                                    co.fillStyle = prop['chart.labels.above.color'];
+                                } else {
+                                    co.fillStyle = prop['chart.text.color'];
+                                }
     
                                 RGraph.Text2(this, {'font': prop['chart.text.font'],
                                                     'size': typeof(prop['chart.labels.above.size']) == 'number' ? prop['chart.labels.above.size'] : prop['chart.text.size'] - 3,
@@ -1454,7 +1485,7 @@
                                 }
                             }
                         }
-    
+
                         /**
                         * Redraw the bar if shadows are going to the left
                         */
@@ -2548,13 +2579,14 @@
             this.coords2.forEach(function (value, idx, arr)
             {
                 if (typeof value[index] == 'object' && value[index]) {
+
                     var x = value[index][0]
                     var y = value[index][1]
                     var w = value[index][2]
                     var h = value[index][3]
                     
-                    co.fillStyle = prop['chart.key.interactive.highlight.chart'];
-                    co.strokeStyle = 'black';
+                    co.fillStyle = prop['chart.key.interactive.highlight.chart.fill'];
+                    co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
                     co.lineWidth   = 2;
                     co.fillRect(x, y, w, h);
                     co.strokeRect(x, y, w, h);

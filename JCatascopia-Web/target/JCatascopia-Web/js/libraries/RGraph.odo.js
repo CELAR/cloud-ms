@@ -26,7 +26,7 @@
     RGraph.Odometer = function (id, start, end, value)
     {
         this.id                = id
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext('2d');
         this.canvas.__object__ = this;
         this.type              = 'odo';
@@ -147,6 +147,7 @@
             'chart.key.rounded':            true,
             'chart.key.text.size':          10,
             'chart.key.colors':             null,
+            'chart.key.text.color':         'black',
             'chart.adjustable':             false
         }
 

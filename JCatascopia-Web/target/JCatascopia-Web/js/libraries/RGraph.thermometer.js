@@ -28,7 +28,7 @@
     RGraph.Thermometer = function (id, min, max, value)
     {
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.uid               = RGraph.CreateUID();
@@ -85,9 +85,12 @@
             'chart.contextmenu':            null,
             'chart.adjustable':             false,
             'chart.value.label':            true,
+            'chart.value.label.decimals':   null,
+            'chart.value.label.thousand':   ',',
+            'chart.value.label.point':      '.',
+            'chart.labels.count':           5,
             'chart.scale.visible':          false,
             'chart.scale.decimals':         0,
-            'chart.labels.count':          5,
             'chart.annotatable':            false,
             'chart.annotate.color':         'black',
             'chart.scale.decimals':         0,
@@ -156,7 +159,6 @@
         */
         this.Set = function (name, value)
         {
-    
             /**
             * This should be done first - prepend the property name with "chart." if necessary
             */
@@ -465,8 +467,18 @@
             */
             if (prop['chart.value.label']) {
                 co.fillStyle = prop['chart.text.color'];
-                var text = prop['chart.scale.visible'] ? RG.number_format(this, this.value.toFixed(prop['chart.scale.decimals'])) : RG.number_format(this, this.value.toFixed(prop['chart.scale.decimals']), prop['chart.units.pre'], prop['chart.units.post']);
-    
+                
+                // Weird...
+                var text = prop['chart.scale.visible'] ? RG.number_format(this,
+                                                                          this.value.toFixed(typeof prop['chart.value.label.decimals'] == 'number' ? prop['chart.value.label.decimals'] : prop['chart.scale.decimals'])
+                                                                         )
+                                                         :
+                                                         RG.number_format(this,
+                                                                          this.value.toFixed(typeof prop['chart.value.label.decimals'] == 'number' ? prop['chart.value.label.decimals'] : prop['chart.scale.decimals']),
+                                                                          prop['chart.units.pre'],
+                                                                          prop['chart.units.post']
+                                                                         );
+
                 RG.Text2(this, {'font': prop['chart.text.font'],
                                 'size': prop['chart.text.size'],
                                 'x':this.gutterLeft + this.bulbRadius,
@@ -588,7 +600,6 @@
         * Returns the focused/clicked bar
         * 
         * @param event  e The event object
-        * @param object   The chart object to use (OPTIONAL)
         */
         this.getShape =
         this.getBar = function (e)
@@ -632,7 +643,7 @@
         * This function returns the value that the mouse is positioned t, regardless of
         * the actual indicated value.
         * 
-        * @param object e The event object
+        * @param object e The event object (or it can also be an two element array containing the X/Y coords)
         */
         this.getValue = function (arg)
         {

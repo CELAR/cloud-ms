@@ -110,6 +110,7 @@
             var hmargin      = 8; // This is the size of the gaps between the blob of color and the text
             var vmargin      = 4; // This is the vertical margin of the key
             var fillstyle    = prop['chart.key.background'];
+            var text_color   = prop['chart.key.text.color'];
             var strokestyle  = '#333';
             var height       = 0;
             var width        = 0;
@@ -278,7 +279,7 @@
     
     
                     co.beginPath();
-                    co.fillStyle = 'black';
+                    co.fillStyle = typeof text_color == 'object' ? text_color[i] : text_color;
                 
                     ret = RG.Text2(obj, {'font': text_font,
                                          'size': text_size,
@@ -324,6 +325,7 @@
         {
             var text_size    = typeof(prop['chart.key.text.size']) == 'number' ? prop['chart.key.text.size'] : prop['chart.text.size'],
                 text_font    = prop['chart.text.font'],
+                text_color   = prop['chart.key.text.color'],
                 gutterLeft   = obj.gutterLeft,
                 gutterRight  = obj.gutterRight,
                 gutterTop    = obj.gutterTop,
@@ -335,7 +337,7 @@
                 hmargin      = 8, // This is the size of the gaps between the blob of color and the text
                 vmargin      = 4, // This is the vertical margin of the key
                 fillstyle    = prop['chart.key.background'],
-                strokestyle  = '#999'
+                strokestyle  = '#999',
                 length       = 0;
             
             if (!obj.coords) obj.coords = {};
@@ -506,7 +508,7 @@
                 pos += hmargin;
     
                 co.beginPath();
-                    co.fillStyle = 'black';
+                    co.fillStyle = typeof text_color == 'object' ? text_color[i] : text_color;;
                     var ret = RG.Text2(obj, {'font':text_font,'size':text_size,'x':pos,'y':vpos + text_size + 3, 'text': key[i]});
                 co.fill();
                 pos += co.measureText(key[i]).width;
@@ -569,7 +571,12 @@
                     co.fillRect(shape.x, shape.y, shape.width, shape.height);
 
                     if (typeof obj.interactiveKeyHighlight == 'function') {
+                        
+                        obj.Set('chart.key.interactive.index', index);
+                        
+                        RG.FireCustomEvent(obj, 'onbeforeinteractivekey');
                         obj.interactiveKeyHighlight(index);
+                        RG.FireCustomEvent(obj, 'onafterinteractivekey');
                     }
                 }
                 

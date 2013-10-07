@@ -22,7 +22,7 @@
     RGraph.Pie = function (id, data)
     {
         this.id                = id;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext("2d");
         this.canvas.__object__ = this;
         this.total             = 0;
@@ -52,6 +52,10 @@
             'chart.labels.sticks':          false,
             'chart.labels.sticks.length':   7,
             'chart.labels.sticks.color':    '#aaa',
+            'chart.labels.ingraph':         null,
+            'chart.labels.ingraph.font':    null,
+            'chart.labels.ingraph.size':    null,
+            'chart.labels.ingraph.specific':null,
             'chart.gutter.left':            25,
             'chart.gutter.right':           25,
             'chart.gutter.top':             25,
@@ -105,8 +109,10 @@
             'chart.key.linewidth':          1,
             'chart.key.colors':             null,
             'chart.key.interactive':        false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,0,0,0.9)',
+            'chart.key.interactive.highlight.chart.stroke': 'black',
+            'chart.key.interactive.highlight.chart.fill': 'rgba(255,255,255,0.7)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
+            'chart.key.text.color':         'black',
             'chart.annotatable':            false,
             'chart.annotate.color':         'black',
             'chart.zoom.factor':            1.5,
@@ -338,7 +344,7 @@
             this.total = RG.array_sum(this.data);
             var tot    = this.total;
             var data   = this.data;
-    
+
             for (var i=0,len=this.data.length; i<len; i++) {
                 
                 var angle = ((data[i] / tot) * TWOPI);
@@ -346,9 +352,9 @@
                 // Draw the segment
                 this.DrawSegment(angle,prop['chart.colors'][i],i == (len - 1), i);
             }
-    
+
             RG.NoShadow(this);
-    
+
     
             /**
             * Redraw the seperating lines
@@ -516,7 +522,11 @@
         this.DrawSegment = function (radians, color, last, index)
         {
             // IE7/8/ExCanvas fix (when there's only one segment the Pie chart doesn't display
-            if (ISOLD && radians == TWOPI) radians -= 0.0001;
+            if (ISOLD && radians == TWOPI) {
+                radians -= 0.0001;
+            } else if (ISOLD && radians == 0) {
+                radians = 0.001;
+            }
     
             var context  = co;
             var canvas   = ca;
@@ -1328,8 +1338,8 @@
                 var start = segment[0];
                 var end   = segment[1];
                 
-                co.strokeStyle = 'black';
-                co.fillStyle = prop['chart.key.interactive.highlight.chart'];
+                co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
+                co.fillStyle = prop['chart.key.interactive.highlight.chart.fill'];
                 co.lineWidth = 2;
                 co.lineJoin = 'bevel';
                 

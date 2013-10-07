@@ -26,7 +26,7 @@
         this.id                = id;
         this.max               = max;
         this.value             = value;
-        this.canvas            = document.getElementById(id);
+        this.canvas            = document.getElementById(typeof id === 'object' ? id.id : id);
         this.context           = this.canvas.getContext('2d');
         this.canvas.__object__ = this;
         this.type              = 'vprogress';
@@ -131,8 +131,10 @@
             'chart.key.linewidth':      1,
             'chart.key.colors':         null,
             'chart.key.interactive':    false,
-            'chart.key.interactive.highlight.chart': 'rgba(255,255,255,0.7)',
+            'chart.key.interactive.highlight.chart.stroke': '#000',
+            'chart.key.interactive.highlight.chart.fill': 'rgba(255,255,255,0.7)',
             'chart.key.interactive.highlight.label': 'rgba(255,0,0,0.2)',
+            'chart.key.text.color':     'black',
             'chart.events.click':       null,
             'chart.events.mousemove':   null,
             'chart.border.inner':       true
@@ -1056,9 +1058,9 @@
 
             co.beginPath();
 
-                co.strokeStyle = 'black';
+                co.strokeStyle = prop['chart.key.interactive.highlight.chart.stroke'];
                 co.lineWidth    = 2;
-                co.fillStyle   = prop['chart.key.interactive.highlight.chart'];
+                co.fillStyle   = prop['chart.key.interactive.highlight.chart.fill'];
 
                 co.rect(coords[0], coords[1], coords[2], coords[3]);
             co.fill();
