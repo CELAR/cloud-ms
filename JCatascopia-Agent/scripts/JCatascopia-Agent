@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# JCatascopia MS Agent v0.1 init.d script
+
+NAME=JCatascopia-Agent
+LOCKFILE=/tmp/JCatascopia-Agent-lock
+JCPATH=/usr/local/bin/JCatascopiaAgentDir
+
+case $1 in
+    start)
+	if [ -e $LOCKFILE ] ; then
+            echo "$NAME already up and running..."
+    	    exit
+        fi
+        touch $LOCKFILE
+        /bin/bash $JCPATH/JCatascopia-Agent-start.sh
+        echo "Starting $NAME..."
+    ;;
+    stop)
+        if [ -e $LOCKFILE ] ; then
+            rm -f $LOCKFILE
+            /bin/bash $JCPATH/JCatascopia-Agent-stop.sh
+            echo "Stopping $NAME..."
+            exit
+        fi
+	    echo "$NAME not running..."
+    ;;
+    restart)
+	$0 stop
+	$0 start
+    ;;
+    *)
+    	echo "Usage: /etc/init.d/$NAME {start|stop|restart}"
+esac
+exit
