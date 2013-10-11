@@ -1,0 +1,66 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<fileSets>
+		<!-- Create standard descriptive file set -->
+		<fileSet>
+			<directory>${project.basedir}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>NOTICE*</include>
+			</includes>
+		</fileSet>
+
+		<!-- File set for JCatascopia Agent installer and system service scripts -->
+		<fileSet>
+			<directory>${project.build.directory}/classes</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>installer</include>
+				<include>JCatascopia-Agent</include>
+			</includes>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
+		</fileSet>
+
+		<!-- File set for including the agent properties in the package -->
+		<fileSet>
+			<directory>${project.basedir}</directory>
+			<outputDirectory>JCatascopia_Agent_DIR</outputDirectory>
+			<includes>
+				<include>/resources/agent.*</include>
+			</includes>
+			<excludes>
+				<exclude>/resources/agent_private*</exclude>
+			</excludes>
+		</fileSet>
+
+		<!-- File set for excluding the agent private properties from the package -->
+		<fileSet>
+			<directory>${project.basedir}/scripts</directory>
+			<outputDirectory>JCatascopia_Agent_DIR</outputDirectory>
+			<includes>
+				<include>JCatascopia-Agent-*.sh</include>
+			</includes>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
+		</fileSet>
+
+		<!-- File set for including the builded artifact -->
+
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>JCatascopia_Agent_DIR</outputDirectory>
+			<includes>
+				<include>JCatascopia*.jar</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+</assembly>
