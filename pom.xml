@@ -13,4 +13,18 @@
 
   	<module>JCatascopia-Web</module>
   </modules>
+
+  <distributionManagement>
+      <repository>
+          <id>celar.releases</id>
+          <name>CELAR Releases</name>
+          <url>https://snf-153390.vm.okeanos.grnet.gr/nexus/content/repositories/releases</url>
+      </repository>
+      <snapshotRepository>
+          <id>celar.snapshots</id>
+          <name>CELAR Snapshots</name>
+          <url>https://snf-153390.vm.okeanos.grnet.gr/nexus/content/repositories/snapshots</url>
+      </snapshotRepository>
+  </distributionManagement>
+
 </project>
