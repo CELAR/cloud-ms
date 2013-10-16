@@ -29,7 +29,7 @@
 			<lineEnding>unix</lineEnding>
 		</fileSet>
 
-		<!-- File set for including the agent properties in the package -->
+		<!-- File set for including the agent public properties and excluding private properties in the package -->
 		<fileSet>
 			<directory>${project.basedir}</directory>
 			<outputDirectory>JCatascopia_Agent_DIR</outputDirectory>
@@ -41,9 +41,9 @@
 			</excludes>
 		</fileSet>
 
-		<!-- File set for excluding the agent private properties from the package -->
+		<!-- File set for excluding the agent private properties from the package --> 
 		<fileSet>
-			<directory>${project.basedir}/scripts</directory>
+			<directory>${project.build.directory}/classes</directory>
 			<outputDirectory>JCatascopia_Agent_DIR</outputDirectory>
 			<includes>
 				<include>JCatascopia-Agent-*.sh</include>
