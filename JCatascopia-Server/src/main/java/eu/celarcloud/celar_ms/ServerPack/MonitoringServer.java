@@ -17,7 +17,7 @@ import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
 import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
 import eu.celarcloud.celar_ms.utils.CatascopiaNetworking;
-import eu.celarcloud.celar_ms.ServerPack.Database.DBHandler;
+import eu.celarcloud.celar_ms.ServerPack.Database.DBHandlerWithConnPool;
 import eu.celarcloud.celar_ms.ServerPack.Database.InitializeDB;
 import eu.celarcloud.celar_ms.ServerPack.subsciptionPack.SubScheduler;
 
@@ -68,7 +68,7 @@ public class MonitoringServer implements IJCatascopiaServer{
 	private HeartBeatMonitor heartBeatMonitor;
 	
 	private boolean databaseFlag;
-	public DBHandler dbHandler;
+	public DBHandlerWithConnPool dbHandler;
 	
 	public SubScheduler subscheduler;
 	
@@ -206,7 +206,8 @@ public class MonitoringServer implements IJCatascopiaServer{
 			String DATABASE = this.config.getProperty("db_database");
 			
 			this.writeToLog(Level.INFO, "DB Handler enabled: ("+HOST+" "+USER+" "+PASS+" "+DATABASE+")");
-			this.dbHandler = new DBHandler(HOST,USER,PASS,DATABASE, this);
+			int connectionNumber = Integer.parseInt(this.config.getProperty("num_of_processing_threads", "1"));
+			this.dbHandler = new DBHandlerWithConnPool(HOST,USER,PASS,DATABASE, this, connectionNumber);
 			
 			boolean dropTables = Boolean.parseBoolean(this.config.getProperty("db_drop_tables_on_startup","false"));
 			try {
@@ -283,8 +284,7 @@ public class MonitoringServer implements IJCatascopiaServer{
 			    //Aggregator settings
 				this.aggregator = new Aggregator(this);
 			    long agg_interval = Long.parseLong(this.config.getProperty("aggregator_interval"))*1000;
-			    int agg_buf = Integer.parseInt(this.config.getProperty("aggregator_buffer_size"));
-				this.redistributor = new Distributor(destIP,port,protocol,Long.parseLong(hwm),this.aggregator,agg_interval,agg_buf,this);
+				this.redistributor = new Distributor(destIP,port,protocol,Long.parseLong(hwm),this.aggregator,agg_interval,this);
 				redistributor.activate();
 				this.writeToLog(Level.INFO, "Redistributor initialized with destination IP: "+destIP);
 			}
@@ -296,17 +296,10 @@ public class MonitoringServer implements IJCatascopiaServer{
 		String protocol = "tcp";
 		
 		if (!InitialServerConnector.connect(destIP,port,protocol,this.serverID,this.serverIPaddress)){
-			this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at"+destIP);
-			throw new CatascopiaException("Could not connect to MS Server",CatascopiaException.ExceptionType.CONNECTION);
+			this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at "+destIP);
+			throw new CatascopiaException("Could not connect to MS Server ",CatascopiaException.ExceptionType.CONNECTION);
 		}
 		this.writeToLog(Level.INFO, "Successfuly ping-ed MS Server at "+destIP);
-		
-		if (!InitialServerConnector.reportAvailableMetrics(destIP,port,protocol,this.serverID,this.serverIPaddress)){
-			this.writeToLog(Level.SEVERE, "FAILED to report available metrics to MS Server at "+destIP);
-			throw new CatascopiaException("FAILED to report available metrics to MS Server at "+destIP,
-					                       CatascopiaException.ExceptionType.CONNECTION);
-		}
-		this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+destIP);
 	}
 
 	/**

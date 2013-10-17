@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 import eu.celarcloud.celar_ms.ServerPack.MonitoringServer;
+import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
 import eu.celarcloud.celar_ms.ServerPack.Database.MetricDAO;
 
@@ -27,8 +28,13 @@ public class SubTask extends TimerTask {
 			this.type = this.server.getMetricMap().get(sub.getMetricID()).getType(); //INTEGER, DOUBLE, etc.
 			//grab the latest values reported by interested agents for originMetric
 			ArrayList<String> values = new ArrayList<String>();
-			for(String a : sub.getAgentList())
-				values.add(server.getMetricMap().get(a+":"+sub.getOriginMetric()).getValue());
+			
+			MetricObj m = null;
+			for(String a : sub.getAgentList()){
+				m = server.getMetricMap().get(a+":"+sub.getOriginMetric());
+				if (m != null)
+					values.add(m.getValue());
+			}
 			
 			String result = "";
 			switch(sub.getGroupingFunc()){

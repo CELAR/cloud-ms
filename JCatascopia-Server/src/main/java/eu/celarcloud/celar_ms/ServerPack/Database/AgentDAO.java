@@ -33,15 +33,10 @@ public class AgentDAO{
 			e.printStackTrace();
 		}
         finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
+        	AgentDAO.release(stmt, conn);	
         }
 	}
-	
+		
 	public static void deleteAgent(Connection conn, String agentID) throws CatascopiaException{
 		String query = "DELETE FROM agent_table WHERE (agentID = ?) ";
 	    PreparedStatement stmt = null;
@@ -60,14 +55,8 @@ public class AgentDAO{
 	    	// TODO Auto-generated catch block
 			e.printStackTrace();
 		 } 
-	     finally{
-	    	 if (stmt != null)
-	    		 try{
-	    			 stmt.close();
-	    		 }catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				 }
+		 finally{
+	        AgentDAO.release(stmt, conn);	
 	     }
 	}
 	
@@ -91,14 +80,8 @@ public class AgentDAO{
 			e.printStackTrace();
 		 } 
 	     finally{
-	    	 if (stmt != null)
-	    		 try{
-	    			 stmt.close();
-	    		 }catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				 }
-	     }
+        	AgentDAO.release(stmt, conn);	
+         }
 	}	
 	
 	/**
@@ -113,4 +96,19 @@ public class AgentDAO{
     	int result = stmt.executeUpdate();
         return result;
     }
+    
+    private static void release(PreparedStatement stmt, Connection conn){
+		try{
+			if (stmt != null)
+    			stmt.close();
+			if (conn != null)
+				conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }

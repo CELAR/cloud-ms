@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.Produces;
 
-import dbPackage.DBHandler;
+import dbPackage.DBHandlerWithConnPool;
 import dbPackage.beans.AgentObj;
 import dbPackage.beans.MetricObj;
 import dbPackage.dao.AgentDAO;
@@ -42,7 +42,7 @@ public class AgentServer {
 			              @Context ServletContext context, @QueryParam("status") String status, 
 			              @QueryParam("applicationID") String appID){
 		
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		ArrayList<AgentObj> agentlist = AgentDAO.getAgents(dbHandler.getConnection(), status);	
 
 		StringBuilder sb = new StringBuilder();
@@ -81,7 +81,7 @@ public class AgentServer {
 	public Response getMetrics(@Context HttpServletRequest req, @Context HttpServletResponse response,
 			               @Context ServletContext context, @PathParam("agentID") String agentID){
 		
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		ArrayList<MetricObj> metriclist = 
 				               MetricDAO.getAvailableMetricsMetaData(dbHandler.getConnection(), new String[]{agentID});
 		StringBuilder sb = new StringBuilder();

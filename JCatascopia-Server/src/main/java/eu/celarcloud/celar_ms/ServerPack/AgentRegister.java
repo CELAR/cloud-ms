@@ -16,7 +16,7 @@ import eu.celarcloud.celar_ms.SocketPack.ISocket;
 /* CONNECT
  * {
  *    "agentID" : "a953262dfee44b748453389ba7bfb18a"
- *    "agentIP" : "10.16.21.42",
+ *    "agentIP" : "10.16.21.42"
  * }
  * AVAILABLE METRICS
  * {
@@ -138,7 +138,7 @@ public class AgentRegister implements Runnable{
 				String metricID = agentID+":"+metric_name;
 
 				metric = new MetricObj(metricID,agentID,null,metric_name,(String)met.get("units"),
-						(String)met.get("type"),probeName.replace("Probe", ""));
+						(String)met.get("type"),probeName.replace("Probe", ""),0);
 
         		if(this.server.metricMap.putIfAbsent(metricID, metric) == null){
         			if (this.server.inDebugMode())

@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import dbPackage.DBHandler;
+import dbPackage.DBHandlerWithConnPool;
 
 public class ServletListener implements ServletContextListener{
 	 
@@ -18,7 +18,7 @@ public class ServletListener implements ServletContextListener{
     	String user = sc.getInitParameter("user");
     	String pass = sc.getInitParameter("pass");
     	String database = sc.getInitParameter("database");
-    	DBHandler dbHandler = new DBHandler(host,user,pass,database);
+    	DBHandlerWithConnPool dbHandler = new DBHandlerWithConnPool(host,user,pass,database,10);
     	sc.setAttribute("dbHandler", dbHandler);
     	
     	// Server IP & Port

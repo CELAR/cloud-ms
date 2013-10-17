@@ -34,13 +34,8 @@ public class MetricDAO {
 			e.printStackTrace();
 		 }
         finally{
-       	 if (stmt != null)
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} 
-        }
+        	MetricDAO.release(stmt, conn);	
+         }
 	}
 	
 	public static void deleteMetric(Connection conn, String metricID) throws CatascopiaException{
@@ -61,13 +56,8 @@ public class MetricDAO {
 			e.printStackTrace();
 		} 
 	    finally{
-	    	if (stmt != null)
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-	    }
+        	MetricDAO.release(stmt, conn);	
+        }
 	}
 	
 	public static void insertValue(Connection conn, String metricID, long timestamp, String val){
@@ -89,16 +79,10 @@ public class MetricDAO {
         catch (SQLException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		 }
+		}
         finally{
-       	 if (stmt != null)
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-        }
+        	MetricDAO.release(stmt, conn);	
+         }
 	}
 	 
 	/**
@@ -113,4 +97,19 @@ public class MetricDAO {
          int result = stmt.executeUpdate();
          return result;
    }
+   
+   private static void release(PreparedStatement stmt, Connection conn){
+		try{
+			if (stmt != null)
+   			stmt.close();
+			if (conn != null)
+				conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }

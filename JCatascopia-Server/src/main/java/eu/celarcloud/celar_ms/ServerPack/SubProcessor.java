@@ -99,7 +99,7 @@ public class SubProcessor implements Runnable{
 			String metricID = subID+":"+subName;
 
 			MetricObj metricobj = new MetricObj(metricID,null,subID,subName,(String)metric.get("units"),
-					                            (String)metric.get("type"),(String)metric.get("group"));
+					                            (String)metric.get("type"),(String)metric.get("group"),0);
 			
 			JSONArray agents =  (JSONArray) metric.get("agents");
 			ArrayList<String> agentlist = new ArrayList<String>();

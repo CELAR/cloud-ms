@@ -30,6 +30,23 @@ public class MetricProcessor implements Runnable{
 			JSONObject json;
 			json = (JSONObject) parser.parse(msg);
 			
+			//check if metrics are from an intermediate server
+			if (json.get("serverID") != null)
+				redistProcessor(json);
+			else
+				processor(json);
+		} 
+		catch(NullPointerException e){
+			this.server.writeToLog(Level.SEVERE, e);			
+		}
+		catch (Exception e){
+			this.server.writeToLog(Level.SEVERE, e);			
+		}				
+
+	}
+			
+	public void processor(JSONObject json){
+		try{			
 			//TODO DON'T add metrics from NON REGISTERED Agents. Send to Agent message to register first
 			
 			String agentID = (String) json.get("agentID");
@@ -44,7 +61,7 @@ public class MetricProcessor implements Runnable{
 				
 				AgentObj agent = this.server.agentMap.get(agentID);
 				if (agent != null){
-//					System.out.println("existing host: " + agentIP);
+	//				System.out.println("existing host: " + agentIP);
 					if(!agent.isRunning() && this.server.getDatabaseFlag())
 		    			AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 					agent.clearAttempts();
@@ -57,39 +74,44 @@ public class MetricProcessor implements Runnable{
 					}
 					return;
 				}
-
+	
 				JSONArray metrics = (JSONArray) event.get("metrics");
 				JSONObject obj;
-				for(Object iter:metrics){
+				for(Object iter:metrics){	
 					obj = (JSONObject)iter;
 					String metric_name = (String)obj.get("name");
 					String metricID = agentID+":"+metric_name;
 					String value = (String)obj.get("val");
 					
 					MetricObj metric = new MetricObj(metricID,agentID,null,metric_name,(String)obj.get("units"),
-							(String)obj.get("type"),group, value);
+							(String)obj.get("type"),group, value, timestamp);
 					
 					if (this.server.inDebugMode())
 						System.out.println("MetricProccessor>> metric values...\n"+metric.toString());
 					
 					if(this.server.metricMap.putIfAbsent(metricID, metric) != null){
-//						System.out.println("metric exists in map: "+metric_name);
+	//					System.out.println("metric exists in map: "+metric_name);
 						this.server.metricMap.replace(metricID, metric);
 						
 						if(this.server.getDatabaseFlag())
 							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
 					}
 					else{
-//						System.out.println("metric new in map: "+metric_name);
+	//					System.out.println("metric new in map: "+metric_name);
 						agent.addMetricToList(metricID);
 						if(this.server.getDatabaseFlag()){
 							MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
 							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
 						}
 					}
+					
+					if(server.inRedistributeMode()){
+						String t = metric.getType();
+						if (t.equals("DOUBLE") || t.equals("INTEGER") || t.equals("LONG") || t.equals("FLOAT")){
+							metric.calcAvg(Double.parseDouble(value));
+						}
+					}
 				}	
-				if(server.inRedistributeMode())
-					server.aggregator.add(event.toString());
 			}
 		} 
 		catch(NullPointerException e){
@@ -97,6 +119,79 @@ public class MetricProcessor implements Runnable{
 		}
 		catch (Exception e){
 			this.server.writeToLog(Level.SEVERE, e);			
-		}	
+		}				
+	}
+	
+	
+	public void redistProcessor(JSONObject json){
+		try{
+	//		System.out.println(json.toString());
+			String serverID = (String)json.get("serverID");
+			String serverIP = (String)json.get("serverIP");
+			
+			JSONArray agentArray = (JSONArray) json.get("agents");
+			for(Object o : agentArray){
+				JSONObject a = (JSONObject) o;
+				String agentID = (String)a.get("agentID");
+				String agentIP = (String)a.get("agentIP");
+				
+				AgentObj agent = this.server.agentMap.get(agentID);
+				if (agent != null){
+					//agent exists in agentMap
+//					System.out.println("existing host: " + agentIP);
+					if(!agent.isRunning() && this.server.getDatabaseFlag())
+		    			AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+					agent.clearAttempts();
+					agent.setStatus(AgentObj.AgentStatus.UP);	
+				}
+				else{
+					//new agent - register
+					agent = new AgentObj(agentID,agentIP);
+					this.server.agentMap.putIfAbsent(agentID, agent);
+					this.server.writeToLog(Level.INFO, "Intermediate Server: "+serverIP+" New node Agent added, with ID: "+agentID+" and IP: "+agentIP);
+	    			AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+				}
+				
+				JSONArray metricArray = (JSONArray) a.get("metrics");
+				for(Object o2 : metricArray){
+					JSONObject m = (JSONObject) o2;
+					
+					String metric_name = (String)m.get("name");
+					String metricID = agentID+":"+metric_name;
+					String value = (String)m.get("val");
+					long timestamp = Long.parseLong(m.get("timestamp").toString());
+	
+					
+					MetricObj metric = new MetricObj(metricID,agentID,null,metric_name,(String)m.get("units"),
+							                         (String)m.get("type"),(String)m.get("group"), value, timestamp);
+					
+					if (this.server.inDebugMode())
+						System.out.println("MetricProccessor>> metric values...\n"+metric.toString());
+					
+					if(this.server.metricMap.putIfAbsent(metricID, metric) != null){
+	//					System.out.println("metric exists in map: "+metric_name);
+						this.server.metricMap.replace(metricID, metric);
+						
+						if(this.server.getDatabaseFlag())
+							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+					}
+					else{
+	//					System.out.println("metric new in map: "+metric_name);
+						agent.addMetricToList(metricID);
+						if(this.server.getDatabaseFlag()){
+							MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+						}
+					}
+				}
+				
+			}
+		} 
+		catch(NullPointerException e){
+			this.server.writeToLog(Level.SEVERE, e);			
+		}
+		catch (Exception e){
+			this.server.writeToLog(Level.SEVERE, e);			
+		}					
 	}
 }

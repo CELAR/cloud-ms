@@ -41,13 +41,7 @@ public class AgentDAO{
         	e.printStackTrace();
         }
         finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
+        	AgentDAO.release(stmt, conn);	
         }
         return null;
 	}
@@ -86,15 +80,24 @@ public class AgentDAO{
         	e.printStackTrace();
         }
         finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
+        	AgentDAO.release(stmt, conn);	
         }
         return null;
+	}
+	
+	private static void release(PreparedStatement stmt, Connection conn){
+		try{
+			if (stmt != null)
+    			stmt.close();
+			if (conn != null)
+				conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 }
 

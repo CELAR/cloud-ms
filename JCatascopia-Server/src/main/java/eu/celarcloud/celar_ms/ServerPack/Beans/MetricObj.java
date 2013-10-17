@@ -10,8 +10,14 @@ public class MetricObj {
 	private String group;
 	private String value;
 	
+	private long timestamp;
+	
+	private double avg;
+	private int count;
+    private final Object lock = new Object();
+	
 	public MetricObj(String metricID,String agentID,String subID,String name,String units,
-			         String type,String group,String value){
+			         String type,String group,String value,long timestamp){
 		this.metricID = metricID;
 		this.agentID = agentID;
 		this.subID = subID;
@@ -21,11 +27,16 @@ public class MetricObj {
 		this.type = type;
 		this.group = group;
 		this.value = value;
+		
+		this.timestamp = timestamp;
+		
+		this.avg = 0.0;
+		this.count = 0;		
 	}
 	
 	public MetricObj(String metricID,String agentID,String subID,String name,String units,
-			         String type, String group){
-		this(metricID, agentID, subID, name, units, type, group, null);
+			         String type, String group,long timestamp){
+		this(metricID, agentID, subID, name, units, type, group, null,timestamp);
 	}
 	
 	public String getMetricID(){
@@ -80,6 +91,14 @@ public class MetricObj {
 		this.value = value;
 	}
 	
+	public long getTimestamp(){
+		return this.timestamp;
+	}
+	
+	public void setTimestamp(long t){
+		this.timestamp = t;
+	}
+	
 	public void setAll(String metricID,String agentID,String name,String units,String type,
 	         String group,String value){
 		this.metricID = metricID;
@@ -96,4 +115,37 @@ public class MetricObj {
 		String str = "name: "+this.name+" type: "+this.type+" units: "+this.units+" group: "+this.group;
 		return (this.value != null) ? str+" current_value: "+this.value : str;
 	}
+	
+	/* for redistribution we use aggregation */
+	public double getAvg(){
+		return this.avg;
+	}
+	
+	public void setAvg(double avg){
+		this.avg = avg;
+	}
+	
+	public double getCount(){
+		return this.count;
+	}
+	
+	public void setCount(int c){
+		this.count = c;
+	}
+	
+	public void calcAvg(double val){
+		try{
+			synchronized (lock){
+				this.avg = (val + this.count * this.avg) / (++this.count);
+			}
+		}catch(Exception e){}
+	}
+	
+	public void clearRedistVars(){
+		synchronized (lock){
+			this.avg = 0.0;
+			this.count = 0;
+		}
+	}
+	/**/
 }

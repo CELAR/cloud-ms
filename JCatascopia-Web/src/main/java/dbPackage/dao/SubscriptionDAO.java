@@ -39,13 +39,8 @@ public class SubscriptionDAO {
 			e.printStackTrace();
 		}
 		finally{
-			if (stmt != null)
-				try{
-					stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
-		}
+        	SubscriptionDAO.release(null, conn);	
+        }
 		return null;
 	}
 	
@@ -76,13 +71,8 @@ public class SubscriptionDAO {
 			e.printStackTrace();
 		}
 		finally{
-			if (stmt != null)
-				try{
-					stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
-		}
+        	SubscriptionDAO.release(null, conn);	
+        }
 		return null;
 	}
 	
@@ -176,5 +166,20 @@ public class SubscriptionDAO {
 			e.printStackTrace();
 		} 
 		return connected;
+	}
+	
+	private static void release(PreparedStatement stmt, Connection conn){
+		try{
+			if (stmt != null)
+    			stmt.close();
+			if (conn != null)
+				conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 }

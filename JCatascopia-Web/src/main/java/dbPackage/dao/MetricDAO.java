@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,12 +52,7 @@ public class MetricDAO {
         	e.printStackTrace();
         }
         finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
+        	MetricDAO.release(stmt, conn);	
         }
         return null;
 	}
@@ -93,13 +87,8 @@ public class MetricDAO {
 			e.printStackTrace();
 		}
 		finally{
-			if (stmt != null)
-				try{
-					stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
-		}
+        	MetricDAO.release(stmt, conn);	
+        }
 		return null;
 	}
 	
@@ -149,13 +138,8 @@ public class MetricDAO {
         catch(Exception e){
         	e.printStackTrace();
         }
-        finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
+		finally{
+        	MetricDAO.release(stmt, conn);	
         }
         return null;
 	}
@@ -199,13 +183,8 @@ public class MetricDAO {
         catch(Exception e){
         	e.printStackTrace();
         }
-        finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
+		finally{
+        	MetricDAO.release(stmt, conn);	
         }
 		
 		return null;
@@ -254,13 +233,8 @@ public class MetricDAO {
         catch(Exception e){
         	e.printStackTrace();
         }
-        finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
+		finally{
+        	MetricDAO.release(stmt, conn);	
         }
 		
 		return null;
@@ -305,10 +279,29 @@ public class MetricDAO {
 					jresponse.put("metrics", metrics);				
 					jarray.put(jresponse);
 				}
-			} catch (JSONException e) {
+			} 
+			catch (JSONException e) {
 				e.printStackTrace();
 			}
+			finally{
+	        	MetricDAO.release(null, conn);	
+	        }
 		}
 		return jarray;
+	}
+	
+	private static void release(PreparedStatement stmt, Connection conn){
+		try{
+			if (stmt != null)
+    			stmt.close();
+			if (conn != null)
+				conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 }

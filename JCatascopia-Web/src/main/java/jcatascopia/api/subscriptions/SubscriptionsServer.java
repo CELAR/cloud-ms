@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import dbPackage.DBHandler;
+import dbPackage.DBHandlerWithConnPool;
 import dbPackage.beans.AgentObj;
 import dbPackage.beans.SubscriptionObj;
 import dbPackage.dao.AgentDAO;
@@ -47,7 +47,7 @@ public class SubscriptionsServer {
 							              @Context HttpServletResponse response,
 							              @Context ServletContext context)
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		
 		ArrayList<SubscriptionObj> sublist = null;
 		sublist = SubscriptionDAO.getAppSubs(dbHandler.getConnection());
@@ -90,7 +90,7 @@ public class SubscriptionsServer {
 							              @Context ServletContext context,
 							              @PathParam("subid") String subID)
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		
 		SubscriptionObj sub = SubscriptionDAO.getSubMetadata(dbHandler.getConnection(), subID);
 		
@@ -119,7 +119,7 @@ public class SubscriptionsServer {
 							              @Context ServletContext context,
 							              @PathParam("subid") String subID)
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		
 		ArrayList<AgentObj> subAgents = AgentDAO.getAgentsForSubscription(dbHandler.getConnection(), subID);
 		

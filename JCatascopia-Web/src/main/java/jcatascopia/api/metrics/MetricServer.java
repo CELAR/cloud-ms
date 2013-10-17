@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import dbPackage.DBHandler;
+import dbPackage.DBHandlerWithConnPool;
 import dbPackage.beans.AgentObj;
 import dbPackage.beans.MetricObj;
 import dbPackage.dao.AgentDAO;
@@ -45,7 +45,7 @@ public class MetricServer {
 			@Context HttpServletResponse response,
 			@Context ServletContext context,
 			String body){
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 
 //		System.out.println(body);
 		if(body.startsWith("metrics=")) body = body.split("=")[1].replaceAll("%3A", ":");
@@ -87,7 +87,7 @@ public class MetricServer {
 			@Context HttpServletResponse response,
 			@Context ServletContext context)
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		ArrayList<MetricObj> metriclist = MetricDAO.getSubscriptionsAvailableMetrics(dbHandler.getConnection());
 
 		StringBuilder sb = new StringBuilder();
@@ -132,7 +132,7 @@ public class MetricServer {
 			@PathParam("metricid") String metricID,
 			@QueryParam("interval") String interval, @QueryParam("tstart") String start, @QueryParam("tend") String end) 
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		ArrayList<MetricObj> metriclist = null;
 		if(start == null && end == null)
 			metriclist = MetricDAO.getMetricByTime(dbHandler.getConnection(), metricID, interval);
@@ -184,7 +184,7 @@ public class MetricServer {
 			@PathParam("agentid") String agentID,
 			@QueryParam("tstart") String start, @QueryParam("tend") String end) 
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		
 		JSONArray jresponse = MetricDAO.getAgentsLatestMetrics(dbHandler.getConnection(), new String[]{agentID});
 
@@ -221,7 +221,7 @@ public class MetricServer {
 															@PathParam("deploymentid") String deploymentID,
 															@QueryParam("tstart") String start, @QueryParam("tend") String end) 
 	{
-		DBHandler dbHandler = (DBHandler) context.getAttribute("dbHandler");
+		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
 		
 		ArrayList<AgentObj> agents = AgentDAO.getAgents(dbHandler.getConnection(), null);
 		if(agents != null) {

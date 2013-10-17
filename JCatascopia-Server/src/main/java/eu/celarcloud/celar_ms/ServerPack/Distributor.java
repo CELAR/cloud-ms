@@ -20,12 +20,11 @@ public class Distributor extends Thread{
 	private Aggregator aggregator;
 	//aggregator settings
 	private long INTERVAL;
-	private int BUF_SIZE;
-	private IJCatascopiaServer agent;
+	private IJCatascopiaServer server;
 	
 	public Distributor(String ipAddr, String port, String protocol, long hwm,
-			           Aggregator aggregator,long interval,int buf_size, IJCatascopiaServer agent){
-		super("Distributor-Thread");
+			            Aggregator aggregator,long interval, IJCatascopiaServer server){
+		super("ReDistributor-Thread");
 		this.publisher = new Publisher(ipAddr,port,protocol,hwm,ISocket.ConnectType.CONNECT);
 
 		this.distributorStatus = DistributorStatus.INACTIVE;
@@ -33,9 +32,8 @@ public class Distributor extends Thread{
 		
 		this.aggregator = aggregator;
 		this.INTERVAL = interval;
-		this.BUF_SIZE = buf_size;
 		
-		this.agent = agent;
+		this.server = server;
 	}
 	
 	@Override
@@ -71,23 +69,24 @@ public class Distributor extends Thread{
 			while(this.distributorStatus != DistributorStatus.DYING){
 				if(this.distributorStatus == DistributorStatus.ACTIVE){
 					try{
-						if(this.aggregator.length()>0){
-							if (interval>INTERVAL || aggregator.length()>BUF_SIZE){
-								this.publisher.send(aggregator.toMessage());
-								interval = 0;
-								this.aggregator.clear();
-								if (this.agent.inDebugMode())
-									System.out.println("Pub Distributor>> Message sent to MS Server...\n");
-							}
-							else interval += period;
+						if (interval > INTERVAL){
+							String s = aggregator.createMessage();
+//							System.out.println(s);
+							if (aggregator.length()>0)
+								this.publisher.send(s);
+							interval = 0;
+							this.aggregator.clear();
+							if (this.server.inDebugMode())
+								System.out.println("ReDistributor>> Message sent to MS Server...\n");
 						}
+						else interval += period;
 						Thread.sleep(period);
 					}
 					catch(CatascopiaException e){
-						this.agent.writeToLog(Level.SEVERE, e);
+						this.server.writeToLog(Level.SEVERE, e);
 					}
 					catch(Exception e){
-						this.agent.writeToLog(Level.SEVERE, e);
+						this.server.writeToLog(Level.SEVERE, e);
 					}
 				}
 				else 
@@ -98,7 +97,7 @@ public class Distributor extends Thread{
 			}
 		}
 		catch (InterruptedException e){
-			this.agent.writeToLog(Level.SEVERE, e);
+			this.server.writeToLog(Level.SEVERE, e);
 		}
 		finally{
 			this.publisher.close();

@@ -50,13 +50,8 @@ public class SubscriptionDAO{
 			e.printStackTrace();
 		}
         finally{
-        	if (stmt != null)
-        		try{
-        			stmt.close();
-				}catch (SQLException e){
-					e.printStackTrace();
-				} 
-        }
+        	SubscriptionDAO.release(stmt, conn);	
+         }
 	}
 	
 	public static void deleteSubscription(Connection conn, String subID){
@@ -83,14 +78,9 @@ public class SubscriptionDAO{
 	     catch (SQLException e) {
 			e.printStackTrace();
 		 } 
-	     finally{
-	    	 if (stmt != null)
-	    		 try{
-	    			 stmt.close();
-	    		 }catch (SQLException e) {
-					e.printStackTrace();
-				 }
-	     }
+	    finally{
+        	SubscriptionDAO.release(stmt, conn);	
+         }
 	}
 	
 	public static void addAgent(Connection conn, String subID, String agentID){
@@ -111,15 +101,9 @@ public class SubscriptionDAO{
 	     catch (SQLException e) {
 			e.printStackTrace();
 		 } 
-	     finally{
-	    	 if (stmt != null)
-	    		 try{
-	    			 stmt.close();
-	    		 }catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				 }
-	     }
+	    finally{
+        	SubscriptionDAO.release(stmt, conn);	
+         }
 	}
 	
 	public static void removeAgent(Connection conn, String subID, String agentID){
@@ -137,14 +121,9 @@ public class SubscriptionDAO{
 	     catch (SQLException e) {
 			e.printStackTrace();
 		 } 
-	     finally{
-	    	 if (stmt != null)
-	    		 try{
-	    			 stmt.close();
-	    		 }catch (SQLException e) {
-					e.printStackTrace();
-				 }
-	     }
+	    finally{
+        	SubscriptionDAO.release(stmt, conn);	
+         }
 	}
 	
 	/**
@@ -159,4 +138,19 @@ public class SubscriptionDAO{
     	int result = stmt.executeUpdate();
         return result;
     }
+    
+    private static void release(PreparedStatement stmt, Connection conn){
+		try{
+			if (stmt != null)
+    			stmt.close();
+			if (conn != null)
+				conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }
