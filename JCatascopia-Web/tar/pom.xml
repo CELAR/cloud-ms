@@ -38,6 +38,7 @@
                   <artifactId>JCatascopia-Web-war</artifactId>
                   <type>war</type>
                   <version>${project.version}</version>
+		  <destFileName>JCatascopia-Web.war</destFileName>
                 </artifactItem>
               </artifactItems>
             </configuration>
