@@ -22,7 +22,7 @@
 			<directory>${project.build.directory}/classes</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>installer</include>
+				<include>installer.sh</include>
 				<include>JCatascopia-Agent</include>
 			</includes>
 			<fileMode>0755</fileMode>
@@ -32,7 +32,7 @@
 		<!-- File set for including the agent public properties and excluding private properties in the package -->
 		<fileSet>
 			<directory>${project.basedir}</directory>
-			<outputDirectory>JCatascopiaAgentDIR</outputDirectory>
+			<outputDirectory>JCatascopiaAgentDir</outputDirectory>
 			<includes>
 				<include>/resources/agent.*</include>
 			</includes>
@@ -44,7 +44,7 @@
 		<!-- File set for excluding the agent private properties from the package --> 
 		<fileSet>
 			<directory>${project.build.directory}/classes</directory>
-			<outputDirectory>JCatascopiaAgentDIR</outputDirectory>
+			<outputDirectory>JCatascopiaAgentDir</outputDirectory>
 			<includes>
 				<include>JCatascopia-Agent-*.sh</include>
 			</includes>
@@ -56,7 +56,7 @@
 
 		<fileSet>
 			<directory>${project.build.directory}</directory>
-			<outputDirectory>JCatascopiaAgentDIR</outputDirectory>
+			<outputDirectory>JCatascopiaAgentDir</outputDirectory>
 			<includes>
 				<include>JCatascopia*.jar</include>
 			</includes>
