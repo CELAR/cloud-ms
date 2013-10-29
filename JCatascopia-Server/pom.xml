@@ -81,7 +81,7 @@
 					<finalName>JCatascopia-Server-${project.version}</finalName>
 					<archive>
 						<manifest>
-							<mainClass>eu.celarcloud.celar_ms.ServerPack.MonitoringServert</mainClass>
+							<mainClass>eu.celarcloud.celar_ms.ServerPack.MonitoringServer</mainClass>
 							<packageName>eu.celarcloud.celar_ms.ServerPack</packageName>
 						</manifest>
 					</archive>
