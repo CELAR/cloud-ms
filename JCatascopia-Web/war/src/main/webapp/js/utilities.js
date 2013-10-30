@@ -190,7 +190,7 @@ $(document).ready(function() {
 		//sponsors
 		$("footer").append("<div id=\"sponsors\" style=\"position: relative; margin: auto;\"></div>");
 			//cofounders
-			$("footer #sponsors").append("<div class=\"sponsor_group\" id=\"cofounders\"><div>Co-founded by:</div></div>")
+			$("footer #sponsors").append("<div class=\"sponsor_group\" id=\"cofounders\"><div>Co-funded by:</div></div>")
 				//european union
 				$("footer #sponsors #cofounders").append("<div class=\"sponsor\"><img src=\"img/european_union_logo.png\"/></div>");
 				//seventh framework
