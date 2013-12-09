@@ -38,7 +38,7 @@ import eu.celarcloud.celar_ms.SocketPack.ISocket;
  */
 public class AgentRegister implements Runnable{
 	
-	public enum Status {OK,ERROR,SYNTAX_ERROR,NOT_FOUND,WARNING,CONFLICT};
+	public enum Status {OK,CONNECTED,ERROR,SYNTAX_ERROR,NOT_FOUND,WARNING,CONFLICT};
 	
 	private String[] msg;
 	private ISocket router;
@@ -82,7 +82,11 @@ public class AgentRegister implements Runnable{
 		String agentID = (String) json.get("agentID");
 		if(agentID == null || agentIP == null)
 			this.response(Status.SYNTAX_ERROR,"Agent details are INVALID");					
-		else this.response(Status.OK,"");		
+		else{
+			if (this.server.agentMap.containsKey(agentID))
+				this.response(Status.CONNECTED,"");		//already connected agent - heartbeat response
+			else this.response(Status.OK,"");			//new agent or agent that wants to reconnect
+		}
 	}
 	
 	private void metrics(JSONObject json){

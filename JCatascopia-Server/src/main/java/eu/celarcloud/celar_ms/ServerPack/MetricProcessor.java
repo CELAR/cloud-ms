@@ -31,10 +31,10 @@ public class MetricProcessor implements Runnable{
 			json = (JSONObject) parser.parse(msg);
 			
 			//check if metrics are from an intermediate server
-			if (json.get("serverID") != null)
-				redistProcessor(json);
-			else
+			if (json.get("serverID") == null)
 				processor(json);
+			else
+				redistProcessor(json);
 		} 
 		catch(NullPointerException e){
 			this.server.writeToLog(Level.SEVERE, e);			

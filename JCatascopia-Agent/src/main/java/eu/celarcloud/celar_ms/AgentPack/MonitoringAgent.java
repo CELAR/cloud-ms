@@ -80,6 +80,8 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	private boolean debugMode;
 	private boolean useServer;
 	
+	private HeartBeatMonitor heartBeatMonitor;
+	
 	/**
 	 * 
 	 * @param agentDirPath
@@ -155,7 +157,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		if (this.loggingFlag)
 			try{
 				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_AGENT_HOME, "JCatascopiaMSAgent");
-				this.myLogger.info("JCatascopiaMSAgent: Created and Initialized");
+				this.myLogger.info("JCatascopiaAgent: Created and Initialized");
 				this.loggingFlag = true;
 			}
 			catch (Exception e){
@@ -170,7 +172,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 */
 	public void writeToLog(Level level, Object msg){
 		if(this.loggingFlag)
-			this.myLogger.log(level, "JCatascopiaMSAgent"+": "+msg);
+			this.myLogger.log(level, "JCatascopiaAgent"+": "+msg);
 	}
 	
 	/**
@@ -243,18 +245,28 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		String port = this.config.getProperty("control_port", "4245");
 		String protocol = this.config.getProperty("control_protocol","tcp");
 		
-		if (!InitialServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress)){
+/*		if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress)){
 			this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at"+serverIP);
 			throw new CatascopiaException("Could not connect to MS Server",CatascopiaException.ExceptionType.CONNECTION);
 		}
 		this.writeToLog(Level.INFO, "Successfuly ping-ed MS Server at "+serverIP);
 		
-		if (!InitialServerConnector.reportAvailableMetrics(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
+		if (!ServerConnector.reportAvailableMetrics(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
 			this.writeToLog(Level.SEVERE, "FAILED to report available metrics to MS Server at "+serverIP);
 			throw new CatascopiaException("FAILED to report available metrics to MS Server at "+serverIP,
 					                       CatascopiaException.ExceptionType.CONNECTION);
 		}
 		this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
+	*/
+		if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
+			this.writeToLog(Level.SEVERE, "FAILED connect to Monitoring Server at: "+serverIP);
+			throw new CatascopiaException("Could not connect to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
+		}
+		else this.writeToLog(Level.INFO, "Successfuly connected to Server at: "+serverIP);
+		
+		//initialize HeartBeatMonitor
+		this.heartBeatMonitor = new HeartBeatMonitor(this,3,60,serverIP,port);
+		this.heartBeatMonitor.activate();
 	}
 	
 	/**

@@ -193,7 +193,7 @@ public class MonitoringServer implements IJCatascopiaServer{
 		this.writeToLog(Level.INFO, "ProcessExecutor Initialized with ("+thread_num+") threads");
 		
 		//control executor
-		this.controlExecutor = new CatascopiaExecutor(1,2,60,10);
+		this.controlExecutor = new CatascopiaExecutor(1,3,60,20);
 		this.writeToLog(Level.INFO, "ControlExecutor Initialized");
 	}
 	
