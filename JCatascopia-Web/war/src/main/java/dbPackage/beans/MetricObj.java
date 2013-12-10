@@ -2,8 +2,6 @@ package dbPackage.beans;
 /**
  * This represents a metric object. It includes the metricID,
  * name, units, type, group, value and timestamp.
- * 
- * @author Chrysovalantis Anastasiou
  *
  */
 public class MetricObj {

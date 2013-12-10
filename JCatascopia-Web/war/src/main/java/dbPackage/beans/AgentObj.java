@@ -1,8 +1,6 @@
 package dbPackage.beans;
 /**
  * Represents an agent. Stores the ID, IP and status of the agent
- * @author Chrysovalantis Anastasiou
- *
  */
 public class AgentObj{
 		

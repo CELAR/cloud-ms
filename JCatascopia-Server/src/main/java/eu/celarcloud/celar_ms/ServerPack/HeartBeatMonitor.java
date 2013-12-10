@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj.AgentStatus;
-import eu.celarcloud.celar_ms.ServerPack.Database.AgentDAO;
 
 public class HeartBeatMonitor extends Thread{
 	
@@ -75,9 +74,11 @@ public class HeartBeatMonitor extends Thread{
 				    		else{
 				    			if(this.server.getDatabaseFlag())
 									try {
-										AgentDAO.updateAgent(this.server.dbHandler.getConnection(), curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
+										//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
+										this.server.dbHandler.updateAgent(curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
 									} 
-				    			    catch (CatascopiaException e) {
+				    			    //catch (CatascopiaException e) {
+				    			    catch (Exception e) {
 										this.server.writeToLog(Level.SEVERE, e);
 									}
 				    		}				    			
@@ -100,12 +101,15 @@ public class HeartBeatMonitor extends Thread{
 	
 	private void removeAgent(String host,AgentObj agent){
 		try{
-			for(String met:agent.getMetricList())
+			for(String met:agent.getMetricList()){
 				this.server.metricMap.remove(met);
+				if(this.server.getDatabaseFlag())
+					this.server.dbHandler.deleteMetric(agent.getAgentID(), met);
+			}
 			this.server.agentMap.remove(host);
 			if(this.server.getDatabaseFlag())
-				//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.DEAD.name());
-				AgentDAO.deleteAgent(this.server.dbHandler.getConnection(), agent.getAgentID());
+				//AgentDAO.deleteAgent(this.server.dbHandler.getConnection(), agent.getAgentID());
+				this.server.dbHandler.deleteAgent(agent.getAgentID());
 		
 		}
 		catch(Exception e){

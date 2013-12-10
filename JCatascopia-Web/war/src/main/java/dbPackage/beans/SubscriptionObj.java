@@ -3,8 +3,6 @@ package dbPackage.beans;
  * This represents a subscription. It includes the subID, name,
  * groupping function, period, origin metric, metricID, metric type,
  * metric units and group.
- * 
- * @author Chrysovalantis Anastasiou
  *
  */
 public class SubscriptionObj {

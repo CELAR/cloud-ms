@@ -8,8 +8,6 @@ import org.json.simple.parser.JSONParser;
 
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
-import eu.celarcloud.celar_ms.ServerPack.Database.AgentDAO;
-import eu.celarcloud.celar_ms.ServerPack.Database.MetricDAO;
 
 public class MetricProcessor implements Runnable{
 
@@ -63,7 +61,8 @@ public class MetricProcessor implements Runnable{
 				if (agent != null){
 	//				System.out.println("existing host: " + agentIP);
 					if(!agent.isRunning() && this.server.getDatabaseFlag())
-		    			AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+		    			//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+						this.server.dbHandler.updateAgent(agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 					agent.clearAttempts();
 					agent.setStatus(AgentObj.AgentStatus.UP);	
 				}
@@ -94,14 +93,17 @@ public class MetricProcessor implements Runnable{
 						this.server.metricMap.replace(metricID, metric);
 						
 						if(this.server.getDatabaseFlag())
-							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							//MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							this.server.dbHandler.insertMetricValue(metric);
 					}
 					else{
 	//					System.out.println("metric new in map: "+metric_name);
 						agent.addMetricToList(metricID);
 						if(this.server.getDatabaseFlag()){
-							MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
-							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							//MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+							//MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							this.server.dbHandler.createMetric(metric);
+							this.server.dbHandler.insertMetricValue(metric);
 						}
 					}
 					
@@ -140,7 +142,8 @@ public class MetricProcessor implements Runnable{
 					//agent exists in agentMap
 //					System.out.println("existing host: " + agentIP);
 					if(!agent.isRunning() && this.server.getDatabaseFlag())
-		    			AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+		    			//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+						this.server.dbHandler.updateAgent(agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 					agent.clearAttempts();
 					agent.setStatus(AgentObj.AgentStatus.UP);	
 				}
@@ -149,7 +152,8 @@ public class MetricProcessor implements Runnable{
 					agent = new AgentObj(agentID,agentIP);
 					this.server.agentMap.putIfAbsent(agentID, agent);
 					this.server.writeToLog(Level.INFO, "Intermediate Server: "+serverIP+" New node Agent added, with ID: "+agentID+" and IP: "+agentIP);
-	    			AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+	    			//AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+					this.server.dbHandler.createAgent(agent);
 				}
 				
 				JSONArray metricArray = (JSONArray) a.get("metrics");
@@ -173,14 +177,17 @@ public class MetricProcessor implements Runnable{
 						this.server.metricMap.replace(metricID, metric);
 						
 						if(this.server.getDatabaseFlag())
-							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							//MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							this.server.dbHandler.insertMetricValue(metric);
 					}
 					else{
 	//					System.out.println("metric new in map: "+metric_name);
 						agent.addMetricToList(metricID);
 						if(this.server.getDatabaseFlag()){
-							MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
-							MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							//MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+							//MetricDAO.insertValue(this.server.dbHandler.getConnection(), metricID, timestamp, value);
+							this.server.dbHandler.createMetric(metric);
+							this.server.dbHandler.insertMetricValue(metric);
 						}
 					}
 				}

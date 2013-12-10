@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,8 +20,7 @@ import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
 import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
 import eu.celarcloud.celar_ms.utils.CatascopiaNetworking;
-import eu.celarcloud.celar_ms.ServerPack.Database.DBHandlerWithConnPool;
-import eu.celarcloud.celar_ms.ServerPack.Database.InitializeDB;
+import eu.celarcloud.celar_ms.ServerPack.Database.IDBHandler;
 import eu.celarcloud.celar_ms.ServerPack.subsciptionPack.SubScheduler;
 
 /**
@@ -68,7 +70,8 @@ public class MonitoringServer implements IJCatascopiaServer{
 	private HeartBeatMonitor heartBeatMonitor;
 	
 	private boolean databaseFlag;
-	public DBHandlerWithConnPool dbHandler;
+	//public DBHandlerWithConnPool dbHandler;
+	public IDBHandler dbHandler;
 	
 	public SubScheduler subscheduler;
 	
@@ -135,8 +138,8 @@ public class MonitoringServer implements IJCatascopiaServer{
 		this.loggingFlag = Boolean.parseBoolean(this.config.getProperty("logging", "false"));
 		if (this.loggingFlag)
 			try{
-				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_SERVER_HOME,"JCatascopiaMSServer");
-				this.myLogger.info("JCatascopiaMSServer"+": Created and Initialized");
+				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_SERVER_HOME,"JCatascopia Server");
+				this.myLogger.info("JCatascopia Server"+": Created and Initialized");
 				this.loggingFlag = true;
 			}
 			catch (Exception e){
@@ -151,7 +154,7 @@ public class MonitoringServer implements IJCatascopiaServer{
 	 */
 	public void writeToLog(Level level, Object msg){
 		if(this.loggingFlag)
-			this.myLogger.log(level, "JCatascopiaMSServer: "+msg);
+			this.myLogger.log(level, "JCatascopia Server: "+msg);
 	}
 	
 	/**
@@ -197,26 +200,49 @@ public class MonitoringServer implements IJCatascopiaServer{
 		this.writeToLog(Level.INFO, "ControlExecutor Initialized");
 	}
 	
-	private void initDBHandler(){
+	private void initDBHandler() throws CatascopiaException{
 		this.databaseFlag = Boolean.parseBoolean(this.config.getProperty("db_use_database", "false"));
 		if(this.databaseFlag){
-			String HOST = this.config.getProperty("db_host");
-			String USER = this.config.getProperty("db_user");
-			String PASS = this.config.getProperty("db_pass");
-			String DATABASE = this.config.getProperty("db_database");
+			String dbInterface = this.config.getProperty("db_interface","Basic.DBHandler");
+			String hosts = this.config.getProperty("db_host","localhost");
+			String user = this.config.getProperty("db_user",null);
+			String pass = this.config.getProperty("db_pass",null);
+			String database = this.config.getProperty("db_database");
+			Integer conn_num = new Integer(Integer.parseInt(this.config.getProperty("num_of_processing_threads", "1")));
+
+			List<String> endpoints = new ArrayList<String>();
+			for(String s : hosts.split(","))
+				endpoints.add(s);
 			
-			this.writeToLog(Level.INFO, "DB Handler enabled: ("+HOST+" "+USER+" "+PASS+" "+DATABASE+")");
-			int connectionNumber = Integer.parseInt(this.config.getProperty("num_of_processing_threads", "1"));
-			this.dbHandler = new DBHandlerWithConnPool(HOST,USER,PASS,DATABASE, this, connectionNumber);
-			
-			boolean dropTables = Boolean.parseBoolean(this.config.getProperty("db_drop_tables_on_startup","false"));
-			try {
-				InitializeDB.createTables(this.dbHandler.getConnection(),dropTables, this);
-				this.writeToLog(Level.INFO, "Successfully dropped tables and created new ones");	
-			}catch (CatascopiaException e){
-				this.writeToLog(Level.SEVERE, e);	
+		    String dbPath = "eu.celarcloud.celar_ms.ServerPack.Database."+dbInterface;
+		    
+		    Class<?>[] myArgs = new Class[6];
+	        myArgs[0] = List.class;
+	        myArgs[1] = String.class;
+	        myArgs[2] = String.class;
+	        myArgs[3] = String.class;
+	        myArgs[4] = Integer.class;
+	        myArgs[5] = IJCatascopiaServer.class;
+			try{
+		        Class<IDBHandler> _tempClass = (Class<IDBHandler>) Class.forName(dbPath);
+		        Constructor<IDBHandler> _tempConst = _tempClass.getDeclaredConstructor(myArgs);
+				this.dbHandler = _tempConst.newInstance(endpoints,user,pass,database,conn_num,this);
+			    dbHandler.dbConnect();
+			    this.writeToLog(Level.INFO, "DBHandler>> Successfully connected to database: "+dbInterface+ " host(s): "+hosts
+			    		                     +"\nwith params ("+hosts+", "+user+", "+pass+", "+database+")");
+			    
+				boolean dropTables = Boolean.parseBoolean(this.config.getProperty("db_drop_tables_on_startup","false"));				
+				dbHandler.dbInit(dropTables);
+				this.writeToLog(Level.INFO, "DBHandler>> Successfully dropped tables and created new ones");	
 			}
-			
+			catch (ClassNotFoundException e){
+				this.writeToLog(Level.SEVERE, e);
+				throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.DATABASE);
+			}
+			catch(Exception e){
+				this.writeToLog(Level.SEVERE, e);
+				throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.DATABASE);
+			}
 		}
 	}
 	

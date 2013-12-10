@@ -10,8 +10,6 @@ import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj.AgentStatus;
-import eu.celarcloud.celar_ms.ServerPack.Database.AgentDAO;
-import eu.celarcloud.celar_ms.ServerPack.Database.MetricDAO;
 import eu.celarcloud.celar_ms.SocketPack.ISocket;
 /* CONNECT
  * {
@@ -101,9 +99,11 @@ public class AgentRegister implements Runnable{
 			
 			if(this.server.getDatabaseFlag())
 				try {
-					AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+					//AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
+					this.server.dbHandler.createAgent(agent);
 				} 
-			    catch (CatascopiaException e) {
+			    //catch (CatascopiaException e) {
+				catch (Exception e) {
 					this.server.writeToLog(Level.SEVERE, e);
 				}
 		}
@@ -119,9 +119,11 @@ public class AgentRegister implements Runnable{
 			agent.setStatus(AgentStatus.UP);
 			if(this.server.getDatabaseFlag())
 				try {
-					AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+					//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
+					this.server.dbHandler.updateAgent(agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 				} 
-			    catch (CatascopiaException e) {
+			    //catch (CatascopiaException e) {
+				catch (Exception e) {
 					this.server.writeToLog(Level.SEVERE, e);
 				}
 		}
@@ -151,9 +153,11 @@ public class AgentRegister implements Runnable{
         			
         			if(this.server.getDatabaseFlag())
 						try {
-							MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+							//MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
+							this.server.dbHandler.createMetric(metric);
 						} 
-        			    catch (CatascopiaException e) {
+        			    //catch (CatascopiaException e) {
+        			    catch (Exception e) {
 							this.server.writeToLog(Level.SEVERE, e);
 						}
         			
@@ -183,7 +187,8 @@ public class AgentRegister implements Runnable{
 			for(String met:agent.getMetricList()){
 				this.server.metricMap.remove(met);
 				if (this.server.getDatabaseFlag())
-					MetricDAO.deleteMetric(this.server.dbHandler.getConnection(), met);
+					//MetricDAO.deleteMetric(this.server.dbHandler.getConnection(), met);
+					this.server.dbHandler.deleteMetric(agent.getAgentID(), met);
 			}
 			agent.clearMetricList();
 		}
