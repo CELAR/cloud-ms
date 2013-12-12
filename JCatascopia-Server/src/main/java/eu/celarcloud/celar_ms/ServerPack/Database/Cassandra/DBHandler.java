@@ -13,6 +13,7 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.policies.Policies;
+import com.datastax.driver.core.utils.UUIDs;
 
 import eu.celarcloud.celar_ms.ServerPack.IJCatascopiaServer;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
@@ -114,7 +115,7 @@ public class DBHandler implements IDBHandler{
 				cql = "CREATE TABLE "+table+" (" + 
 		                " metricID varchar," + 
 		                " event_date text," +
-		                " event_timestamp timestamp," +
+		                " event_timestamp timeuuid," +
 		                " value varchar," +
 		                " name varchar," +
 		                " mgroup varchar," +
@@ -206,10 +207,8 @@ public class DBHandler implements IDBHandler{
 		try{
 			BoundStatement bs = this.insertMetricValueStmt.bind();
 			bs.setString("metricID", metric.getMetricID());
-			Date d = new Date(metric.getTimestamp());
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(d);
-			bs.setString("event_date", date);
-			bs.setDate("event_timestamp", d);
+			bs.setString("event_date", new SimpleDateFormat("yyyy-MM-dd").format(new Date(metric.getTimestamp())));
+			bs.setUUID("event_timestamp", UUIDs.endOf(metric.getTimestamp()));
 			bs.setString("value", metric.getValue());
 			bs.setString("name", metric.getName());
 			bs.setString("mgroup",metric.getGroup());
