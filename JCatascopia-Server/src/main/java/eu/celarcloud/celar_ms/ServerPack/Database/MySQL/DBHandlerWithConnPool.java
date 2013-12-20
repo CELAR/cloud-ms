@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -14,6 +15,7 @@ import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.IJCatascopiaServer;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
+import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
 import eu.celarcloud.celar_ms.ServerPack.Database.IDBHandler;
 
 /**
@@ -40,7 +42,14 @@ public class DBHandlerWithConnPool implements IDBHandler{
 	private static final String CREATE_METRIC = "INSERT INTO metric_table (metricID,agentID,name,mgroup,units,type) VALUES (?,?,?,?,?,?)";
 	private static final String DELETE_METRIC = "DELETE FROM metric_table WHERE (metricID = ?) ";
 	private static final String INSERT_METRIC_VALUE = "INSERT INTO metric_value_table (metricID,timestamp,value) VALUES (?,?,?)";	
-	
+	private static final String CREATE_SUBSCRIPTION = "INSERT INTO subscription_table (subID,func,originMetric,period) VALUES (?,?,?,?);";
+	private static final String CREATE_METRIC_FOR_SUB = "INSERT INTO metric_table (metricID,agentID,name,mgroup,units,type,is_sub) VALUES (?,?,?,?,?,?,?)";
+	private static final String ADD_AGENT_TO_SUB = "INSERT INTO subscription_agents_table (subID,agentID) VALUES (?,?);";
+	private static final String DELETE_SUB = "DELETE FROM subscription_table WHERE (subID=?) ";
+	private static final String DELETE_SUB_METRIC = "DELETE FROM metric_table WHERE (agentID=?) ";
+	private static final String REMOVE_ALL_AGENTS_FROM_SUB = "DELETE FROM subscription_agents_table WHERE (subID=?) ";
+	private static final String REMOVE_AGENT_FROM_SUB = "DELETE FROM subscription_agents_table WHERE (subID =? AND agentID =?) ";
+
 	public DBHandlerWithConnPool(List<String> endpoints, String user, String pass, String database, Integer cnum, IJCatascopiaServer server){
 		this.server = server;
 		this.host = endpoints.get(0);
@@ -150,12 +159,12 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			
 			query = "CREATE TABLE IF NOT EXISTS `metric_table` (" +
 			        "`metricID` varchar(64) NOT NULL," +
-			        "`agentID` varchar(32) DEFAULT NULL," +
+			        "`agentID` varchar(32) NOT NULL," +
 			        "`name` varchar(50) NOT NULL," +
 			        "`mgroup` varchar(50) NOT NULL," +
 			        "`units` varchar(10) NOT NULL," +
 			        "`type` varchar(20) NOT NULL," +
-			        "`subID` varchar(32) DEFAULT NULL,"+
+			        "`is_sub` varchar(10) DEFAULT NULL,"+
 			        "PRIMARY KEY (`metricID`)" +
 			        ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = c.prepareStatement(query);
@@ -353,8 +362,146 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			this.release(stmt, c);		
 	    }			
 	}
+	
+	public void insertBatchMetricValues(ArrayList<MetricObj> metriclist) {
+		PreparedStatement stmt = null;
+		Connection c = null;
+	    try{
+	    	c = this.getConnection();
+	    	stmt = c.prepareStatement(INSERT_METRIC_VALUE);
+	    	for(MetricObj metric : metriclist){
+	    		stmt.setString(1, metric.getMetricID()); 
+				stmt.setTimestamp(2, new java.sql.Timestamp(metric.getTimestamp())); 
+				stmt.setString(3, metric.getValue()); 
+				stmt.addBatch();
+	    	}
+	    	stmt.executeBatch();
+	    }
+	    catch (SQLException e) {
+	    	server.writeToLog(Level.SEVERE, "MySQL Handler insertBatchMetricValues>> "+e);
+		} 
+		catch (Exception e) {
+			server.writeToLog(Level.SEVERE, "MySQL Handler insertBatchMetricValues>> "+e);
+		} 
+		finally{
+			this.release(stmt, c);		
+	    }						
+		
+	}
+	
+	public void createSubscription(SubObj sub, MetricObj metric){
+		PreparedStatement stmt = null;
+		Connection c = null;
+	    try{
+	    	c = this.getConnection();
+	    	stmt = c.prepareStatement(CREATE_SUBSCRIPTION);
+			stmt.setString(1, sub.getSubID()); 
+			stmt.setString(2, sub.getGroupingFunc().name()); 
+			stmt.setString(3, sub.getOriginMetric()); 
+			stmt.setInt(4, sub.getPeriod());
+			stmt.executeUpdate();
+			
+			stmt = c.prepareStatement(CREATE_METRIC_FOR_SUB);
+			stmt.setString(1, metric.getMetricID()); 
+			stmt.setString(2, metric.getAgentID()); 
+			stmt.setString(3, metric.getName()); 
+			stmt.setString(4, metric.getGroup());
+			stmt.setString(5, metric.getUnits()); 
+			stmt.setString(6, metric.getType()); 
+			stmt.setString(7, "yes");
+			stmt.executeUpdate();
+			
+			stmt = c.prepareStatement(ADD_AGENT_TO_SUB);
+			String subID = sub.getSubID();
+			for(String agentID:sub.getAgentList()){
+				stmt.setString(1,subID);
+				stmt.setString(2, agentID);
+				stmt.addBatch();
+			}
+			stmt.executeBatch();
+	    }
+	    catch (SQLException e) {
+	    	server.writeToLog(Level.SEVERE, "MySQL Handler createSubscription>> "+e);
+		} 
+		catch (Exception e) {
+			server.writeToLog(Level.SEVERE, "MySQL Handler createSubscription>> "+e);
+		} 
+		finally{
+			this.release(stmt, c);		
+	    }			
+	}
+	
+	public void deleteSubscription(String subID){
+		PreparedStatement stmt = null;
+		Connection c = null;
+	    try{
+	    	c = this.getConnection();
+	    	stmt = c.prepareStatement(DELETE_SUB);
+	    	stmt.setString(1, subID); 
+	    	stmt.executeUpdate();
+	    	
+	    	stmt = c.prepareStatement(DELETE_SUB_METRIC);
+	    	stmt.setString(1, subID); 
+	    	stmt.executeUpdate();
+	        
+	    	stmt = c.prepareStatement(REMOVE_ALL_AGENTS_FROM_SUB);
+	    	stmt.setString(1, subID); 
+	    	stmt.executeUpdate();
+	    }
+	    catch (SQLException e) {
+	    	server.writeToLog(Level.SEVERE, "MySQL Handler deleteSubscription>> "+e);
+		} 
+		catch (Exception e) {
+			server.writeToLog(Level.SEVERE, "MySQL Handler deleteSubscription>> "+e);
+		} 
+		finally{
+			this.release(stmt, c);		
+	    }			
+	}
+	
+	public void addAgentToSub(String subID, String agentID){
+		PreparedStatement stmt = null;
+		Connection c = null;
+	    try{
+	    	c = this.getConnection();
+	    	stmt = c.prepareStatement(ADD_AGENT_TO_SUB);
+	    	stmt.setString(1, subID); 
+	    	stmt.setString(2, agentID);
+	    	stmt.executeUpdate();
+	    }
+	    catch (SQLException e) {
+	    	server.writeToLog(Level.SEVERE, "MySQL Handler addAgentToSub>> "+e);
+		} 
+		catch (Exception e) {
+			server.writeToLog(Level.SEVERE, "MySQL Handler addAgentToSub>> "+e);
+		} 
+		finally{
+			this.release(stmt, c);		
+	    }			
+	}
+	
+	public void removeAgentFromSub(String subID, String agentID){
+		PreparedStatement stmt = null;
+		Connection c = null;
+	    try{
+	    	c = this.getConnection();
+	    	stmt = c.prepareStatement(REMOVE_AGENT_FROM_SUB);
+	    	stmt.setString(1, subID); 
+	    	stmt.setString(2, agentID);
+	    	stmt.executeUpdate();
+	    }
+	    catch (SQLException e) {
+	    	server.writeToLog(Level.SEVERE, "MySQL Handler removeAgentToSub>> "+e);
+		} 
+		catch (Exception e) {
+			server.writeToLog(Level.SEVERE, "MySQL Handler removeAgentToSub>> "+e);
+		} 
+		finally{
+			this.release(stmt, c);		
+	    }			
+	}
 
 	public void doQuery(String cql, boolean print) {
 		// TODO Auto-generated method stub
-	}
+	}	
 }

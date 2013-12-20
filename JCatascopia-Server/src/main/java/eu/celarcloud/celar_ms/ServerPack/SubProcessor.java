@@ -12,7 +12,6 @@ import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubMapDAO;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj.GroupingFunction;
-import eu.celarcloud.celar_ms.ServerPack.Database.SubscriptionDAO;
 import eu.celarcloud.celar_ms.ServerPack.subsciptionPack.SubTask;
 import eu.celarcloud.celar_ms.SocketPack.ISocket;
 /*
@@ -98,7 +97,7 @@ public class SubProcessor implements Runnable{
 			int period = Integer.parseInt(metric.get("period").toString());
 			String metricID = subID+":"+subName;
 
-			MetricObj metricobj = new MetricObj(metricID,null,subID,subName,(String)metric.get("units"),
+			MetricObj metricobj = new MetricObj(metricID,subID,subName,(String)metric.get("units"),
 					                            (String)metric.get("type"),(String)metric.get("group"),0);
 			
 			JSONArray agents =  (JSONArray) metric.get("agents");
@@ -125,7 +124,7 @@ public class SubProcessor implements Runnable{
 			
 			//add to DB
 			if (this.server.getDatabaseFlag())
-				SubscriptionDAO.createSubscription(this.server.dbHandler.getConnection(), subobj, metricobj);
+				this.server.dbHandler.createSubscription(subobj, metricobj);
 			
 			this.response(Status.OK,"");
 			
@@ -140,8 +139,10 @@ public class SubProcessor implements Runnable{
 		
 		//edit to DB
 		if (this.server.getDatabaseFlag())
-			SubscriptionDAO.addAgent(this.server.dbHandler.getConnection(), subID, agentID);
+			this.server.dbHandler.addAgentToSub(subID, agentID);
 		
+		this.server.writeToLog(Level.INFO, "SubProcessor>> added agent: " + agentID +" to subscription: "+subID);
+
 		this.response(Status.OK, "");		
 	}
 	
@@ -153,8 +154,10 @@ public class SubProcessor implements Runnable{
 		
 		//edit to DB
 		if (this.server.getDatabaseFlag())
-			SubscriptionDAO.removeAgent(this.server.dbHandler.getConnection(), subID, agentID);
+			this.server.dbHandler.removeAgentFromSub(subID, agentID);
 		
+		this.server.writeToLog(Level.INFO, "SubProcessor>> removed agent: " + agentID +" from subscription: "+subID);
+
 		this.response(Status.OK, "");		
 	}
 	
@@ -165,8 +168,8 @@ public class SubProcessor implements Runnable{
 		
 		//edit to DB
 		if (this.server.getDatabaseFlag())
-			SubscriptionDAO.deleteSubscription(this.server.dbHandler.getConnection(), subID);
-
+			this.server.dbHandler.deleteSubscription(subID);
+		this.server.writeToLog(Level.INFO, "SubProcessor>> removed subscription..."+subID);
 		this.response(Status.OK, "");		
 	}
 	

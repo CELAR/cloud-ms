@@ -143,7 +143,7 @@ public class AgentRegister implements Runnable{
 				metric_name = (String)met.get("name");
 				String metricID = agentID+":"+metric_name;
 
-				metric = new MetricObj(metricID,agentID,null,metric_name,(String)met.get("units"),
+				metric = new MetricObj(metricID,agentID,metric_name,(String)met.get("units"),
 						(String)met.get("type"),probeName.replace("Probe", ""),0);
 
         		if(this.server.metricMap.putIfAbsent(metricID, metric) == null){

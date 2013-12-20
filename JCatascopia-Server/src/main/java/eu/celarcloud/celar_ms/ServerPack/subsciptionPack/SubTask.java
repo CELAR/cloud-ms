@@ -6,7 +6,6 @@ import java.util.TimerTask;
 import eu.celarcloud.celar_ms.ServerPack.MonitoringServer;
 import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
-import eu.celarcloud.celar_ms.ServerPack.Database.MetricDAO;
 
 public class SubTask extends TimerTask {
 	
@@ -25,10 +24,11 @@ public class SubTask extends TimerTask {
 		SubObj sub = server.getSubMap().get(subID);
 		//check if subscription removed to wrap it up and stop updating
 		if(sub != null){
-			this.type = this.server.getMetricMap().get(sub.getMetricID()).getType(); //INTEGER, DOUBLE, etc.
+			MetricObj mobj = this.server.getMetricMap().get(sub.getMetricID());
+			this.type = mobj.getType(); //INTEGER, DOUBLE, etc.
+			
 			//grab the latest values reported by interested agents for originMetric
 			ArrayList<String> values = new ArrayList<String>();
-			
 			MetricObj m = null;
 			for(String a : sub.getAgentList()){
 				m = server.getMetricMap().get(a+":"+sub.getOriginMetric());
@@ -55,9 +55,11 @@ public class SubTask extends TimerTask {
 				default: 
 					; // should never get here since we use enum
 			}
-			
+			mobj.setValue(result);
+			mobj.setTimestamp(System.currentTimeMillis());
 			if (server.getDatabaseFlag())
-				MetricDAO.insertValue(server.dbHandler.getConnection(), sub.getMetricID(), System.currentTimeMillis(), result);
+				//MetricDAO.insertValue(server.dbHandler.getConnection(), sub.getMetricID(), System.currentTimeMillis(), result);
+				this.server.dbHandler.insertMetricValue(mobj);
 		}
 		else
 			this.cancel(); //subscription was deleted. Remove this TimerTask

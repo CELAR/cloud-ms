@@ -797,3 +797,1300 @@ Dec 12, 2013 3:27:24 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer write
 INFO: JCatascopia Server: New node Agent added, with ID: a0e337c7ec794fd487c675e4980cfcdc and IP: 10.16.21.203
 Dec 12, 2013 3:27:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
 INFO: JCatascopia Server: New node Agent added, with ID: 286327e8e7a44e24afce08937d23c7b2 and IP: 10.16.21.203
+Dec 13, 2013 10:59:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 13, 2013 10:59:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 13, 2013 10:59:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 13, 2013 10:59:56 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 13, 2013 11:00:02 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 13, 2013 11:00:02 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 13, 2013 11:00:02 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 13, 2013 11:00:02 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 13, 2013 11:00:11 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 286327e8e7a44e24afce08937d23c7b2 and IP: 10.16.21.203
+Dec 13, 2013 11:00:44 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: dd537bc842ca41e6bb1d697e7364be8c and IP: 10.16.21.203
+Dec 13, 2013 11:01:02 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 6227501f811243ab9c20cab9aa6fed76 and IP: 10.16.21.203
+Dec 13, 2013 11:11:58 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 13, 2013 11:11:58 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 13, 2013 11:11:58 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 13, 2013 11:12:00 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 13, 2013 11:12:06 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 13, 2013 11:12:06 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 13, 2013 11:12:06 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 13, 2013 11:12:06 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 13, 2013 11:12:18 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 0036a97461924c5080adba264a0607bf and IP: 10.16.21.203
+Dec 13, 2013 11:17:21 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 61573b97524443a1adc05c2398368676 and IP: 10.16.21.203
+Dec 13, 2013 11:24:33 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 2c2b8e0336644e52baead57a0e023d07 and IP: 10.16.21.203
+Dec 13, 2013 12:44:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+WARNING: JCatascopia Server: Removed node: 0036a97461924c5080adba264a0607bf due to inactivity
+Dec 13, 2013 4:48:36 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 13, 2013 4:48:36 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 13, 2013 4:48:36 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 13, 2013 4:48:36 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 13, 2013 4:48:37 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 13, 2013 5:13:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 13, 2013 5:13:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 2c2b8e0336644e52baead57a0e023d07 and IP: 10.16.21.203
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:13:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'name' cannot be null
+Dec 13, 2013 5:14:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 13, 2013 5:14:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 13, 2013 5:15:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 2c2b8e0336644e52baead57a0e023d07 and IP: 10.16.21.203
+Dec 13, 2013 5:16:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27e56a343f4945fe9cc40c97921e40ee and IP: 10.16.21.203
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 10:01:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 10:01:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 10:02:01 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27e56a343f4945fe9cc40c97921e40ee and IP: 10.16.21.198
+Dec 18, 2013 10:08:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 10:08:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 10:08:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 10:08:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 10:08:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27e56a343f4945fe9cc40c97921e40ee and IP: 10.16.21.198
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:08:48 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> java.sql.SQLException: No value specified for parameter 7
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 10:09:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 10:09:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 10:09:40 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27e56a343f4945fe9cc40c97921e40ee and IP: 10.16.21.198
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 10:15:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 10:15:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 10:15:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 10:15:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 10:15:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 10:15:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 10:15:54 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 10:16:09 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27e56a343f4945fe9cc40c97921e40ee and IP: 10.16.21.198
+Dec 18, 2013 10:17:12 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 96affc91eb274b52a2ed247bc99606b8 subName: hhjj metricID: 96affc91eb274b52a2ed247bc99606b8:hhjj originMetric: cpuIdle function: SUM update_period: 20 agents: [27e56a343f4945fe9cc40c97921e40ee, ]
+Dec 18, 2013 10:17:12 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler insertMetricValue>> java.sql.SQLException: Connection is closed.
+Dec 18, 2013 10:17:32 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler insertMetricValue>> com.mysql.jdbc.MysqlDataTruncation: Data truncation: Incorrect datetime value: '1970-01-01 02:00:00' for column 'timestamp' at row 1
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 10:19:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 10:19:44 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27e56a343f4945fe9cc40c97921e40ee and IP: 10.16.21.198
+Dec 18, 2013 10:19:59 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 6086780aff36436d9d6b0962a357fb88 and IP: 10.16.21.198
+Dec 18, 2013 10:20:56 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 5e9dc9e8ee26428ca76d8fd9d314bf7c subName: aaaa metricID: 5e9dc9e8ee26428ca76d8fd9d314bf7c:aaaa originMetric: cpuTotal function: AVG update_period: 20 agents: [27e56a343f4945fe9cc40c97921e40ee, 6086780aff36436d9d6b0962a357fb88, ]
+Dec 18, 2013 10:21:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler insertMetricValue>> com.mysql.jdbc.MysqlDataTruncation: Data truncation: Incorrect datetime value: '1970-01-01 02:00:00' for column 'timestamp' at row 1
+Dec 18, 2013 10:21:37 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler insertMetricValue>> com.mysql.jdbc.MysqlDataTruncation: Data truncation: Incorrect datetime value: '1970-01-01 02:00:00' for column 'timestamp' at row 1
+Dec 18, 2013 10:24:16 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 10:24:16 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 10:24:16 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 10:24:16 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 10:24:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 10:24:41 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 6086780aff36436d9d6b0962a357fb88 and IP: 10.16.21.198
+Dec 18, 2013 10:24:53 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 23d46368e3eb4766be44e61628f70275 and IP: 10.16.21.198
+Dec 18, 2013 10:25:32 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: e19774a9dc6d453089c5b3048844411d subName: aaaa metricID: e19774a9dc6d453089c5b3048844411d:aaaa originMetric: cpuIOwait function: SUM update_period: 24 agents: [23d46368e3eb4766be44e61628f70275, 6086780aff36436d9d6b0962a357fb88, ]
+Dec 18, 2013 11:40:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 11:40:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 11:40:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 11:40:42 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 11:40:43 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 11:40:52 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 23d46368e3eb4766be44e61628f70275 and IP: 10.16.21.198
+Dec 18, 2013 11:41:04 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 677db072d3f04439856ed308812353f2 and IP: 10.16.21.198
+Dec 18, 2013 11:41:16 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: cf91cb866f3a456e916d8b70b76db022 and IP: 10.16.21.198
+Dec 18, 2013 11:41:34 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 67cad40128d346a38ad43cbe0ef61310 and IP: 10.16.21.198
+Dec 18, 2013 11:41:52 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 97519b6e4b294158bec2ff17c8dc4e70 and IP: 10.16.21.198
+Dec 18, 2013 11:42:40 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 8addc460d325484a94440232731f8814 subName: cpuuuu metricID: 8addc460d325484a94440232731f8814:cpuuuu originMetric: cpuTotal function: AVG update_period: 20 agents: [23d46368e3eb4766be44e61628f70275, 677db072d3f04439856ed308812353f2, 67cad40128d346a38ad43cbe0ef61310, ]
+Dec 18, 2013 12:50:47 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler addAgentToSub>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '8addc460d325484a94440232731f8814-677db072d3f04439856ed308812353f' for key 'PRIMARY'
+Dec 18, 2013 12:53:02 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler addAgentToSub>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '8addc460d325484a94440232731f8814-23d46368e3eb4766be44e61628f7027' for key 'PRIMARY'
+Dec 18, 2013 12:54:38 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler addAgentToSub>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '8addc460d325484a94440232731f8814-677db072d3f04439856ed308812353f' for key 'PRIMARY'
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 12:56:08 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 67cad40128d346a38ad43cbe0ef61310 and IP: 10.16.21.198
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createAgent>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:cpuTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:cpuUser' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:cpuSystem' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:cpuIdle' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:cpuIOwait' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memCache' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memUsed' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memSwapTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memSwapFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:memUsedPercent' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:readkbps' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:writekbps' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:iotime' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:os' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:arch' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:cpuNum' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:btime' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:diskTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:diskFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:diskUsed' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:netBytesIN' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:netPacketsIN' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:netBytesOUT' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '67cad40128d346a38ad43cbe0ef61310:netPacketsOut' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: cf91cb866f3a456e916d8b70b76db022 and IP: 10.16.21.198
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createAgent>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:cpuTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:cpuUser' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:cpuSystem' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:cpuIdle' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:cpuIOwait' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memCache' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memUsed' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memSwapTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memSwapFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:memUsedPercent' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:readkbps' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:writekbps' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:iotime' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:os' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:arch' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:cpuNum' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:btime' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:diskTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:diskFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:diskUsed' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:netBytesIN' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:netPacketsIN' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:netBytesOUT' for key 'PRIMARY'
+Dec 18, 2013 12:56:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'cf91cb866f3a456e916d8b70b76db022:netPacketsOut' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 97519b6e4b294158bec2ff17c8dc4e70 and IP: 10.16.21.198
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createAgent>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:cpuTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:cpuUser' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:cpuSystem' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:cpuIdle' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:cpuIOwait' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memCache' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memUsed' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memSwapTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memSwapFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:memUsedPercent' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:readkbps' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:writekbps' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:iotime' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:os' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:arch' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:cpuNum' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:btime' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:diskTotal' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:diskFree' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:diskUsed' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:netBytesIN' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:netPacketsIN' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:netBytesOUT' for key 'PRIMARY'
+Dec 18, 2013 12:56:41 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: MySQL Handler createMetric>> com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '97519b6e4b294158bec2ff17c8dc4e70:netPacketsOut' for key 'PRIMARY'
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> creating a connection...
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> Connected to JCatascopia DB...
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: MySQL.DBHandlerWithConnPool host(s): localhost:3306
+with params (localhost:3306, catascopia_user, catascopia_pass, catascopiaDB)
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: agent_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: metric_value_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> dropped table: subscription_agents_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: agent_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: metric_value_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: MySQL DBHandler>> created table: subscription_agents_table
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 1:03:33 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 97519b6e4b294158bec2ff17c8dc4e70 and IP: 10.16.21.198
+Dec 18, 2013 1:03:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 1e04396eee404255a2095c34a35dd536 and IP: 10.16.21.198
+Dec 18, 2013 1:04:42 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: b535dceae692499089d7bc37e9044973 subName: cpuTotallll metricID: b535dceae692499089d7bc37e9044973:cpuTotallll originMetric: cpuTotal function: AVG update_period: 25 agents: [1e04396eee404255a2095c34a35dd536, ]
+Dec 18, 2013 1:12:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 18, 2013 1:12:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 18, 2013 1:12:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 18, 2013 1:12:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 18, 2013 1:12:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 18, 2013 1:12:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 18, 2013 1:12:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 18, 2013 1:12:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 18, 2013 1:12:32 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 1e04396eee404255a2095c34a35dd536 and IP: 10.16.21.198
+Dec 18, 2013 1:29:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27c3f29eba6745afa8e7c2ba74d6b984 and IP: 10.16.21.198
+Dec 19, 2013 11:28:55 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 11:28:55 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 11:28:55 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 11:28:57 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 11:29:05 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 11:29:05 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 11:29:05 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 11:29:05 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 11:38:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 11:38:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 11:38:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 11:38:05 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 11:38:10 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DB Handler>> com.datastax.driver.core.exceptions.AlreadyExistsException: Table jcatascopiadb.subscription_table already exists
+Dec 19, 2013 11:38:10 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 11:38:10 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 11:38:10 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 11:38:10 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27c3f29eba6745afa8e7c2ba74d6b984 and IP: 10.16.21.198
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createAgent>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createMetric>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:38:31 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:39:03 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler insertMetricValue>> java.lang.NullPointerException
+Dec 19, 2013 11:40:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 11:40:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 11:40:17 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 11:40:19 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 11:40:26 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 11:40:26 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 11:40:26 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 11:40:26 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 11:40:35 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27c3f29eba6745afa8e7c2ba74d6b984 and IP: 10.16.21.198
+Dec 19, 2013 11:43:29 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: f7e386b162194690b47dfbfda204c9d5 subName: ssss metricID: f7e386b162194690b47dfbfda204c9d5:ssss originMetric: memTotal function: SUM update_period: 34 agents: [27c3f29eba6745afa8e7c2ba74d6b984, ]
+Dec 19, 2013 12:06:32 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 992b41935f8c4efe80c3314db2878dbd subName: aaa metricID: 992b41935f8c4efe80c3314db2878dbd:aaa originMetric: memFree function: SUM update_period: 23 agents: [27c3f29eba6745afa8e7c2ba74d6b984, ]
+Dec 19, 2013 12:08:58 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 12:08:58 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 12:08:58 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 12:09:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 12:09:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 12:09:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 12:09:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 12:09:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 12:09:16 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27c3f29eba6745afa8e7c2ba74d6b984 and IP: 10.16.21.198
+Dec 19, 2013 12:09:52 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: f0936b552c274aac86034d6ac25d593c subName: aaaa metricID: f0936b552c274aac86034d6ac25d593c:aaaa originMetric: memTotal function: SUM update_period: 23 agents: [27c3f29eba6745afa8e7c2ba74d6b984, ]
+Dec 19, 2013 12:49:01 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 12:49:01 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 12:49:01 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 12:49:03 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 12:49:12 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DB Handler>> com.datastax.driver.core.exceptions.InvalidQueryException: Multiple definitions found for column agentid
+Dec 19, 2013 12:49:12 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 12:49:12 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 12:49:12 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 12:49:12 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 12:49:24 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 27c3f29eba6745afa8e7c2ba74d6b984 and IP: 10.16.21.198
+Dec 19, 2013 12:49:36 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b61aa0a88b38414abf1888aac62ae58c and IP: 10.16.21.198
+Dec 19, 2013 12:50:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 2ea3dfd1014440e2981597ed8ef9ceab subName: testCPU metricID: 2ea3dfd1014440e2981597ed8ef9ceab:testCPU originMetric: cpuTotal function: AVG update_period: 20 agents: [b61aa0a88b38414abf1888aac62ae58c, 27c3f29eba6745afa8e7c2ba74d6b984, ]
+Dec 19, 2013 12:50:31 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createSubscription>> java.lang.NullPointerException
+Dec 19, 2013 12:52:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 12:52:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 12:52:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 12:52:12 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 12:52:22 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DB Handler>> com.datastax.driver.core.exceptions.InvalidQueryException: Multiple definitions found for column agentid
+Dec 19, 2013 12:52:22 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 12:52:22 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 12:52:22 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 12:52:22 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 12:52:40 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b61aa0a88b38414abf1888aac62ae58c and IP: 10.16.21.198
+Dec 19, 2013 12:53:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 9b40e2b632ba4cfea2c4e3ae565f2feb subName: ggg metricID: 9b40e2b632ba4cfea2c4e3ae565f2feb:ggg originMetric: memFree function: SUM update_period: 4 agents: [b61aa0a88b38414abf1888aac62ae58c, ]
+Dec 19, 2013 12:53:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler createSubscription>> java.lang.NullPointerException
+Dec 19, 2013 12:54:32 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 12:54:32 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 12:54:32 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 12:54:34 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 12:54:44 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 12:54:44 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 12:54:44 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 12:54:44 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 12:54:50 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b61aa0a88b38414abf1888aac62ae58c and IP: 10.16.21.198
+Dec 19, 2013 12:55:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: e44fce925e2f422690e4e97b0b419dce subName: rrr metricID: e44fce925e2f422690e4e97b0b419dce:rrr originMetric: netPacketsOut function: AVG update_period: 5 agents: [b61aa0a88b38414abf1888aac62ae58c, ]
+Dec 19, 2013 1:02:05 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 1:02:05 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 1:02:05 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 1:02:07 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 1:02:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DB Handler>> com.datastax.driver.core.exceptions.SyntaxError: line 1:68 extraneous input ')' expecting EOF
+Dec 19, 2013 1:02:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 1:02:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 1:02:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 1:02:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 1:02:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b61aa0a88b38414abf1888aac62ae58c and IP: 10.16.21.198
+Dec 19, 2013 1:02:38 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 998f98ffbda34a2db92e8cff351354be and IP: 10.16.21.198
+Dec 19, 2013 1:02:50 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 683aad297eb148d08fe7f4c577b88c29 and IP: 10.16.21.198
+Dec 19, 2013 1:03:02 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 6eb6393fe1f347eba0810bf4192b9b8f and IP: 10.16.21.198
+Dec 19, 2013 1:03:50 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 8f6e642901064f6ba9f0f71fe22c3f57 subName: avgcpu metricID: 8f6e642901064f6ba9f0f71fe22c3f57:avgcpu originMetric: cpuTotal function: AVG update_period: 20 agents: [683aad297eb148d08fe7f4c577b88c29, 998f98ffbda34a2db92e8cff351354be, ]
+Dec 19, 2013 1:10:59 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler addAgentToSub>> java.lang.NullPointerException
+Dec 19, 2013 1:13:29 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: Cassandra DBHandler addAgentToSub>> java.lang.NullPointerException
+Dec 19, 2013 1:14:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 1:14:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 1:14:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 1:14:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 1:14:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 1:14:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 1:14:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 1:14:26 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 1:14:32 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 6eb6393fe1f347eba0810bf4192b9b8f and IP: 10.16.21.198
+Dec 19, 2013 1:14:50 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 94eeb9dcf7c547129a1f1ff3b00c5764 and IP: 10.16.21.198
+Dec 19, 2013 1:15:17 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 61877bbda8f643898c7d24bc82cb6a84 subName: aaaa metricID: 61877bbda8f643898c7d24bc82cb6a84:aaaa originMetric: cpuTotal function: AVG update_period: 23 agents: [94eeb9dcf7c547129a1f1ff3b00c5764, ]
+Dec 19, 2013 1:25:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Dec 19, 2013 1:25:49 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Dec 19, 2013 1:25:49 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Dec 19, 2013 1:25:51 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.124.102
+with params (83.212.124.102, catascopia_user, catascopia_pass, JCatascopiaDB)
+Dec 19, 2013 1:26:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Dec 19, 2013 1:26:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Dec 19, 2013 1:26:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Dec 19, 2013 1:26:00 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Dec 19, 2013 1:26:06 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 94eeb9dcf7c547129a1f1ff3b00c5764 and IP: 10.16.21.198
+Dec 19, 2013 1:26:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: d11cfef2ae064f8392ca61642853330c and IP: 10.16.21.198
+Dec 19, 2013 1:26:48 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: a310a09d792941329e2ebb848387838b and IP: 10.16.21.198
+Dec 19, 2013 1:27:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> created a new subscription...
+Subscription>> subID: 6112c46eceee497abbce6aba98883b99 subName: CPUcluster metricID: 6112c46eceee497abbce6aba98883b99:CPUcluster originMetric: cpuTotal function: AVG update_period: 25 agents: [a310a09d792941329e2ebb848387838b, d11cfef2ae064f8392ca61642853330c, ]
+Dec 19, 2013 1:28:27 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> added agent: 94eeb9dcf7c547129a1f1ff3b00c5764to subscription:
+6112c46eceee497abbce6aba98883b99
+Dec 19, 2013 1:29:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: SubProcessor>> removed agent: a310a09d792941329e2ebb848387838bfrom subscription:
+6112c46eceee497abbce6aba98883b99

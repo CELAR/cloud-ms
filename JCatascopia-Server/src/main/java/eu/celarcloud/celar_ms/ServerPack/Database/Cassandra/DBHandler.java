@@ -1,6 +1,7 @@
 package eu.celarcloud.celar_ms.ServerPack.Database.Cassandra;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import com.datastax.driver.core.utils.UUIDs;
 import eu.celarcloud.celar_ms.ServerPack.IJCatascopiaServer;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
 import eu.celarcloud.celar_ms.ServerPack.Beans.MetricObj;
+import eu.celarcloud.celar_ms.ServerPack.Beans.SubObj;
 import eu.celarcloud.celar_ms.ServerPack.Database.IDBHandler;
 
 public class DBHandler implements IDBHandler{
@@ -34,13 +36,24 @@ public class DBHandler implements IDBHandler{
 	private static final String DELETE_METRIC = "DELETE FROM metric_table WHERE agentID=? AND metricID =?";
 	private static final String INSERT_METRIC_VALUE = "INSERT INTO metric_value_table " +
 														 "(metricID, event_date, event_timestamp, value, name, mgroup, type, units) VALUES (?,?,?,?,?,?,?,?) USING TTL 2592000";
-
+	private static final String CREATE_SUBSCRIPTION = "INSERT INTO subscription_table " +
+			 											"(subID, metricID, func, originMetric, period, name, mgroup, type, units) VALUES (?,?,?,?,?,?,?,?,?)";;
+	private static final String ADD_AGENT_TO_SUB = "INSERT INTO subscription_agents_table (subID,agentID,agentIP) VALUES (?,?,?);";
+	private static final String REMOVE_AGENT_FROM_SUB = "DELETE FROM subscription_agents_table WHERE subID =? AND agentID =? ";
+	private static final String REMOVE_ALL_AGENTS_FROM_SUB = "DELETE FROM subscription_agents_table WHERE subID =?";
+	private static final String DELETE_SUBSCRIPTION = "DELETE FROM subscription_table WHERE subID=?";
+	
 	private PreparedStatement insertAgentStmt;
 	private PreparedStatement updateAgentStmt;
 	private PreparedStatement deleteAgentStmt;
 	private PreparedStatement insertMetricStmt;
 	private PreparedStatement deleteMetricStmt;
 	private PreparedStatement insertMetricValueStmt;
+	private PreparedStatement createSubStmt;
+	private PreparedStatement addAgentToSubStmt;
+	private PreparedStatement removeAgentFromSubStmt;
+	private PreparedStatement removeAllAgentsSubStmt;
+	private PreparedStatement deleteSubStmt;
 
 	public DBHandler(List<String> endpoints, String keyspace, IJCatascopiaServer server){
 		this.endpoints = endpoints;
@@ -81,7 +94,7 @@ public class DBHandler implements IDBHandler{
 	public void dbInit(boolean drop_tables){
 	    try {
 			if(drop_tables){ 
-				String[] tables = {"agent_table","metric_table","metric_value_table"};
+				String[] tables = {"agent_table","metric_table","metric_value_table","subscription_table", "subscription_agents_table"};
 				String cql;
 				for(String t : tables){
 					cql = "DROP TABLE IF EXISTS " + t;
@@ -106,6 +119,7 @@ public class DBHandler implements IDBHandler{
 		                " mgroup varchar," +
 		                " type varchar," +
 		                " units varchar," +
+		                " is_sub varchar," +
 		                " PRIMARY KEY (agentID,metricID)" +
 		                ");";
 				session.execute(cql);
@@ -125,6 +139,32 @@ public class DBHandler implements IDBHandler{
 		                ") WITH CLUSTERING ORDER BY (event_timestamp DESC);";
 				session.execute(cql);
 				System.out.println("Successfully dropped and created table: " + table);
+
+				table = "subscription_table";
+				cql = "CREATE TABLE "+table+" (" + 
+						" subID varchar," + 
+		                " metricID varchar," + 
+		                " func varchar," +
+		                " originMetric varchar," +
+		                " period int," +
+		                " name varchar," +
+		                " mgroup varchar," +
+		                " type varchar," +
+		                " units varchar," +
+		                " PRIMARY KEY (subID)" +
+		                ");";
+				session.execute(cql);				
+				System.out.println("Successfully dropped and created table: " + table);
+				
+				table = "subscription_agents_table";
+				cql = "CREATE TABLE "+table+" (" + 
+						" subID varchar," + 
+		                " agentID varchar," + 
+		                " agentIP varchar," +
+		                " PRIMARY KEY (subID,agentID)" +
+		                ");";
+				session.execute(cql);
+				System.out.println("Successfully dropped and created table: " + table);
 			}
 			
 			this.insertAgentStmt = session.prepare(CREATE_AGENT);
@@ -133,6 +173,11 @@ public class DBHandler implements IDBHandler{
 			this.insertMetricStmt = session.prepare(CREATE_METRIC);
 			this.deleteMetricStmt = session.prepare(DELETE_METRIC);
 			this.insertMetricValueStmt = session.prepare(INSERT_METRIC_VALUE);
+			this.createSubStmt = session.prepare(CREATE_SUBSCRIPTION);
+			this.addAgentToSubStmt = session.prepare(ADD_AGENT_TO_SUB);
+			this.removeAgentFromSubStmt = session.prepare(REMOVE_AGENT_FROM_SUB);
+			this.removeAllAgentsSubStmt = session.prepare(REMOVE_ALL_AGENTS_FROM_SUB);
+			this.deleteSubStmt = session.prepare(DELETE_SUBSCRIPTION);
 	    }
 	    catch(Exception e){
 	    	this.server.writeToLog(Level.SEVERE, "Cassandra DB Handler>> "+e);
@@ -221,6 +266,31 @@ public class DBHandler implements IDBHandler{
 		}
 	}
 	
+	public void insertBatchMetricValues(ArrayList<MetricObj> metriclist){
+		try{
+			StringBuilder sb = new StringBuilder();
+			sb.append("BEGIN BATCH ");
+			for(MetricObj metric : metriclist){
+				
+				sb.append("INSERT INTO metric_value_table (metricID, event_date, event_timestamp, value, name, mgroup, type, units) VALUES (");
+				sb.append("'"+metric.getMetricID()+"'");
+				sb.append(",'"+new SimpleDateFormat("yyyy-MM-dd").format(new Date(metric.getTimestamp()))+"'");
+				sb.append(","+UUIDs.endOf(metric.getTimestamp()));
+				sb.append(",'"+metric.getValue()+"'");
+				sb.append(",'"+metric.getName()+"'");
+				sb.append(",'" +metric.getGroup()+"'");
+				sb.append(",'"+metric.getType()+"'");
+				sb.append(",'"+metric.getUnits()+"'");
+				sb.append(") USING TTL 2592000 ");
+			}
+			sb.append(" APPLY BATCH;");
+			session.execute(sb.toString());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public void doQuery(String cql, boolean print){
 		try{
 			ResultSet rs = session.execute(cql);
@@ -233,5 +303,82 @@ public class DBHandler implements IDBHandler{
 		catch(Exception e){
 			e.printStackTrace(); 
 		}
+	}
+
+	public void createSubscription(SubObj sub, MetricObj metric) {
+		try{
+			BoundStatement bs = this.createSubStmt.bind();
+			bs.setString("subID", sub.getSubID());
+			bs.setString("metricID", metric.getMetricID());
+			bs.setString("func", sub.getGroupingFunc().name());
+			bs.setString("originMetric", sub.getOriginMetric());
+			bs.setInt("period", sub.getPeriod());
+			bs.setString("name", metric.getName());
+			bs.setString("mgroup",metric.getGroup());
+			bs.setString("type", metric.getType());
+			bs.setString("units", metric.getUnits());
+			session.execute(bs);	
+			
+//			bs = this.insertMetricStmt.bind();
+//			bs.setString("agentID", metric.getAgentID());
+//			bs.setString("metricID", metric.getMetricID());
+//			bs.setString("name", metric.getName());
+//			bs.setString("mgroup",metric.getGroup());
+//			bs.setString("type", metric.getType());
+//			bs.setString("units", metric.getUnits());
+//			session.execute(bs);
+			
+			bs = this.addAgentToSubStmt.bind();
+			String subID = sub.getSubID();
+			for(String agentID:sub.getAgentList()){
+				bs.setString("subID", subID);
+				bs.setString("agentID", agentID);
+				bs.setString("agentIP",this.server.getAgentMap().get(agentID).getAgentIP());
+				session.execute(bs);
+			}			
+		} 
+		catch(Exception e){
+			this.server.writeToLog(Level.SEVERE, "Cassandra DBHandler createSubscription>> "+e);
+		}
+	}
+
+	public void deleteSubscription(String subID){
+		try{
+			BoundStatement bs = this.deleteSubStmt.bind();
+			bs.setString("subID", subID);
+			session.execute(bs);
+			
+			bs = this.removeAllAgentsSubStmt.bind();
+			bs.setString("subID", subID);
+			session.execute(bs);
+		} 
+		catch(Exception e){
+			this.server.writeToLog(Level.SEVERE, "Cassandra DBHandler deleteSubscription>> "+e);
+		}			
+	}
+
+	public void addAgentToSub(String subID, String agentID){
+		try{
+			BoundStatement bs = this.addAgentToSubStmt.bind();
+			bs.setString("subID", subID);
+			bs.setString("agentID", agentID);
+			bs.setString("agentIP",this.server.getAgentMap().get(agentID).getAgentIP());
+			session.execute(bs);			
+		} 
+		catch(Exception e){
+			this.server.writeToLog(Level.SEVERE, "Cassandra DBHandler addAgentToSub>> "+e);
+		}		
+	}
+
+	public void removeAgentFromSub(String subID, String agentID) {
+		try{
+			BoundStatement bs = this.removeAgentFromSubStmt.bind();
+			bs.setString("subID", subID);
+			bs.setString("agentID", agentID);
+			session.execute(bs);			
+		} 
+		catch(Exception e){
+			this.server.writeToLog(Level.SEVERE, "Cassandra DBHandler removeAgentFromSub>> "+e);
+		}				
 	}
 }

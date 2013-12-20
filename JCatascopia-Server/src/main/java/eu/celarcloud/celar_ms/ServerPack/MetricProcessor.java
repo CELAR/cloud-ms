@@ -82,7 +82,7 @@ public class MetricProcessor implements Runnable{
 					String metricID = agentID+":"+metric_name;
 					String value = (String)obj.get("val");
 					
-					MetricObj metric = new MetricObj(metricID,agentID,null,metric_name,(String)obj.get("units"),
+					MetricObj metric = new MetricObj(metricID,agentID,metric_name,(String)obj.get("units"),
 							(String)obj.get("type"),group, value, timestamp);
 					
 					if (this.server.inDebugMode())
@@ -166,7 +166,7 @@ public class MetricProcessor implements Runnable{
 					long timestamp = Long.parseLong(m.get("timestamp").toString());
 	
 					
-					MetricObj metric = new MetricObj(metricID,agentID,null,metric_name,(String)m.get("units"),
+					MetricObj metric = new MetricObj(metricID,agentID,metric_name,(String)m.get("units"),
 							                         (String)m.get("type"),(String)m.get("group"), value, timestamp);
 					
 					if (this.server.inDebugMode())

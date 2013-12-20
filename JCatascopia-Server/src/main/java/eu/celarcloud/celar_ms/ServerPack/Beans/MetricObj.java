@@ -3,7 +3,6 @@ package eu.celarcloud.celar_ms.ServerPack.Beans;
 public class MetricObj {
 	private String metricID;
 	private String agentID;
-	private String subID;
 	private String name;
 	private String units;
 	private String type;
@@ -16,11 +15,10 @@ public class MetricObj {
 	private int count;
     private final Object lock = new Object();
 	
-	public MetricObj(String metricID,String agentID,String subID,String name,String units,
+	public MetricObj(String metricID,String agentID,String name,String units,
 			         String type,String group,String value,long timestamp){
 		this.metricID = metricID;
 		this.agentID = agentID;
-		this.subID = subID;
 		
 		this.name = name;
 		this.units = units;
@@ -34,9 +32,9 @@ public class MetricObj {
 		this.count = 0;		
 	}
 	
-	public MetricObj(String metricID,String agentID,String subID,String name,String units,
+	public MetricObj(String metricID,String agentID,String name,String units,
 			         String type, String group,long timestamp){
-		this(metricID, agentID, subID, name, units, type, group, null,timestamp);
+		this(metricID, agentID, name, units, type, group, null,timestamp);
 	}
 	
 	public String getMetricID(){
@@ -45,10 +43,6 @@ public class MetricObj {
 	
 	public String getAgentID(){
 		return this.agentID;
-	}
-	
-	public String getSubID(){
-		return this.subID;
 	}
 
 	public String getName(){
