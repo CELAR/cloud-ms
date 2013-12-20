@@ -3,33 +3,27 @@
   <display-name>WebProject</display-name>
   <welcome-file-list>
     <welcome-file>home.jsp</welcome-file>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
-   <listener>
-    <listener-class>servletPack.ServletListener</listener-class>
+  <listener>
+    <listener-class>eu.celarcloud.jcatascopia.web.servletPack.ServletListener</listener-class>
   </listener>
-
-<!--  <filter>
-   <filter-name>cross-origin</filter-name>
-   <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
-   <init-param>
-    <param-name>allowedMethods</param-name>
-    <param-value>GET,POST,PUT,DELETE</param-value>
-   </init-param>
- </filter>
- <filter-mapping>
-     <filter-name>cross-origin</filter-name>
-     <url-pattern>/restAPI/*</url-pattern>
- </filter-mapping> -->
   
   <context-param>
-    <param-name>host</param-name>
-    <param-value>localhost:3306</param-value>
+    <param-name>dbContainer</param-name>
+    <param-value>Cassandra.DBInterface</param-value>
+    <!--<param-value>MySQL.DBInterfaceWithConnPool</param-value>-->
+  </context-param>
+  <context-param>
+    <param-name>hosts</param-name>
+    <!--<param-value>localhost:3306</param-value>-->
+    <param-value>83.212.124.102</param-value>
   </context-param>
   <context-param>
    <param-name>database</param-name>
-   <param-value>catascopiaDB</param-value>
+   <!--<param-value>catascopiaDB</param-value>-->
+   <param-value>JCatascopiaDB</param-value>
   </context-param>
   <context-param>
    <param-name>user</param-name>
@@ -38,7 +32,7 @@
   <context-param>
    <param-name>pass</param-name>
    <param-value>catascopia_pass</param-value>
-  </context-param>
+  </context-param> 
  
   <context-param>
     <param-name>serverIP</param-name>
@@ -51,7 +45,7 @@
   
    <context-param>
     <param-name>debug_mode</param-name>
-    <param-value>false</param-value>
+    <param-value>true</param-value>
   </context-param>
   
   <servlet>
@@ -59,7 +53,7 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>jcatascopia.api.agent</param-value>
+      <param-value>eu.celarcloud.jcatascopia.api.agent</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
@@ -72,7 +66,7 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>jcatascopia.api.metrics</param-value>
+      <param-value>eu.celarcloud.jcatascopia.api.metrics</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
@@ -85,12 +79,11 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>jcatascopia.api.subscriptions</param-value>
+      <param-value>eu.celarcloud.jcatascopia.api.subscriptions</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>jersey-servlet-SubscriptionsServer</servlet-name>
     <url-pattern>/restAPI/subscriptions/*</url-pattern>
-  </servlet-mapping>
-
+  </servlet-mapping>  
 </web-app>

@@ -1,4 +1,4 @@
-package jcatascopia.api.metrics;
+package eu.celarcloud.jcatascopia.api.metrics;
 
 import java.util.ArrayList;
 
@@ -18,11 +18,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import dbPackage.DBHandlerWithConnPool;
-import dbPackage.beans.AgentObj;
-import dbPackage.beans.MetricObj;
-import dbPackage.dao.AgentDAO;
-import dbPackage.dao.MetricDAO;
+import eu.celarcloud.jcatascopia.web.queryMaster.beans.MetricObj;
+import eu.celarcloud.jcatascopia.web.queryMaster.database.IDBInterface;
 
 @Path("/")
 //from web.xml path until here is: /restAPI/metrics/
@@ -41,19 +38,17 @@ public class MetricServer {
 	@Path("/")
 //	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRegisteredMetrics(@Context HttpServletRequest req, 
-			@Context HttpServletResponse response,
-			@Context ServletContext context,
-			String body){
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
+	public Response getRegisteredMetrics(@Context HttpServletRequest req, @Context HttpServletResponse response,
+			                              @Context ServletContext context, String body){
+		long t1 = System.currentTimeMillis();
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
 
-//		System.out.println(body);
-		if(body.startsWith("metrics=")) body = body.split("=")[1].replaceAll("%3A", ":");
-		ArrayList<MetricObj> metriclist = MetricDAO.getMetrics(dbHandler.getConnection(), body.split(","));
-
+		if (body.startsWith("metrics=")) 
+			body = body.split("=")[1].replaceAll("%3A", ":");
+		
+		ArrayList<MetricObj> metriclist = dbInterface.getMetricValues(body.split(","));
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"metrics\":[");
-
 		if(metriclist!=null) {
 			boolean first = true;
 			for(MetricObj mo: metriclist) {
@@ -64,8 +59,11 @@ public class MetricServer {
 		}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
 			System.out.println("Listing registered metrics");
+			System.out.println(sb.toString());
+			System.out.println("query time (ms): " + (System.currentTimeMillis()-t1));
+		}
 
 		return Response.status(Response.Status.OK)
 				.entity(sb.toString())
@@ -83,16 +81,13 @@ public class MetricServer {
 	@GET
 	@Path("/subscriptions")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSubscriptionsMetrics(@Context HttpServletRequest req, 
-			@Context HttpServletResponse response,
-			@Context ServletContext context)
-	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		ArrayList<MetricObj> metriclist = MetricDAO.getSubscriptionsAvailableMetrics(dbHandler.getConnection());
-
+	public Response getSubscriptionsMetrics(@Context HttpServletRequest req, @Context HttpServletResponse response,
+			                                 @Context ServletContext context){
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+		
+		ArrayList<MetricObj> metriclist = dbInterface.getAvailableMetricsForSubs();
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"metrics\":[");
-
 		if(metriclist!=null) {
 			boolean first = true;
 			for(MetricObj mo: metriclist) {
@@ -103,8 +98,10 @@ public class MetricServer {
 		}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
-			System.out.println("Listing available metrics to subscribe");
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
+			System.out.println("Listing available metrics to subscribe to");
+			System.out.println(sb.toString());
+		}
 		
 		return Response.status(Response.Status.OK)
 				.entity(sb.toString())
@@ -126,42 +123,46 @@ public class MetricServer {
 	@GET
 	@Path("/{metricid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getValuesForTimeRange(@Context HttpServletRequest req, 
-			@Context HttpServletResponse response,
-			@Context ServletContext context,
-			@PathParam("metricid") String metricID,
-			@QueryParam("interval") String interval, @QueryParam("tstart") String start, @QueryParam("tend") String end) 
-	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
+	public Response getValuesForTimeRange(@Context HttpServletRequest req, @Context HttpServletResponse response,
+										   @Context ServletContext context, @PathParam("metricid") String metricID,
+										   @QueryParam("interval") String interval, @QueryParam("tstart") String tstart, 
+										   @QueryParam("tend") String tend){
+		long t1 = System.currentTimeMillis();
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+
 		ArrayList<MetricObj> metriclist = null;
-		if(start == null && end == null)
-			metriclist = MetricDAO.getMetricByTime(dbHandler.getConnection(), metricID, interval);
-		else 
-			metriclist = MetricDAO.getMetricByTime(dbHandler.getConnection(), new String[]{metricID}, start, end);
+		if(tstart == null && tend == null){
+			long interv = Long.parseLong(interval);
+			metriclist = dbInterface.getMetricValuesByTime(metricID, interv);
+		}
+		else{
+			long start = Long.parseLong(tstart);
+			long end = Long.parseLong(tend);
+			metriclist = dbInterface.getMetricValuesByTime(metricID, start, end);
+		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"metricID\":\""+metricID+"\", \"values\":[");
-
 		if(metriclist!=null) {
 			boolean first = true;
 			for(MetricObj mo: metriclist) {
 				if(!first) sb.append(",");
-				sb.append("{\"value\":\""+mo.getValue()+"\",");
-				sb.append("\"name\":\""+mo.getName()+"\",");
-				sb.append("\"type\":\""+mo.getType()+"\",");
-				sb.append("\"units\":\""+mo.getUnits()+"\",");
-				sb.append("\"timestamp\":\""+mo.getTimestamp().split(" ")[1].replace(".0", "")+"\"}");
+				sb.append(mo.toJSON());
 				first = false;
 			}
 		}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
 			System.out.println("Listing timerange values for metric " + metricID);
+			System.out.println(sb.toString());
+			System.out.println("query time (ms): " + (System.currentTimeMillis()-t1));
+		}	
+	
 
 		return Response.status(Response.Status.OK)
-				.entity(sb.toString())
-				.build();
+					    .entity(sb.toString())
+				        .build();
 	}
 
 	/**
@@ -184,21 +185,22 @@ public class MetricServer {
 			@PathParam("agentid") String agentID,
 			@QueryParam("tstart") String start, @QueryParam("tend") String end) 
 	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		
-		JSONArray jresponse = MetricDAO.getAgentsLatestMetrics(dbHandler.getConnection(), new String[]{agentID});
-
-		try {
-			return Response.status(Response.Status.OK)
-							.entity(jresponse.get(0).toString())
-							.build();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Response.status(Response.Status.NOT_FOUND)
-				.entity("")
-				.build();
+//		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
+//		
+//		JSONArray jresponse = MetricDAO.getAgentsLatestMetrics(dbHandler.getConnection(), new String[]{agentID});
+//
+//		try {
+//			return Response.status(Response.Status.OK)
+//							.entity(jresponse.get(0).toString())
+//							.build();
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return Response.status(Response.Status.NOT_FOUND)
+//				.entity("")
+//				.build();
+		return Response.status(Response.Status.OK).build();
 	}
 	
 	/**
@@ -221,25 +223,26 @@ public class MetricServer {
 															@PathParam("deploymentid") String deploymentID,
 															@QueryParam("tstart") String start, @QueryParam("tend") String end) 
 	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		
-		ArrayList<AgentObj> agents = AgentDAO.getAgents(dbHandler.getConnection(), null);
-		if(agents != null) {
-			StringBuilder sb = new StringBuilder();
-			boolean first = true;
-			for(AgentObj ao: agents) {
-				if(!first) sb.append(",");
-				sb.append(ao.getAgentID());
-				first = false;
-			}
-			JSONArray jresponse = MetricDAO.getAgentsLatestMetrics(dbHandler.getConnection(),sb.toString().split(","));
-	
-			return Response.status(Response.Status.OK)
-							.entity(jresponse.toString())
-							.build();
-		}
-		return Response.status(Response.Status.NOT_FOUND)
-				.entity("")
-				.build();
+//		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
+//		
+//		ArrayList<AgentObj> agents = AgentDAO.getAgents(dbHandler.getConnection(), null);
+//		if(agents != null) {
+//			StringBuilder sb = new StringBuilder();
+//			boolean first = true;
+//			for(AgentObj ao: agents) {
+//				if(!first) sb.append(",");
+//				sb.append(ao.getAgentID());
+//				first = false;
+//			}
+//			JSONArray jresponse = MetricDAO.getAgentsLatestMetrics(dbHandler.getConnection(),sb.toString().split(","));
+//	
+//			return Response.status(Response.Status.OK)
+//							.entity(jresponse.toString())
+//							.build();
+//		}
+//		return Response.status(Response.Status.NOT_FOUND)
+//				.entity("")
+//				.build();
+		return Response.status(Response.Status.OK).build();
 	}
 }

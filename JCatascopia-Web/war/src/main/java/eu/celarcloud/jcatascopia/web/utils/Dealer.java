@@ -1,4 +1,4 @@
-package dbPackage.beans;
+package eu.celarcloud.jcatascopia.web.utils;
 
 import org.jeromq.ZFrame;
 import org.jeromq.ZMQ;

@@ -1,4 +1,4 @@
-package jcatascopia.api.subscriptions;
+package eu.celarcloud.jcatascopia.api.subscriptions;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -22,18 +22,17 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import dbPackage.DBHandlerWithConnPool;
-import dbPackage.beans.AgentObj;
-import dbPackage.beans.SubscriptionObj;
-import dbPackage.dao.AgentDAO;
-import dbPackage.dao.SubscriptionDAO;
+import eu.celarcloud.jcatascopia.web.queryMaster.beans.AgentObj;
+import eu.celarcloud.jcatascopia.web.queryMaster.beans.SubscriptionObj;
+import eu.celarcloud.jcatascopia.web.queryMaster.database.IDBInterface;
+
 
 @Path("/")
 //from web.xml path until here is: /restAPI/subscriptions/
 public class SubscriptionsServer {
 	
 	/**
-	 * Returns a list of all the subscriptions.
+	 * Returns a list of all the subscriptions
 	 * 
 	 * @param req
 	 * @param response
@@ -43,18 +42,13 @@ public class SubscriptionsServer {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAvailableSubscriptions(@Context HttpServletRequest req, 
-							              @Context HttpServletResponse response,
-							              @Context ServletContext context)
-	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		
-		ArrayList<SubscriptionObj> sublist = null;
-		sublist = SubscriptionDAO.getAppSubs(dbHandler.getConnection());
+	public Response getAvailableSubscriptions(@Context HttpServletRequest req, @Context HttpServletResponse response,
+							                   @Context ServletContext context){
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+		ArrayList<SubscriptionObj> sublist = dbInterface.getSubscriptions();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"subs\":[");
-		
 		if(sublist != null) {
 			boolean first = true;
 			for(SubscriptionObj s: sublist) {
@@ -65,8 +59,10 @@ public class SubscriptionsServer {
 		}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
 			System.out.println("Listing available subscriptions");
+			System.out.println(sb.toString());
+		}	
 		
 		return Response.status(Response.Status.OK)
 		           .entity(sb.toString())
@@ -74,7 +70,7 @@ public class SubscriptionsServer {
 	}
 	
 	/**
-	 * Returns the given subscription's metadata.
+	 * Returns the given subscription's metadata
 	 * 
 	 * @param req
 	 * @param response
@@ -85,17 +81,15 @@ public class SubscriptionsServer {
 	@GET
 	@Path("/{subid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSubscriptionMetadata(@Context HttpServletRequest req, 
-							              @Context HttpServletResponse response,
-							              @Context ServletContext context,
-							              @PathParam("subid") String subID)
-	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
+	public Response getSubscriptionMetadata(@Context HttpServletRequest req, @Context HttpServletResponse response,
+							              @Context ServletContext context, @PathParam("subid") String subID){
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+		SubscriptionObj sub = dbInterface.getSubMeta(subID);
 		
-		SubscriptionObj sub = SubscriptionDAO.getSubMetadata(dbHandler.getConnection(), subID);
-		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
-			System.out.println("Subscription (ID: "+subID+") metadata");
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
+			System.out.println("Request to retieve sub metadata: " + sub.getSubID());
+			System.out.println(sub.toJSON());
+		}
 		
 		return Response.status(sub != null ? Response.Status.OK : Response.Status.NOT_FOUND)
 		           .entity(sub!=null ? sub.toJSON() : "Subscripiton with id "+subID+" not found!")
@@ -114,18 +108,13 @@ public class SubscriptionsServer {
 	@GET
 	@Path("/{subid}/agents")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSubscriptionAgents(@Context HttpServletRequest req, 
-							              @Context HttpServletResponse response,
-							              @Context ServletContext context,
-							              @PathParam("subid") String subID)
-	{
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		
-		ArrayList<AgentObj> subAgents = AgentDAO.getAgentsForSubscription(dbHandler.getConnection(), subID);
+	public Response getSubscriptionAgents(@Context HttpServletRequest req, @Context HttpServletResponse response,
+							              @Context ServletContext context, @PathParam("subid") String subID){
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+		ArrayList<AgentObj> subAgents = dbInterface.getAgentsForSub(subID);
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"agents\":[");
-		
 		if(subAgents != null) {
 			boolean first = true;
 			for(AgentObj a: subAgents) {
@@ -136,8 +125,10 @@ public class SubscriptionsServer {
 		}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
-			System.out.println("Subscription (ID: "+subID+") agents");
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
+			System.out.println("Request to retrieve sub: "+subID+" agents");
+			System.out.println(sb.toString());
+		}
 		
 		return Response.status(Response.Status.OK)
 		           .entity(sb.toString())
@@ -157,41 +148,41 @@ public class SubscriptionsServer {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addSubscription(@Context HttpServletRequest req, @Context HttpServletResponse response,
-			              				@Context ServletContext context, String body)
-	{
+			              			 @Context ServletContext context, String body){
 		String serverIP = (String) context.getAttribute("serverIP");
 		String serverPort = (String) context.getAttribute("serverPort");
-		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
-			System.out.println("Message received from "+serverIP+":"+serverPort+" to add sub");
-			System.out.println(body);
-		}
-		if(body.startsWith("subscription="))
-			try {
-				body = URLDecoder.decode(body.split("=")[1], "UTF-8");
-			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
-			}
-		JSONObject json = null;
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+
 		try {
-			json = new JSONObject(body);
+			if(body.startsWith("subscription="))
+				body = URLDecoder.decode(body.split("=")[1], "UTF-8");	
+			
+			JSONObject json = new JSONObject(body);
 			json.put("subID", UUID.randomUUID().toString().replace("-", ""));
-//			System.out.println(json.toString());
-			if (SubscriptionDAO.addSubscription(serverIP, serverPort, json.toString())) {
+			
+			boolean resp = dbInterface.createSubscription(serverIP, serverPort, json.toString());
+			if (resp){
 				if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
 					System.out.println("Added a new subscription with id " + json.getString("subID"));
 				return Response.status(Response.Status.CREATED)
 					           .entity("{\"status\":\"added\",\"subID\":\""+json.getString("subID")+"\"}")
 					           .build();
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-			
+			else{
+				System.out.println("Failed to add new subscription");
+				//TODO fix this status code which gives the wrong impression
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					           .entity("{\"status\":\"failed\"}")
+					           .build();
+			}
+		} 
+		catch (JSONException e){
+			e.printStackTrace();	
 		}
-		System.out.println("Failed to add new subscription");
-		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-			           .entity("{\"status\":\"failed\"}")
-			           .build();
+		catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
@@ -207,26 +198,26 @@ public class SubscriptionsServer {
 	@Path("/{subid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteSubscription(@Context HttpServletRequest req, @Context HttpServletResponse response,
-			              				@Context ServletContext context, @PathParam("subid") String subID)
-	{
+			              				@Context ServletContext context, @PathParam("subid") String subID){
 		String serverIP = (String) context.getAttribute("serverIP");
 		String serverPort = (String) context.getAttribute("serverPort");
-
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
-			System.out.println("Message received from "+serverIP+":"+serverPort+" to delete sub");
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
 		
-		if(SubscriptionDAO.removeSubscription(serverIP, serverPort, "{\"subID\" : \""+subID+"\"}")) {
+		boolean resp = dbInterface.removeSubscription(serverIP, serverPort, "{\"subID\" : \""+subID+"\"}");
+		if (resp){
 			if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
-				System.out.println("Deleted subscription with id " + subID);
+				System.out.println("Removed subscription with id " + subID);
+			
 			return Response.status(Response.Status.OK)
-				           .entity("{\"status\":\"success\"}")
+			           .entity("{\"status\":\"success\"}")
+			           .build();
+		}
+		else{
+			System.out.println("Failed to delete subscription with id " + subID);
+			return Response.status(Response.Status.NOT_FOUND)
+				           .entity("{\"status\":\"failed\"}")
 				           .build();
 		}
-		System.out.println("Failed to delete subscription with id " + subID);
-		return Response.status(Response.Status.NOT_FOUND)
-			           .entity("{\"status\":\"failed\"}")
-			           .header("Access-Control-Allow-Origin", "*")
-			           .build();
 	}
 	
 	/**
@@ -245,14 +236,11 @@ public class SubscriptionsServer {
 	@QueryParam("action")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response actionForAgent(@Context HttpServletRequest req, @Context HttpServletResponse response,
-			              	@Context ServletContext context, 
-			              	@PathParam("subid") String subID, @PathParam("agentid") String agentID, @QueryParam("action") String action)
-	{
+			              			@Context ServletContext context, @PathParam("subid") String subID, 
+			              			@PathParam("agentid") String agentID, @QueryParam("action") String action){
 		String serverIP = (String) context.getAttribute("serverIP");
 		String serverPort = (String) context.getAttribute("serverPort");
-
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
-			System.out.println("Message received from "+serverIP+":"+serverPort+" to "+action);
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
 		
 		boolean success = false;
 		StringBuilder sb = new StringBuilder();
@@ -260,10 +248,10 @@ public class SubscriptionsServer {
 		sb.append("\"agentID\":\""+agentID+"\"}");
 		
 		if(action.equals("addAgent")) {
-			success = SubscriptionDAO.addAgent(serverIP, serverPort, sb.toString());
+			success = dbInterface.addAgent(serverIP, serverPort, sb.toString());
 		}
 		else if(action.equals("removeAgent")) {
-			success = SubscriptionDAO.removeAgent(serverIP, serverPort, sb.toString());
+			success = dbInterface.removeAgent(serverIP, serverPort, sb.toString());
 		}
 		else {
 			System.out.println("Action "+action+" is not valid");

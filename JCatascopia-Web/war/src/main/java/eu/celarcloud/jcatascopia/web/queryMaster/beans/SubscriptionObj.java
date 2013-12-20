@@ -1,4 +1,4 @@
-package dbPackage.beans;
+package eu.celarcloud.jcatascopia.web.queryMaster.beans;
 /**
  * This represents a subscription. It includes the subID, name,
  * groupping function, period, origin metric, metricID, metric type,

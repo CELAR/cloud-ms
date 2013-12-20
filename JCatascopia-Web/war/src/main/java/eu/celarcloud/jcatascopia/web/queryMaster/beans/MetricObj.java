@@ -1,4 +1,4 @@
-package dbPackage.beans;
+package eu.celarcloud.jcatascopia.web.queryMaster.beans;
 /**
  * This represents a metric object. It includes the metricID,
  * name, units, type, group, value and timestamp.
@@ -113,7 +113,8 @@ public class MetricObj {
 			previous = true;
 		}
 		if(this.timestamp!=null) {
-			sb.append((previous?",":"") + "\"timestamp\":\""+this.timestamp.split(" ")[1].replace(".0", "")+"\"");
+//			sb.append((previous?",":"") + "\"timestamp\":\""+this.timestamp.split(" ")[1].replace(".0", "")+"\"");
+			sb.append((previous?",":"") + "\"timestamp\":\""+this.timestamp+"\"");	
 			previous = true;
 		}
 		sb.append("}");

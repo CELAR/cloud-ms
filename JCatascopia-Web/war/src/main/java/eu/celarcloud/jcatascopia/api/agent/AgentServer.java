@@ -1,4 +1,4 @@
-package jcatascopia.api.agent;
+package eu.celarcloud.jcatascopia.api.agent;
 
 import java.util.ArrayList;
 
@@ -14,11 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.Produces;
 
-import dbPackage.DBHandlerWithConnPool;
-import dbPackage.beans.AgentObj;
-import dbPackage.beans.MetricObj;
-import dbPackage.dao.AgentDAO;
-import dbPackage.dao.MetricDAO;
+import eu.celarcloud.jcatascopia.web.queryMaster.beans.AgentObj;
+import eu.celarcloud.jcatascopia.web.queryMaster.beans.MetricObj;
+import eu.celarcloud.jcatascopia.web.queryMaster.database.IDBInterface;
 
 @Path("/")
 //from web.xml path until here is: /restAPI/agents/
@@ -39,15 +37,14 @@ public class AgentServer {
 	@Path("/")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getAgents(@Context HttpServletRequest req, @Context HttpServletResponse response,
-			              @Context ServletContext context, @QueryParam("status") String status, 
-			              @QueryParam("applicationID") String appID){
+			              	   @Context ServletContext context, @QueryParam("status") String status, 
+			                   @QueryParam("applicationID") String appID){
 		
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		ArrayList<AgentObj> agentlist = AgentDAO.getAgents(dbHandler.getConnection(), status);	
-
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+		
+		ArrayList<AgentObj> agentlist = dbInterface.getAgents(status);
 		StringBuilder sb = new StringBuilder();
 		sb.append(("{\"agents\":["));
-
 		if(agentlist != null) {
 			boolean first = true;
 			for(AgentObj agent: agentlist) {
@@ -58,12 +55,14 @@ public class AgentServer {
 		}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
 			System.out.println("Listing all agents for appID = " + appID);
-		
+			System.out.println(sb.toString());
+		}
+	
 		return Response.status(Response.Status.OK)
 			           .entity(sb.toString())
-			           .build();		
+			           .build();	
 	}
 	
 	/**
@@ -79,14 +78,13 @@ public class AgentServer {
 	@Path("/{agentID}/availableMetrics")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getMetrics(@Context HttpServletRequest req, @Context HttpServletResponse response,
-			               @Context ServletContext context, @PathParam("agentID") String agentID){
+			                    @Context ServletContext context, @PathParam("agentID") String agentID){
 		
-		DBHandlerWithConnPool dbHandler = (DBHandlerWithConnPool) context.getAttribute("dbHandler");
-		ArrayList<MetricObj> metriclist = 
-				               MetricDAO.getAvailableMetricsMetaData(dbHandler.getConnection(), new String[]{agentID});
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+		
+		ArrayList<MetricObj> metriclist = dbInterface.getAgentAvailableMetrics(agentID);
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"metrics\":[");
-		
 		boolean first = true;
 		if(metriclist != null)
 			for(MetricObj m: metriclist) {
@@ -96,8 +94,10 @@ public class AgentServer {
 			}
 		sb.append("]}");
 		
-		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true"))
+		if(context.getAttribute("debug_mode") != null && context.getAttribute("debug_mode").toString().equals("true")){
 			System.out.println("Listing available metrics for agent " + agentID);
+			System.out.println(sb.toString());
+		}
 		
 		return Response.status(Response.Status.OK)
 			           .entity(sb.toString())

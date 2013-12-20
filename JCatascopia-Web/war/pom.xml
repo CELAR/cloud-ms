@@ -21,11 +21,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<version>3.0-alpha-1</version>
-    </dependency>
-    <dependency>
     	<groupId>com.sun.jersey</groupId>
     	<artifactId>jersey-bundle</artifactId>
     	<version>1.17.1</version>
@@ -54,6 +49,16 @@
     	<groupId>commons-dbcp</groupId>
     	<artifactId>commons-dbcp</artifactId>
     	<version>1.4</version>
+    </dependency>
+    <dependency>
+    	<groupId>javax.servlet</groupId>
+    	<artifactId>servlet-api</artifactId>
+    	<version>2.5</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.datastax.cassandra</groupId>
+    	<artifactId>cassandra-driver-core</artifactId>
+    	<version>1.0.4</version>
     </dependency>
   </dependencies>
   <build>

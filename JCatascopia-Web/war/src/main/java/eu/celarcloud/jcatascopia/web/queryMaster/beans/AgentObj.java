@@ -1,4 +1,4 @@
-package dbPackage.beans;
+package eu.celarcloud.jcatascopia.web.queryMaster.beans;
 /**
  * Represents an agent. Stores the ID, IP and status of the agent
  */
