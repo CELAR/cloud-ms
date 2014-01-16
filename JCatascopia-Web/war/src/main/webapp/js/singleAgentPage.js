@@ -46,7 +46,7 @@ function populateMetrics(data) {
 	var staticmetrics = [window.params.agentID + ":memTotal", window.params.agentID + ":diskTotal"];
 	for(var i in data.metrics) {
 		var metric = data.metrics[i];
-		if(metric.type == "STRING" || metric.units == "") {
+		if(metric.type == "STRING" || metric.group == "StaticInfo") {
 			staticmetrics.push(metric.metricID);
 			continue;
 		}
