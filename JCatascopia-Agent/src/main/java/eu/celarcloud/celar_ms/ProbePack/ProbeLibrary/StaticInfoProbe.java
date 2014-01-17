@@ -22,7 +22,7 @@ public class StaticInfoProbe extends Probe{
 	}
 	
 	public StaticInfoProbe(){
-		this("StaticInfoProbe", 30); //don't really care about period since info is only collected once
+		this("StaticInfoProbe", 3600); //collect every hour
 	}
 
 	@Override

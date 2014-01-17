@@ -217,7 +217,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 				//if all then activate all probes and use default collecting frequency specified by probe developer
 				this.activateAllProbes();
 			else if (!probestr.equals("")){
-				//user specified specific which probes to activate
+				//user specified which probes to activate
 				String[] probe_list = probestr.split(";");
 				String[] params;	
 				for(String p:probe_list){
@@ -383,7 +383,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	public void activateAllProbes(){
 		for(String name : this.probeNameMap.keySet())
 			try{
-				if (!name.equals("StaticInfoProbe"))
+//				if (!name.equals("StaticInfoProbe"))
 					this.activateProbe(name);
 			} 
 			catch (CatascopiaException e) {
