@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -14,6 +15,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import eu.celarcloud.celar_ms.AgentPack.aggregators.IAggregator;
+import eu.celarcloud.celar_ms.AgentPack.distributors.IDistributor;
+import eu.celarcloud.celar_ms.AgentPack.distributors.TCPDistributor;
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ProbePack.IProbe;
 import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
@@ -62,7 +66,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	/**
 	 * distributor publishes metrics to the MS Server
 	 */
-	private Distributor distributor;
+	private DistributorWorker distributorWorker;
 	
 	/**
 	 * flag to check if logging available
@@ -73,7 +77,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 */
 	private Logger myLogger;
 	
-	protected Aggregator aggregator;
+	protected IAggregator aggregator;
 	
 	private ProbeController probeController;
 	
@@ -100,10 +104,10 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		this.probeNameMap = new HashMap<String,IProbe>();
 		
 		this.initLogging(); 
-				
-		this.detectAvailableProbes();
 		
-		this.initActivateProbes();
+		this.instantiateProbes();
+//		this.detectAvailableProbes();
+//		this.initActivateProbes();
 
 		//ping server, tell it we are here and report available metrics
 		//if successful then we can start distributing metrics
@@ -115,7 +119,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		if (this.useServer)
 			this.establishConnectionWithServer();	
 		
-		this.aggregator = new Aggregator(this.agentID,this.agentIPaddress,this);
+		this.initAggregator();
 		
 		this.initDistributor();
 		
@@ -156,8 +160,8 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		this.loggingFlag = Boolean.parseBoolean(this.config.getProperty("logging", "false"));
 		if (this.loggingFlag)
 			try{
-				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_AGENT_HOME, "JCatascopiaMSAgent");
-				this.myLogger.info("JCatascopiaAgent: Created and Initialized");
+				this.myLogger = CatascopiaLogging.getLogger(this.JCATASCOPIA_AGENT_HOME, "JCatascopia-Agent");
+				this.myLogger.info("JCatascopia-Agent: Created and Initialized");
 				this.loggingFlag = true;
 			}
 			catch (Exception e){
@@ -172,28 +176,74 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 */
 	public void writeToLog(Level level, Object msg){
 		if(this.loggingFlag)
-			this.myLogger.log(level, "JCatascopiaAgent"+": "+msg);
+			this.myLogger.log(level, "JCatascopia-Agent"+": "+msg);
 	}
 	
 	/**
-	 * method that loads ALL probes in Probe Library to the MS Agent
-	 * this method does NOT activate any Probes
+	 * method that LOADS and ACTIVATES Probes defined in config file
+	 * 
 	 */
-	private void detectAvailableProbes(){
-		ArrayList<String> list;
+	private void instantiateProbes(){
+		String probe_str = this.config.getProperty("probes", "all");
+		String probe_exclude_str = this.config.getProperty("probes_exclude", "");
 		try{
-			list = this.listAvailableProbeClasses();
-			for(int i=0;i<list.size();i++){
-				try{
-					IProbe tempProbe = CatascopiaProbeFactory.newInstance(PROBE_LIB_PATH,list.get(i));
-					//add detected probe to probe map
-					this.addProbe(tempProbe);
+			ArrayList<String> availableProbeList = this.listAvailableProbeClasses();
+			//user wants to instantiate all available probes with default params
+			//TODO - allow user to parameterize probes when selecting to add all probes
+			if (probe_str.equals("all")){
+				for(String s:availableProbeList) 
+					this.probeNameMap.put(s, null);
+				
+				//user wants to instantiate all available probes except the ones specified for exclusion
+				if (!probe_exclude_str.equals("")){
+					String[] probe_list = probe_exclude_str.split(";");
+					for(String s:probe_list)
+						this.probeNameMap.remove(s.split(",")[0]);
 				}
-				catch (CatascopiaException e) {
-					this.writeToLog(Level.SEVERE, e);
-					continue;
-				}	
+				
+				//instantiate
+				for(Entry<String,IProbe> p:this.probeNameMap.entrySet()){
+					try{
+						IProbe tempProbe = CatascopiaProbeFactory.newInstance(PROBE_LIB_PATH,p.getKey());
+						tempProbe.attachQueue(this.metricQueue);
+						tempProbe.attachLogger(this.myLogger);
+						p.setValue(tempProbe);
+					}
+					catch (CatascopiaException e) {
+						this.writeToLog(Level.SEVERE, e);
+						continue;
+					}	
+				}
 			}
+			//user wants to instantiate specific probes (and may set custom params)
+			else{
+				String[] probe_list = probe_str.split(";");
+				for(String s:probe_list){
+					try{
+						String[] params = s.split(",");
+						IProbe tempProbe = CatascopiaProbeFactory.newInstance(PROBE_LIB_PATH,params[0]);
+						tempProbe.attachQueue(this.metricQueue);
+						tempProbe.attachLogger(this.myLogger);
+						if(params.length>1) //user wants to define custom collecting period
+							tempProbe.setCollectPeriod(Integer.parseInt(params[1]));
+						this.probeNameMap.put(params[0], tempProbe);
+					}
+					catch (CatascopiaException e) {
+						this.writeToLog(Level.SEVERE, e);
+						continue;
+					}	
+				}
+				
+			}
+						
+			//activate Agent probes
+			this.activateAllProbes();
+			
+			//log probe list added to Agent
+			String l = " ";
+			for(Entry<String,IProbe> entry:this.probeNameMap.entrySet())
+				l += entry.getKey() + ",";
+			this.writeToLog(Level.INFO,"Probes Activated: "+l.substring(0, l.length()-1));
 		}
 		catch (CatascopiaException e){
 			this.writeToLog(Level.SEVERE, e);
@@ -210,6 +260,38 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		return list;
 	}
 	
+	/**
+	 * DEPRICATED
+	 * 
+	 * method that loads ALL probes in Probe Library to the MS Agent
+	 * this method does NOT activate any Probes
+	 */
+	private void detectAvailableProbes(){
+		ArrayList<String> availableProbeList;
+		try{
+			availableProbeList = this.listAvailableProbeClasses();
+						
+			for(int i=0;i<availableProbeList.size();i++){
+				try{
+					IProbe tempProbe = CatascopiaProbeFactory.newInstance(PROBE_LIB_PATH,availableProbeList.get(i));
+					//add detected probe to probe map
+					this.addProbe(tempProbe);
+				}
+				catch (CatascopiaException e) {
+					this.writeToLog(Level.SEVERE, e);
+					continue;
+				}	
+			}
+		}
+		catch (CatascopiaException e){
+			this.writeToLog(Level.SEVERE, e);
+		}
+	}
+	
+	/**
+	 * DEPRICATED
+	 * used with detectProbes() to activate user-defined Probes 
+	 */
 	private void initActivateProbes(){
 		String probestr = this.config.getProperty("probes", "all");
 		try{
@@ -217,7 +299,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 				//if all then activate all probes and use default collecting frequency specified by probe developer
 				this.activateAllProbes();
 			else if (!probestr.equals("")){
-				//user specified which probes to activate
+				//user specified specific which probes to activate
 				String[] probe_list = probestr.split(";");
 				String[] params;	
 				for(String p:probe_list){
@@ -241,48 +323,116 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	}
 	
 	private void establishConnectionWithServer() throws CatascopiaException{
-		String serverIP = this.config.getProperty("server_ip", "127.0.0.1");
-		String port = this.config.getProperty("control_port", "4245");
-		String protocol = this.config.getProperty("control_protocol","tcp");
-		
-/*		if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress)){
-			this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at"+serverIP);
-			throw new CatascopiaException("Could not connect to MS Server",CatascopiaException.ExceptionType.CONNECTION);
+		String protocol = this.config.getProperty("control_protocol","tcp").toLowerCase();
+
+		if (protocol.equals("rest")){
+			String url = this.config.getProperty("control_url","");
+
+			if (!RESTServerConnector.connect(url,this.agentID,this.agentIPaddress,this.probeNameMap)){
+				this.writeToLog(Level.SEVERE, "FAILED connect to Monitoring Server at: "+url);
+				throw new CatascopiaException("Could not connect to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
+			}
+			else this.writeToLog(Level.INFO, "Successfuly connected to Server at: "+url);
 		}
-		this.writeToLog(Level.INFO, "Successfuly ping-ed MS Server at "+serverIP);
-		
-		if (!ServerConnector.reportAvailableMetrics(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
-			this.writeToLog(Level.SEVERE, "FAILED to report available metrics to MS Server at "+serverIP);
-			throw new CatascopiaException("FAILED to report available metrics to MS Server at "+serverIP,
-					                       CatascopiaException.ExceptionType.CONNECTION);
+		else{
+			String serverIP = this.config.getProperty("server_ip", "127.0.0.1");
+			String port = this.config.getProperty("control_port", "4245");
+	//		String protocol = this.config.getProperty("control_protocol","tcp");
+			
+	/*		if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress)){
+				this.writeToLog(Level.SEVERE, "FAILED to ping MS Server at"+serverIP);
+				throw new CatascopiaException("Could not connect to MS Server",CatascopiaException.ExceptionType.CONNECTION);
+			}
+			this.writeToLog(Level.INFO, "Successfuly ping-ed MS Server at "+serverIP);
+			
+			if (!ServerConnector.reportAvailableMetrics(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
+				this.writeToLog(Level.SEVERE, "FAILED to report available metrics to MS Server at "+serverIP);
+				throw new CatascopiaException("FAILED to report available metrics to MS Server at "+serverIP,
+						                       CatascopiaException.ExceptionType.CONNECTION);
+			}
+			this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
+		*/
+			if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
+				this.writeToLog(Level.SEVERE, "FAILED connect to Monitoring Server at: "+serverIP);
+				throw new CatascopiaException("Could not connect to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
+			}
+			else this.writeToLog(Level.INFO, "Successfuly connected to Server at: "+serverIP);
 		}
-		this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
-	*/
-		if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
-			this.writeToLog(Level.SEVERE, "FAILED connect to Monitoring Server at: "+serverIP);
-			throw new CatascopiaException("Could not connect to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
-		}
-		else this.writeToLog(Level.INFO, "Successfuly connected to Server at: "+serverIP);
-		
 		//initialize HeartBeatMonitor
-		this.heartBeatMonitor = new HeartBeatMonitor(this,3,60,serverIP,port);
-		this.heartBeatMonitor.activate();
+//		this.heartBeatMonitor = new HeartBeatMonitor(this,3,60,serverIP,port);
+//		this.heartBeatMonitor.activate();
+	}
+	
+	/**
+	 * instantiate and initialize Aggregator interface 
+	 * @throws CatascopiaException 
+	 */
+	private void initAggregator() throws CatascopiaException{
+		String inter = this.config.getProperty("aggregator_interface", "StringAggregator");
+		
+		Class<?>[] myArgs = new Class[3];
+		myArgs[0] = String.class;
+        myArgs[1] = String.class;
+        myArgs[2] = IJCatascopiaAgent.class;
+        String path = "eu.celarcloud.celar_ms.AgentPack.aggregators."+inter;
+        try{
+	        Class<IAggregator> _tempClass = (Class<IAggregator>) Class.forName(path);
+	        Constructor<IAggregator> _tempConst = _tempClass.getDeclaredConstructor(myArgs);
+			this.aggregator = _tempConst.newInstance(this.agentID,this.agentIPaddress,this);
+			this.writeToLog(Level.INFO, inter+">> Successully instantiated and initialized");	
+        }
+        catch (ClassNotFoundException e){
+			this.writeToLog(Level.SEVERE, e);
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.AGGREGATOR);
+		}
+		catch(Exception e){
+			this.writeToLog(Level.SEVERE, e);
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.AGGREGATOR);
+		}
 	}
 	
 	/**
 	 * initialize the Distributer
+	 * @throws CatascopiaException 
 	 */
-	private void initDistributor(){
+	private void initDistributor() throws CatascopiaException{
 		//Distributor settings
 		String port = this.config.getProperty("distributor_port", "4242");
 		String protocol = this.config.getProperty("distributor_protocol","tcp");
     	String ip = this.config.getProperty("server_ip","localhost");
-    	String hwm = this.config.getProperty("distributor_hwm","16");
+    	String url = this.config.getProperty("distributor_url","");
+
     	//Aggregator settings
     	long agg_interval = Long.parseLong(this.config.getProperty("aggregator_interval"))*1000;
     	int agg_buf = Integer.parseInt(this.config.getProperty("aggregator_buffer_size"));
-		this.distributor = new Distributor(ip,port,protocol,Long.parseLong(hwm),this.aggregator,agg_interval,agg_buf,this);
-		distributor.activate();
+    	
+    	String inter = this.config.getProperty("distributor_interface", "TCPDistributor");
+		
+		Class<?>[] myArgs = new Class[4];
+		myArgs[0] = String.class;
+        myArgs[1] = String.class;
+        myArgs[2] = String.class;
+        myArgs[3] = String.class;
+
+        String path = "eu.celarcloud.celar_ms.AgentPack.distributors."+inter;
+        try{
+	        Class<IDistributor> _tempClass = (Class<IDistributor>) Class.forName(path);
+	        Constructor<IDistributor> _tempConst = _tempClass.getDeclaredConstructor(myArgs);
+	        IDistributor distributor = _tempConst.newInstance(ip,port,protocol,url);
+			
+	        this.distributorWorker = new DistributorWorker(distributor,this.aggregator,agg_interval,agg_buf,this);
+			distributorWorker.activate();
+			
+			this.writeToLog(Level.INFO, inter+">> Successully instantiated and initialized");	
+        }
+        catch (ClassNotFoundException e){
+			this.writeToLog(Level.SEVERE, e);
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.AGGREGATOR);
+		}
+		catch(Exception e){
+			this.writeToLog(Level.SEVERE, e);
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.AGGREGATOR);
+		} 
 	}
 	
 	private void initProbeController(){
@@ -364,7 +514,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 			entry.getValue().terminate();
 		//terminate collector
 		this.collector.terminate();
-		this.distributor.terminate();
+		this.distributorWorker.terminate();
 	}
 		
 	public HashMap<String,IProbe> getProbeMap(){

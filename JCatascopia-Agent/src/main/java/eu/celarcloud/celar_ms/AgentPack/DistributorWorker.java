@@ -2,11 +2,11 @@ package eu.celarcloud.celar_ms.AgentPack;
 
 import java.util.logging.Level;
 
+import eu.celarcloud.celar_ms.AgentPack.aggregators.IAggregator;
+import eu.celarcloud.celar_ms.AgentPack.distributors.IDistributor;
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
-import eu.celarcloud.celar_ms.SocketPack.Publisher;
-import eu.celarcloud.celar_ms.SocketPack.ISocket;;
 
-public class Distributor extends Thread{
+public class DistributorWorker extends Thread{
 	/*
 	 * INACTIVE - running but distributing messages is paused
 	 * ACTIVE   - running and distributing messages
@@ -16,17 +16,18 @@ public class Distributor extends Thread{
 	private DistributorStatus distributorStatus;
 	
 	private boolean firstFlag;
-	private Publisher publisher;
-	private Aggregator aggregator;
+	private IDistributor distributor;
+	private IAggregator aggregator;
+	
 	//aggregator settings
 	private long INTERVAL;
 	private int BUF_SIZE;
+	
 	private IJCatascopiaAgent agent;
 	
-	public Distributor(String ipAddr, String port, String protocol, long hwm,
-			           Aggregator aggregator,long interval,int buf_size, IJCatascopiaAgent agent){
+	public DistributorWorker(IDistributor distributor,IAggregator aggregator,long interval,int buf_size, IJCatascopiaAgent agent){
 		super("Distributor-Thread");
-		this.publisher = new Publisher(ipAddr,port,protocol,hwm,ISocket.ConnectType.CONNECT);
+		this.distributor = distributor;
 
 		this.distributorStatus = DistributorStatus.INACTIVE;
 		this.firstFlag = true;
@@ -59,7 +60,7 @@ public class Distributor extends Thread{
 	}
 	
 	public synchronized void terminate(){
-		this.publisher.close();
+		this.distributor.terminate();
 		this.distributorStatus = DistributorStatus.DYING;
 		this.notify();
 	}
@@ -73,11 +74,11 @@ public class Distributor extends Thread{
 					try{
 						if(this.aggregator.length()>0){
 							if (interval>INTERVAL || aggregator.length()>BUF_SIZE){
-								this.publisher.send(aggregator.toMessage());
+								this.distributor.send(aggregator.toMessage());
 								interval = 0;
 								this.aggregator.clear();
 								if (this.agent.inDebugMode())
-									System.out.println("Pub Distributor>> Message sent to MS Server...\n");
+									System.out.println("DistributorWorker>> Message sent to JCatascopia Monitoring Server");
 							}
 							else interval += period;
 						}
@@ -85,9 +86,12 @@ public class Distributor extends Thread{
 					}
 					catch(CatascopiaException e){
 						this.agent.writeToLog(Level.SEVERE, e);
+						continue;
 					}
 					catch(Exception e){
 						this.agent.writeToLog(Level.SEVERE, e);
+						Thread.sleep(5000);
+						this.aggregator.clear();
 					}
 				}
 				else 
@@ -101,7 +105,7 @@ public class Distributor extends Thread{
 			this.agent.writeToLog(Level.SEVERE, e);
 		}
 		finally{
-			this.publisher.close();
+			this.distributor.terminate();
 		}	
 	}
 }

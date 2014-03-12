@@ -2094,3 +2094,103 @@ INFO: JCatascopia Server: SubProcessor>> added agent: 94eeb9dcf7c547129a1f1ff3b0
 Dec 19, 2013 1:29:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
 INFO: JCatascopia Server: SubProcessor>> removed agent: a310a09d792941329e2ebb848387838bfrom subscription:
 6112c46eceee497abbce6aba98883b99
+Jan 22, 2014 11:52:09 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Jan 22, 2014 11:52:09 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Jan 22, 2014 11:52:09 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Jan 22, 2014 11:52:14 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: com.datastax.driver.core.exceptions.NoHostAvailableException: All host(s) tried for query failed (tried: /83.212.124.102 ([/83.212.124.102] Cannot connect))
+Jan 22, 2014 12:15:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Jan 22, 2014 12:15:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Jan 22, 2014 12:15:09 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Jan 22, 2014 12:15:15 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+SEVERE: JCatascopia Server: com.datastax.driver.core.exceptions.NoHostAvailableException: All host(s) tried for query failed (tried: /83.212.124.102 ([/83.212.124.102] Cannot connect))
+Jan 22, 2014 12:15:56 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Jan 22, 2014 12:15:56 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Jan 22, 2014 12:15:56 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Jan 22, 2014 12:15:59 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.105.22
+with params (83.212.105.22, catascopia_user, catascopia_pass, JCatascopiaDB)
+Jan 22, 2014 12:16:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Jan 22, 2014 12:16:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Jan 22, 2014 12:16:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Jan 22, 2014 12:16:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Jan 22, 2014 12:16:34 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 4754ea8467b746d788d9abbf4054b783 and IP: 10.16.21.213
+Jan 22, 2014 12:18:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 7988fdfdabd5447da1a92132a139d608 and IP: 10.16.21.213
+Jan 22, 2014 12:20:31 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: bb211c84fe374074ae927dfae059187a and IP: 10.16.21.213
+Jan 22, 2014 12:23:10 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: 9445a91b9de74fc8983fb5864fef68ca and IP: 10.16.21.213
+Jan 22, 2014 12:23:34 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b54bee42a5fc4e1dbc33e0dea9ae7fe1 and IP: 10.16.21.213
+Jan 22, 2014 12:59:18 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Jan 22, 2014 12:59:18 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Jan 22, 2014 12:59:18 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Jan 22, 2014 12:59:20 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.105.22
+with params (83.212.105.22, catascopia_user, catascopia_pass, JCatascopiaDB)
+Jan 22, 2014 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Jan 22, 2014 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Jan 22, 2014 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Jan 22, 2014 12:59:30 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Jan 22, 2014 12:59:45 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b54bee42a5fc4e1dbc33e0dea9ae7fe1 and IP: 10.16.21.213
+Feb 4, 2014 11:58:27 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Feb 4, 2014 11:58:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Feb 4, 2014 11:58:28 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Feb 4, 2014 11:58:30 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.105.22
+with params (83.212.105.22, catascopia_user, catascopia_pass, JCatascopiaDB)
+Feb 4, 2014 11:58:39 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Feb 4, 2014 11:58:39 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Feb 4, 2014 11:58:39 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Feb 4, 2014 11:58:39 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Feb 4, 2014 11:59:36 AM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b54bee42a5fc4e1dbc33e0dea9ae7fe1 and IP: 10.16.21.214
+Feb 4, 2014 4:07:02 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer initLogging
+INFO: JCatascopia Server: Created and Initialized
+Feb 4, 2014 4:07:02 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ProcessExecutor Initialized with (4) threads
+Feb 4, 2014 4:07:02 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlExecutor Initialized
+Feb 4, 2014 4:07:04 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully connected to database: Cassandra.DBHandler host(s): 83.212.105.22
+with params (83.212.105.22, catascopia_user, catascopia_pass, JCatascopiaDB)
+Feb 4, 2014 4:07:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: DBHandler>> Successfully dropped tables and created new ones
+Feb 4, 2014 4:07:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: HeartBeatMonitor Initialized
+Feb 4, 2014 4:07:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: AgentListener Initialized with params (*,4242,tcp)
+Feb 4, 2014 4:07:14 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: ControlListener Initialized with params (*,4245,tcp)
+Feb 4, 2014 4:07:23 PM eu.celarcloud.celar_ms.ServerPack.MonitoringServer writeToLog
+INFO: JCatascopia Server: New node Agent added, with ID: b54bee42a5fc4e1dbc33e0dea9ae7fe1 and IP: 10.16.21.214

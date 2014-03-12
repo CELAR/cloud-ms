@@ -59,34 +59,34 @@ public abstract class Listener extends Thread implements IListener{
 	
 	@Override
 	public void run(){
-		try{
 			String[] msg;
 			while(this.listenerStatus != ListenerStatus.DYING){
-				if(this.listenerStatus == ListenerStatus.ACTIVE){
-					//the subscriber blocks until it receives a new message
-					msg = socket.receiveNonBlocking();
-					//process the message depending on client implemented
-					if (msg != null)
-						this.listen(msg);
-					else
-						Thread.sleep(this.listen_period);
-				}
-				else 
-					synchronized(this){
-						while(this.listenerStatus == ListenerStatus.INACTIVE)
-							this.wait();
+				try{
+					if(this.listenerStatus == ListenerStatus.ACTIVE){
+						//the subscriber blocks until it receives a new message
+						msg = socket.receiveNonBlocking();
+						//process the message depending on client implemented
+						if (msg != null)
+							this.listen(msg);
+						else
+							Thread.sleep(this.listen_period);
 					}
+					else 
+						synchronized(this){
+							while(this.listenerStatus == ListenerStatus.INACTIVE)
+								this.wait();
+						}
+				}
+				catch (InterruptedException e){
+					e.printStackTrace();
+				} 
+				catch (CatascopiaException e) {
+					e.printStackTrace();
+				}
+//				finally{
+//					this.socket.close();
+//				}
 			}
-		}
-		catch (InterruptedException e){
-			e.printStackTrace();
-		} 
-		catch (CatascopiaException e) {
-			e.printStackTrace();
-		}
-		finally{
-			this.socket.close();
-		}
 	}	
 	
 	public ISocket getListener(){

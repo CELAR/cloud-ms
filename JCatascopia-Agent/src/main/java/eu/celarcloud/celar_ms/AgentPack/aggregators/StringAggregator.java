@@ -1,13 +1,15 @@
-package eu.celarcloud.celar_ms.AgentPack;
+package eu.celarcloud.celar_ms.AgentPack.aggregators;
 
-public class Aggregator{
+import eu.celarcloud.celar_ms.AgentPack.IJCatascopiaAgent;
+
+public class StringAggregator implements IAggregator{
 
 	private StringBuffer aggregator;
 	private String agentID;
 	private String agentIP;
 	private IJCatascopiaAgent agent;
 	
-	public Aggregator(String agentID, String agentIP, IJCatascopiaAgent agent){
+	public StringAggregator(String agentID, String agentIP, IJCatascopiaAgent agent){
 		this.aggregator = new StringBuffer();
 		this.agentID = agentID;
 		this.agentIP = agentIP;
@@ -28,7 +30,7 @@ public class Aggregator{
 		this.aggregator.append(",\"agentIP\":\""+this.agentIP+"\"}");
 		
 		if (this.agent.inDebugMode())
-			System.out.println("Aggregator>> Message Ready for Distribution...\n"+this.aggregator.toString());
+			System.out.println("StringAggregator>> Message Ready for Distribution:\n"+this.aggregator.toString());
 		return this.aggregator.toString();
 	}
 	

@@ -4,16 +4,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import eu.celarcloud.celar_ms.AgentPack.aggregators.IAggregator;
+
 public class MetricCollector extends Thread{
 	
 	public enum CollectorStatus{INACTIVE,ACTIVE,DYING};
 	private CollectorStatus collectorStatus;
 	private boolean firstFlag;
 	private LinkedBlockingQueue<String> metricQueue;
-	private Aggregator aggregator;
+	private IAggregator aggregator;
 	private IJCatascopiaAgent agent;
 	
-	public MetricCollector(LinkedBlockingQueue<String> metricQueue,Aggregator aggregator,IJCatascopiaAgent agent){	
+	public MetricCollector(LinkedBlockingQueue<String> metricQueue,IAggregator aggregator,IJCatascopiaAgent agent){	
 		super("MetricCollector-Thread");
 		this.metricQueue = metricQueue;
 		this.collectorStatus = CollectorStatus.INACTIVE;
@@ -47,7 +49,7 @@ public class MetricCollector extends Thread{
 	@Override
 	public void run(){
 		String metric;
-		while(this.collectorStatus != CollectorStatus.DYING){//TODO -logging - if reading from queue fails we log error and continue;
+		while(this.collectorStatus != CollectorStatus.DYING){
 			if(this.collectorStatus == CollectorStatus.ACTIVE){
 				try {
 					metric = this.metricQueue.poll(500, TimeUnit.MILLISECONDS);
@@ -60,6 +62,10 @@ public class MetricCollector extends Thread{
 						Thread.sleep(2000);
 				}
 				catch(InterruptedException e){
+					this.agent.writeToLog(Level.SEVERE, e);
+					continue;
+				}
+				catch(ArrayIndexOutOfBoundsException e){
 					this.agent.writeToLog(Level.SEVERE, e);
 					continue;
 				}
