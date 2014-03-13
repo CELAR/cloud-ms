@@ -20,8 +20,8 @@ public class ProbeController extends Thread{
 	private LinkedBlockingQueue<String> metricQueue;
 	private IJCatascopiaAgent agent;
 	
-	public ProbeController(String ip,String port,String protocol,long hwm,LinkedBlockingQueue<String> metricQueue, IJCatascopiaAgent agent){
-		this.router = new Router(ip ,port, protocol, hwm);
+	public ProbeController(String ip, String port, LinkedBlockingQueue<String> metricQueue, IJCatascopiaAgent agent){
+		this.router = new Router(ip ,port);
 		
 		this.listenerStatus = ListenerStatus.INACTIVE; //start as INACTIVE and wait to be ACTIVATED
 		this.firstFlag = true;	
@@ -61,22 +61,21 @@ public class ProbeController extends Thread{
 			String[] msg;
 			while(this.listenerStatus != ListenerStatus.DYING){
 				if(this.listenerStatus == ListenerStatus.ACTIVE){
-//					//the router does not block
-					msg = router.receiveNonBlocking();
-//					//process the message depending on client implemented
-					if (msg != null){
+					msg = router.receiveNonBlocking(); //router does not block
+					if (msg != null){ //process incoming request
 						try{
-			     			router.send(msg[0],msg[1],"{\"status\":\"OK\"}");
-//							System.out.println(msg[0]+" ~ "+msg[1]+msg[2]);
-							this.metricQueue.offer(msg[2], 500, TimeUnit.MILLISECONDS); //offer the content
-							if(this.agent.inDebugMode())
-								System.out.println("Probe Controller>> Received metric from XProbe and enqueued it to metric queue...\n"+msg[2]);
-						} catch(Exception e){
+							if (msg[1].equals("XPROBE.METRIC")) //request is a metric from XProbe
+								processXProbe(msg);
+			     			
+						} 
+						catch(Exception e){
 							this.agent.writeToLog(Level.SEVERE, e);
+							Thread.sleep(5000);
+							continue;
 						}
 			        }
 					else
-						Thread.sleep(2000);
+						Thread.sleep(3000);
 				}
 				else 
 					synchronized(this){
@@ -92,4 +91,11 @@ public class ProbeController extends Thread{
 			this.router.close();
 		}
 	}	
+	
+	private void processXProbe(String[] msg) throws InterruptedException{
+		this.router.send(msg[0],msg[1],"{\"status\":\"OK\"}");
+		this.metricQueue.offer(msg[2], 500, TimeUnit.MILLISECONDS); //offer the content
+		if(this.agent.inDebugMode())
+			System.out.println("Probe Controller>> Received metric from XProbe and enqueued it to metric queue...\n"+msg[2]);
+	}
 }

@@ -63,9 +63,8 @@ public abstract class Listener extends Thread implements IListener{
 			while(this.listenerStatus != ListenerStatus.DYING){
 				try{
 					if(this.listenerStatus == ListenerStatus.ACTIVE){
-						//the subscriber blocks until it receives a new message
 						msg = socket.receiveNonBlocking();
-						//process the message depending on client implemented
+						//process the message depending on Listener implementation
 						if (msg != null)
 							this.listen(msg);
 						else
@@ -79,9 +78,11 @@ public abstract class Listener extends Thread implements IListener{
 				}
 				catch (InterruptedException e){
 					e.printStackTrace();
+					continue;
 				} 
 				catch (CatascopiaException e) {
 					e.printStackTrace();
+					continue;
 				}
 //				finally{
 //					this.socket.close();

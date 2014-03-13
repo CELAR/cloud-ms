@@ -12,14 +12,14 @@ import eu.celarcloud.celar_ms.ProbePack.ProbeProperty;
 
 public class ServerConnector{
 	
-	public static boolean connect(String ip, String port, String protocol,String agentID,String agentIP,HashMap<String,IProbe> probelist){
+	public static boolean connect(String ip, String port, String agentID,String agentIP,HashMap<String,IProbe> probelist){
     	String pingmsg = "{\"agentID\":\""+agentID+"\",\"agentIP\":\""+agentIP+"\"}";
 		
     	boolean success = false;
-		String response = sendRequest(ip,port,protocol,"AGENT.CONNECT",pingmsg);
+		String response = sendRequest(ip,port,"AGENT.CONNECT",pingmsg);
 		if (response.contains("OK")){
 			String metricList = compileMetricList(agentID,agentIP,probelist);
-			response = sendRequest(ip,port,protocol,"AGENT.METRICS",metricList);
+			response = sendRequest(ip,port,"AGENT.METRICS",metricList);
 			if (response.contains("OK"))
 				success = true;
 		}
@@ -78,13 +78,13 @@ public class ServerConnector{
 		sb.append("]}");
 		String json_request = sb.toString();
 		
-		String response = sendRequest(ip,port,protocol,"AGENT.METRICS",json_request);
+		String response = sendRequest(ip,port,"AGENT.METRICS",json_request);
 		boolean success = (response.contains("OK")) ? true : false;
 		return success;
 	}
 	
-	private static String sendRequest(String ip, String port, String protocol, String header, String json_request){
-		Dealer dealer = new Dealer(ip,port,protocol,16,UUID.randomUUID().toString().replace("-", ""));
+	private static String sendRequest(String ip, String port, String header, String json_request){
+		Dealer dealer = new Dealer(ip, port, UUID.randomUUID().toString().replace("-", ""));
 		int attempts = 0; 
 		boolean connected = false;
     	String[] response = null;
@@ -102,8 +102,12 @@ public class ServerConnector{
 					Thread.sleep(3000);
 	    	}
 		} 
-    	catch(InterruptedException e){;	}  
-    	catch(Exception e){	;}
+    	catch(InterruptedException e){
+    		e.printStackTrace();	
+    	}  
+    	catch(Exception e){	
+    		e.printStackTrace();
+    	}
     	finally{
     		dealer.close();
     	}

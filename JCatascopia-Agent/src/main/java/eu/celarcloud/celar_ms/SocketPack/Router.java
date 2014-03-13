@@ -7,17 +7,13 @@ import org.jeromq.ZMsg;
 public class Router implements ISocket{
 	private final static int SOCKET_TYPE = ZMQ.ROUTER;
 	private String port;
-	private String ipAddress;
-	private String protocol; 
-	private long hwm;  
+	private String ip;
 	private ZMQ.Context context;
 	private ZMQ.Socket router;
 	
-	public Router(String ipAddr, String port, String protocol, long hwm){
+	public Router(String ip, String port){
 		this.port = port;
-		this.ipAddress = ipAddr;
-		this.protocol = protocol;
-	    this.hwm = hwm;
+		this.ip = ip;
 	    this.initRouter();
 	}
 	
@@ -26,8 +22,8 @@ public class Router implements ISocket{
 		this.context = ZMQ.context(1);
 		this.router = context.socket(Router.SOCKET_TYPE);
 		this.router.setLinger(0);
-		this.router.setHWM(this.hwm);
-		String fullAddress = this.protocol+"://"+this.ipAddress+":" + this.port;
+		this.router.setHWM(16);
+		String fullAddress = "tcp://"+this.ip+":" + this.port;
 		this.router.bind(fullAddress);
 	}
 	
@@ -40,19 +36,11 @@ public class Router implements ISocket{
 	}
 	
 	public String getIPAddress(){
-		return this.ipAddress;
+		return this.ip;
 	}
 	
 	public void setIPAddress(String ip){
-		this.ipAddress = ip;
-	}
-	
-	public String getProtocol(){
-		return this.protocol;
-	}
-	
-	public void setProtocol(String protocol){
-		this.protocol = protocol;
+		this.ip = ip;
 	}
 	
 	/**

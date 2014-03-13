@@ -72,8 +72,8 @@ public class DistributorWorker extends Thread{
 			while(this.distributorStatus != DistributorStatus.DYING){
 				if(this.distributorStatus == DistributorStatus.ACTIVE){
 					try{
-						if(this.aggregator.length()>0){
-							if (interval>INTERVAL || aggregator.length()>BUF_SIZE){
+						if(this.aggregator.length() > 0){ //check if there are any new messages
+							if (interval > INTERVAL || aggregator.length() > BUF_SIZE){ //time to send message to server
 								this.distributor.send(aggregator.toMessage());
 								interval = 0;
 								this.aggregator.clear();
@@ -92,6 +92,7 @@ public class DistributorWorker extends Thread{
 						this.agent.writeToLog(Level.SEVERE, e);
 						Thread.sleep(5000);
 						this.aggregator.clear();
+						continue;
 					}
 				}
 				else 
@@ -106,6 +107,7 @@ public class DistributorWorker extends Thread{
 		}
 		finally{
 			this.distributor.terminate();
+			this.agent.writeToLog(Level.SEVERE, "unexpected distributor termination");
 		}	
 	}
 }

@@ -8,28 +8,24 @@ import org.jeromq.ZMsg;
 public class Dealer implements ISocket{
 	private final static int SOCKET_TYPE = ZMQ.DEALER;
 	private String port;
-	private String ipAddress;
-	private String protocol;
-	private long hwm;  
+	private String ip;
 	private ZMQ.Context context;
 	private ZMQ.Socket dealer;
 	
-	public Dealer(String ipAddr, String port, String protocol, long hwm, String identity){
+	public Dealer(String ip, String port, String identity){
 		this.port = port;
-		this.ipAddress = ipAddr;
-		this.protocol = protocol;
-	    this.hwm = hwm;
+		this.ip = ip;
 	    this.initDealer(identity);
 	}
 	
 	private void initDealer(String identity){
-		 //Create Context and Socket to talk to server
+		//Create Context and Socket to talk to server
 		this.context = ZMQ.context(1);
 		this.dealer = context.socket(Dealer.SOCKET_TYPE);
 		this.dealer.setLinger(0);
-		this.dealer.setHWM(this.hwm);
+		this.dealer.setHWM(8);
 		this.dealer.setIdentity(identity.getBytes());
-		String fullAddress = this.protocol+"://"+this.ipAddress+":" + this.port;
+		String fullAddress = "tcp://"+this.ip+":" + this.port;
 		this.dealer.connect(fullAddress);
 	}
 		
@@ -42,19 +38,11 @@ public class Dealer implements ISocket{
 	}
 	
 	public String getIPAddress(){
-		return this.ipAddress;
+		return this.ip;
 	}
 	
 	public void setIPAddress(String ip){
-		this.ipAddress = ip;
-	}
-	
-	public String getProtocol(){
-		return this.protocol;
-	}
-	
-	public void setProtocol(String protocol){
-		this.protocol = protocol;
+		this.ip = ip;
 	}
 	
 	/**
@@ -63,7 +51,6 @@ public class Dealer implements ISocket{
 	public void close(){
 		//disconnect is needed because a server may never reply to our request and the
 		//socket will never close with open requests
-		//this.dealer.disconnect(this.protocol+"://"+this.ipAddress+":" + this.port);
 		this.dealer.close();
 	    this.context.term();
 	}
@@ -78,10 +65,6 @@ public class Dealer implements ISocket{
 		ZMsg msg = ZMsg.recvMsg(this.dealer);
 		String[] recvbuf = parseRecvMsg(msg);
         return recvbuf;	
-//		String[] recvbuf = new String[2];
-//		recvbuf[0] = this.dealer.recvStr(0);
-//		recvbuf[1] = this.dealer.recvStr(0);
-//		return recvbuf;
 	}
 	
 	/**
@@ -111,15 +94,15 @@ public class Dealer implements ISocket{
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			i+=100;
 		}
 		return null;
 	}
+	
 	/*
-	 * null msg here indicate erroneous msg that does not follow Catascopia standard 
+	 * null msg here indicate erroneous msg that does not follow JCatascopia standard 
 	 * of 3 part messages 
 	 */
 	private String[] parseRecvMsg(ZMsg msg){

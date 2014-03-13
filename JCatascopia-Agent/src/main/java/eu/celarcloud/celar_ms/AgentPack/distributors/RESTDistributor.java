@@ -11,7 +11,7 @@ public class RESTDistributor implements IDistributor{
 	private String url;
 	private Client client; 
 	
-	public RESTDistributor(String ip, String port, String protocol, String url){
+	public RESTDistributor(String ip, String port, String url){
 		this.url = url;
 		this.client = Client.create();
 	}

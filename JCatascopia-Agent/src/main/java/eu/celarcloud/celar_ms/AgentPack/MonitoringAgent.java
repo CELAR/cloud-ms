@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import eu.celarcloud.celar_ms.AgentPack.aggregators.IAggregator;
 import eu.celarcloud.celar_ms.AgentPack.distributors.IDistributor;
-import eu.celarcloud.celar_ms.AgentPack.distributors.TCPDistributor;
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ProbePack.IProbe;
 import eu.celarcloud.celar_ms.utils.CatascopiaLogging;
@@ -83,9 +82,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	
 	private boolean debugMode;
 	private boolean useServer;
-	
-	private HeartBeatMonitor heartBeatMonitor;
-	
+		
 	/**
 	 * 
 	 * @param agentDirPath
@@ -139,9 +136,7 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	private void parseConfig() throws CatascopiaException{
 		this.config = new Properties();
 		//load config properties file
-		try {	
-//			this.writeToLog(Level.INFO,"JCatascopia Agent path to config file: "+JCATASCOPIA_AGENT_HOME+File.separator+CONFIG_PATH);
-			
+		try {				
 			FileInputStream fis = new FileInputStream(JCATASCOPIA_AGENT_HOME+File.separator+CONFIG_PATH);
 			config.load(fis);
 			if (fis != null)
@@ -352,15 +347,12 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 			}
 			this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
 		*/
-			if (!ServerConnector.connect(serverIP,port,protocol,this.agentID,this.agentIPaddress,this.probeNameMap)){
+			if (!ServerConnector.connect(serverIP, port, this.agentID, this.agentIPaddress, this.probeNameMap)){
 				this.writeToLog(Level.SEVERE, "FAILED connect to Monitoring Server at: "+serverIP);
 				throw new CatascopiaException("Could not connect to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
 			}
 			else this.writeToLog(Level.INFO, "Successfuly connected to Server at: "+serverIP);
 		}
-		//initialize HeartBeatMonitor
-//		this.heartBeatMonitor = new HeartBeatMonitor(this,3,60,serverIP,port);
-//		this.heartBeatMonitor.activate();
 	}
 	
 	/**
@@ -397,28 +389,25 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 */
 	private void initDistributor() throws CatascopiaException{
 		//Distributor settings
+    	String inter = this.config.getProperty("distributor_interface", "TCPDistributor");
 		String port = this.config.getProperty("distributor_port", "4242");
-		String protocol = this.config.getProperty("distributor_protocol","tcp");
     	String ip = this.config.getProperty("server_ip","localhost");
     	String url = this.config.getProperty("distributor_url","");
 
     	//Aggregator settings
     	long agg_interval = Long.parseLong(this.config.getProperty("aggregator_interval"))*1000;
     	int agg_buf = Integer.parseInt(this.config.getProperty("aggregator_buffer_size"));
-    	
-    	String inter = this.config.getProperty("distributor_interface", "TCPDistributor");
-		
-		Class<?>[] myArgs = new Class[4];
+    			
+		Class<?>[] myArgs = new Class[3];
 		myArgs[0] = String.class;
         myArgs[1] = String.class;
         myArgs[2] = String.class;
-        myArgs[3] = String.class;
 
         String path = "eu.celarcloud.celar_ms.AgentPack.distributors."+inter;
         try{
 	        Class<IDistributor> _tempClass = (Class<IDistributor>) Class.forName(path);
 	        Constructor<IDistributor> _tempConst = _tempClass.getDeclaredConstructor(myArgs);
-	        IDistributor distributor = _tempConst.newInstance(ip,port,protocol,url);
+	        IDistributor distributor = _tempConst.newInstance(ip,port,url);
 			
 	        this.distributorWorker = new DistributorWorker(distributor,this.aggregator,agg_interval,agg_buf,this);
 			distributorWorker.activate();
@@ -439,12 +428,10 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		if (this.config.getProperty("probe_controller_turnOn", "false").equals("true")){
 			String ip = this.config.getProperty("probe_controller_ip","localhost");
 			String port = this.config.getProperty("probe_controller_port","4243");
-			Long hwm = Long.parseLong(this.config.getProperty("probe_controller_hwm","8"));
-			String protocol = this.config.getProperty("probe_controller_protocol","tcp");
 			
-			this.probeController = new ProbeController(ip, port, protocol, hwm, this.metricQueue, this);
+			this.probeController = new ProbeController(ip, port, this.metricQueue, this);
 			this.probeController.activate();
-			this.writeToLog(Level.INFO, "ProbeController enabled with parameters: "+ip+", "+port+", "+hwm+", "+protocol);
+			this.writeToLog(Level.INFO, "ProbeController enabled with parameters: "+ip+", "+port);
 		}
 	}
 	
