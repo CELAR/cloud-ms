@@ -136,7 +136,6 @@ public class MetricProcessor implements Runnable{
     	finally{
     		dealer.close();
     	}
-    	System.out.println(resp);
 	}
 	
 	
