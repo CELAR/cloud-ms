@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -348,10 +351,10 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 			this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
 		*/
 			if (!ServerConnector.connect(serverIP, port, this.agentID, this.agentIPaddress, this.probeNameMap)){
-				this.writeToLog(Level.SEVERE, "FAILED connect to Monitoring Server at: "+serverIP);
-				throw new CatascopiaException("Could not connect to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
+				this.writeToLog(Level.SEVERE, "FAILED to CONNECT to Monitoring Server at: "+serverIP);
+				throw new CatascopiaException("Could not CONNECT to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
 			}
-			else this.writeToLog(Level.INFO, "Successfuly connected to Server at: "+serverIP);
+			else this.writeToLog(Level.INFO, "Successfuly CONNECTED to Server at: "+serverIP);
 		}
 	}
 	
@@ -541,9 +544,6 @@ public class MonitoringAgent implements IJCatascopiaAgent{
     	Properties prop = new Properties();
     	String id;
     	try {
-//    		String JCATASCOPIA_AGENT_HOME = System.getenv("JCATASCOPIA_AGENT_HOME");
-//			if (JCATASCOPIA_AGENT_HOME == null)
-//				JCATASCOPIA_AGENT_HOME = ".";
 			String agentfile = JCATASCOPIA_AGENT_HOME + File.separator + AGENT_PRIVATE_FILE;
 			if((new File(agentfile).isFile())){
 				//load agent_private properties file
@@ -571,6 +571,36 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	
 	public boolean inDebugMode(){
 		return this.debugMode;
+	}
+	
+	public Properties getConfig(){
+		return this.config;
+	}
+	
+	public void deployProbeAtRuntime(String probeClassContainer, String probeClass) throws CatascopiaException{		
+		try {
+			URL myurl = new URL("file://"+probeClassContainer);
+			URLClassLoader classloader = URLClassLoader.newInstance(new URL[]{myurl});
+			Class<IProbe> myclass = (Class<IProbe>) classloader.loadClass(probeClass);
+			IProbe p = myclass.newInstance();
+			p.attachQueue(this.metricQueue);
+			p.attachLogger(this.myLogger);
+			p.activate();
+			this.probeNameMap.put(p.getProbeName(), p);
+			this.writeToLog(Level.INFO, "new Probe activated: " + p.getProbeName() + ", container path: " + probeClassContainer);
+		} 
+		catch (MalformedURLException e) {
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.PROBE_EXISTANCE);
+		} 
+		catch (ClassNotFoundException e) {
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.PROBE_EXISTANCE);
+		} 
+		catch (InstantiationException e) {
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.PROBE_EXISTANCE);
+		} 
+		catch (IllegalAccessException e) {
+			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.PROBE_EXISTANCE);
+		}
 	}
 	
 	/**

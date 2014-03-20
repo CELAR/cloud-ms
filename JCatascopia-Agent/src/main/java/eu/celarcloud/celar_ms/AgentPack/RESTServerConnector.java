@@ -2,7 +2,6 @@ package eu.celarcloud.celar_ms.AgentPack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.Map.Entry;
 
 import com.sun.jersey.api.client.Client;
