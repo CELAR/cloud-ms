@@ -9,8 +9,6 @@ public interface ISocket{
 	public void setPort(String port);
 	public String getIPAddress();
 	public void setIPAddress(String ip);
-	public String getProtocol();
-	public void setProtocol(String protocol);
 	public void close();
 	
 	//for SUB and ROUTER sockets

@@ -6,7 +6,7 @@ import eu.celarcloud.celar_ms.SocketPack.Dealer;
 public class InitialServerConnector{
 	
 	public static boolean connect(String ip, String port, String protocol,String serverID,String serverIP){
-		Dealer dealer = new Dealer(ip,port,protocol,16,UUID.randomUUID().toString().replace("-", ""));
+		Dealer dealer = new Dealer(ip, port, UUID.randomUUID().toString().replace("-", ""));
 
 		int attempts = 0; 
 		boolean connected = false;

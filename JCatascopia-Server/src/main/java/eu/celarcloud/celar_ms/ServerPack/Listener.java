@@ -1,5 +1,7 @@
 package eu.celarcloud.celar_ms.ServerPack;
 
+import java.util.logging.Level;
+
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.SocketPack.ISocket;
 import eu.celarcloud.celar_ms.SocketPack.Router;
@@ -12,22 +14,25 @@ public abstract class Listener extends Thread implements IListener{
 	private boolean firstFlag;
 	private ListenerStatus listenerStatus;
 	private long listen_period;
+	private IJCatascopiaServer server;
 	
-	public Listener(ListenerType type, String ipAddr, String port, String protocol, long hwm,long listen_period) throws CatascopiaException{
+	public Listener(ListenerType type, String ip, String port, long listen_period, IJCatascopiaServer server) throws CatascopiaException{
 		super("Listener-Thread");
 		
 		if (type == ListenerType.ROUTER)
-			this.socket = new Router(ipAddr,port,protocol,hwm);
+			this.socket = new Router(ip,port);
 		else 
-			this.socket = new Subscriber(ipAddr,port,protocol,hwm,ISocket.ConnectType.BIND);
+			this.socket = new Subscriber(ip, port, ISocket.ConnectType.BIND);
 		
 		this.listenerStatus = ListenerStatus.INACTIVE; //start as INACTIVE and wait to be ACTIVATED
 		this.firstFlag = true;	
 		this.listen_period = listen_period;
+		
+		this.server = server;
 	}
 	
-	public Listener(String ipAddr, String port, String protocol, long hwm,long listen_period) throws CatascopiaException{
-		this(ListenerType.SUBSCRIBER, ipAddr, port, protocol, hwm, listen_period);
+	public Listener(String ip, String port, long listen_period, IJCatascopiaServer server) throws CatascopiaException{
+		this(ListenerType.SUBSCRIBER, ip, port, listen_period, server);
 	}
 	
 
@@ -76,14 +81,16 @@ public abstract class Listener extends Thread implements IListener{
 								this.wait();
 						}
 				}
-				catch (InterruptedException e){
-					e.printStackTrace();
-					continue;
-				} 
 				catch (CatascopiaException e) {
 					e.printStackTrace();
+					server.writeToLog(Level.SEVERE, e);
 					continue;
 				}
+				catch (Exception e){
+					e.printStackTrace();
+					server.writeToLog(Level.SEVERE, e);
+					continue;
+				} 
 //				finally{
 //					this.socket.close();
 //				}

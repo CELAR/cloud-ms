@@ -6,8 +6,8 @@ public class ControlListener extends Listener{
 	
 	private MonitoringServer server;
 	
-	public ControlListener(String ip,String port,String protocol,long hwm,MonitoringServer server) throws CatascopiaException {
-		super(ListenerType.ROUTER, ip, port, protocol, hwm, 3000);
+	public ControlListener(String ip, String port, MonitoringServer server) throws CatascopiaException {
+		super(ListenerType.ROUTER, ip, port, 2000L, server);
 		
 		this.server = server;
 	}

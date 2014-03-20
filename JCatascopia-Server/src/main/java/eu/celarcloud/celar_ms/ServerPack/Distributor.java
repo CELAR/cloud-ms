@@ -22,10 +22,10 @@ public class Distributor extends Thread{
 	private long INTERVAL;
 	private IJCatascopiaServer server;
 	
-	public Distributor(String ipAddr, String port, String protocol, long hwm,
+	public Distributor(String ip, String port, String protocol, long hwm,
 			            Aggregator aggregator,long interval, IJCatascopiaServer server){
 		super("ReDistributor-Thread");
-		this.publisher = new Publisher(ipAddr,port,protocol,hwm,ISocket.ConnectType.CONNECT);
+		this.publisher = new Publisher(ip, port, ISocket.ConnectType.CONNECT);
 
 		this.distributorStatus = DistributorStatus.INACTIVE;
 		this.firstFlag = true;

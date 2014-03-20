@@ -6,8 +6,8 @@ public class AgentListener extends Listener{
 
 	private MonitoringServer server;
 	
-	public AgentListener(String ip,String port,String protocol,long hwm,MonitoringServer server) throws CatascopiaException {
-		super(ip,port,protocol,hwm,1000L);
+	public AgentListener(String ip, String port, MonitoringServer server) throws CatascopiaException {
+		super(ip, port, 1000L, server);
 		this.server = server;
 	}
 

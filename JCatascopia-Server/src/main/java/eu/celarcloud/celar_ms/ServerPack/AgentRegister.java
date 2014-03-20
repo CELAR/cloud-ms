@@ -53,7 +53,7 @@ public class AgentRegister implements Runnable{
 
 	public void run(){
 		if (this.server.inDebugMode())
-			System.out.println("\nAgentRegister>> processing the following message...\n"+msg[0]+" "+msg[1]+"\n"+msg[2]);	
+			System.out.println("AgentRegister>> processing the following message...\n"+msg[0]+" "+msg[1]+" "+msg[2]);	
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject json;
@@ -88,6 +88,7 @@ public class AgentRegister implements Runnable{
 	}
 	
 	private void metrics(JSONObject json){
+		
 		String agentIP = (String) json.get("agentIP");
 		String agentID = (String) json.get("agentID");
 		
@@ -99,10 +100,8 @@ public class AgentRegister implements Runnable{
 			
 			if(this.server.getDatabaseFlag())
 				try {
-					//AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);
 					this.server.dbHandler.createAgent(agent);
 				} 
-			    //catch (CatascopiaException e) {
 				catch (Exception e) {
 					this.server.writeToLog(Level.SEVERE, e);
 				}
@@ -119,10 +118,8 @@ public class AgentRegister implements Runnable{
 			agent.setStatus(AgentStatus.UP);
 			if(this.server.getDatabaseFlag())
 				try {
-					//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 					this.server.dbHandler.updateAgent(agent.getAgentID(), AgentObj.AgentStatus.UP.name());
 				} 
-			    //catch (CatascopiaException e) {
 				catch (Exception e) {
 					this.server.writeToLog(Level.SEVERE, e);
 				}
@@ -131,14 +128,14 @@ public class AgentRegister implements Runnable{
 		JSONArray probes = (JSONArray) json.get("probes");
 		JSONObject probe;
 		for(Object iter:probes){
-			probe = (JSONObject)iter;
+			probe = (JSONObject) iter;
 			String probeName = (String) probe.get("probeName");
 
 			JSONArray metrics = (JSONArray) probe.get("metrics");
 			JSONObject met;
 			MetricObj metric; 
 			String metric_name;
-			for(Object iter2:metrics){
+			for(Object iter2 : metrics){
 				met = (JSONObject)iter2;
 				metric_name = (String)met.get("name");
 				String metricID = agentID+":"+metric_name;
@@ -148,28 +145,26 @@ public class AgentRegister implements Runnable{
 
         		if(this.server.metricMap.putIfAbsent(metricID, metric) == null){
         			if (this.server.inDebugMode())
-        				System.out.println("AgentRegister>> "+agent.getAgentIP()+" added new metric...\n"+metric.toString());
+        				System.out.println("AgentRegister>> "+agent.getAgentIP()+" added new metric: " + metric.toString());
+        			
         			agent.addMetricToList(metricID);
         			
         			if(this.server.getDatabaseFlag())
 						try {
-							//MetricDAO.createMetric(this.server.dbHandler.getConnection(), metric);
 							this.server.dbHandler.createMetric(metric);
 						} 
-        			    //catch (CatascopiaException e) {
         			    catch (Exception e) {
 							this.server.writeToLog(Level.SEVERE, e);
-						}
-        			
+						}	
         		}
         		else{
-//        			System.out.println("metric exists in map: "+metric_name);
         			this.server.metricMap.replace(metricID, metric);
         		}
 			}
 		}
 		this.response(Status.OK,"");	
-		System.out.println(agent.toString()+"\n");
+		this.server.writeToLog(Level.INFO, "New Agent with ID: "+agentID+" and IP: "+agentIP+" metadata: "+agent.toString());
+		//System.out.println(agent.toString()+"\n");
 	}
 	
 	private void response(Status status,String body){
@@ -187,7 +182,6 @@ public class AgentRegister implements Runnable{
 			for(String met:agent.getMetricList()){
 				this.server.metricMap.remove(met);
 				if (this.server.getDatabaseFlag())
-					//MetricDAO.deleteMetric(this.server.dbHandler.getConnection(), met);
 					this.server.dbHandler.deleteMetric(agent.getAgentID(), met);
 			}
 			agent.clearMetricList();

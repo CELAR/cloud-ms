@@ -163,14 +163,12 @@ public class MonitoringServer implements IJCatascopiaServer{
 	 */
 	private void initAgentListener() throws CatascopiaException{
 		String port = this.config.getProperty("agent_port", "4242");
-		String protocol = this.config.getProperty("agent_protocol","tcp");
     	String ip = this.config.getProperty("agent_bind_ip","localhost");
-    	String hwm = this.config.getProperty("agent_hwm","32");
     	
-		this.agentListener = new AgentListener(ip,port,protocol,Long.parseLong(hwm),this);
+		this.agentListener = new AgentListener(ip, port, this);
 		this.agentListener.activate();
 		
-		this.writeToLog(Level.INFO, "AgentListener Initialized with params ("+ip+","+port+","+protocol+")");
+		this.writeToLog(Level.INFO, "AgentListener>> Initialized with params: ("+ip+","+port+")");
 	}
 	
 	/**
@@ -179,14 +177,12 @@ public class MonitoringServer implements IJCatascopiaServer{
 	 */
 	private void initControlListener() throws CatascopiaException{
 		String port = this.config.getProperty("control_port", "4245");
-		String protocol = this.config.getProperty("control_protocol","tcp");
     	String ip = this.config.getProperty("control_bind_ip","localhost");
-    	String hwm = this.config.getProperty("control_hwm","32");
     	
-		this.controlListener = new ControlListener(ip,port,protocol,Long.parseLong(hwm),this);
+		this.controlListener = new ControlListener(ip, port, this);
 		this.controlListener.activate();
 		
-		this.writeToLog(Level.INFO, "ControlListener Initialized with params ("+ip+","+port+","+protocol+")");
+		this.writeToLog(Level.INFO, "ControlListener>> Initialized with params: ("+ip+","+port+")");
 	}
 	
 	private void initExecutors(){
