@@ -13,7 +13,8 @@ public class MapAggregator implements IAggregator{
 	private String agentIP;
 	private IJCatascopiaAgent agent;
 	
-	private static final Pattern pattern = Pattern.compile("\"group\":\"[a-zA-Z0-9]*\"");
+	//private static final Pattern pattern = Pattern.compile("\"group\":\"[a-zA-Z0-9]*\"");
+	private static final Pattern pattern = Pattern.compile("group\":\"[^\\\"]+");
 	private int msg_length;
 	
 	public MapAggregator(String agentID, String agentIP, IJCatascopiaAgent agent){
@@ -27,7 +28,8 @@ public class MapAggregator implements IAggregator{
 	public void add(String metric){
 		Matcher m = pattern.matcher(metric);
 		if (m.find()){
-			String probeName = m.group().split(":\"")[1].replace("\"","");
+			//String probeName = m.group().split(":\"")[1].replace("\"","");
+			String probeName = m.group().split("\":\"")[1];
 			this.aggregator.put(probeName, metric);
 			this.msg_length += metric.length(); 
 		}
