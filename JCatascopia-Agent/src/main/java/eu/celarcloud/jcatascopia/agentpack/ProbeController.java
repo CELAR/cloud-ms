@@ -107,7 +107,7 @@ public class ProbeController extends Thread{
 	}
 	
 	private void processReconnect(String[] msg){
-		this.router.send(msg[0],msg[1],"{\"status\":\"OK\"}");
+		//this.router.send(msg[0],msg[1],"{\"status\":\"OK\"}");
 		agent.writeToLog(Level.INFO,"Probe Controller>> Received request from Monitoring Server to RECONNECT");
 		if(this.agent.inDebugMode())
 			System.out.println("Probe Controller>> Received request from Monitoring Server to RECONNECT");

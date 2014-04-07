@@ -184,6 +184,8 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	private void instantiateProbes(){
 		String probe_str = this.config.getProperty("probes", "all");
 		String probe_exclude_str = this.config.getProperty("probes_exclude", "");
+		String probe_external = this.config.getProperty("probes_external", "");
+				
 		try{
 			ArrayList<String> availableProbeList = this.listAvailableProbeClasses();
 			//user wants to instantiate all available probes with default params
@@ -236,6 +238,22 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 						
 			//activate Agent probes
 			this.activateAllProbes();
+			
+			//deploy external probes located in a custom user-defined path
+			if (!probe_external.equals("")){
+				String[] probe_list = probe_external.split(";");
+				for(String s:probe_list){
+					try{
+						String[] params = s.split(",");
+						String pclass = params[0];
+						String ppath = params[1];
+						this.deployProbeAtRuntime(ppath, pclass);
+					}
+					catch (ArrayIndexOutOfBoundsException e){
+						this.writeToLog(Level.SEVERE, "External Probe deployment error. Either the probe class name of classpath are not correctly provided");
+					}
+				}
+			}				
 			
 			//log probe list added to Agent
 			String l = " ";
