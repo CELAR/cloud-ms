@@ -19,42 +19,29 @@
 package eu.celarcloud.jcatascopia.probepack.filters;
 
 /**
- * The SimpleFilter is used to filter values below/over a given threshold
+ * The RangeFilter is used to simply filter values in the window [previousValue-Range,previousValue+Range]
+ * The RangeFilteronly requires from users to define upon instantiation, the range of their interest.
  * 
  * @author Demetris Trihinas
  *
  */
-public class SimpleFilter extends Filter{
-
-	public enum SimpleFilterType {OVER, BELOW};
+public class RangeFilter extends Filter{
 	
-	private double threshold;
-	private SimpleFilterType type;
+	private double range;
 	
-	public SimpleFilter(double threshold, SimpleFilterType type){
-		this.threshold = threshold;
-		this.type = type;
+	public RangeFilter(double range){
+		this.range = range;
 	}
 	
-	public SimpleFilter(double threshold){
-		this(threshold,SimpleFilterType.BELOW);
+	public void setRange(double r){
+		this.range = r;
 	}
 	
 	@Override
 	public void adjustFilter(double curValue) {
-		//ignore output of check() since we do not have a window here but a threshold
-		
-		if (this.type == SimpleFilterType.BELOW){
-			if (curValue < this.threshold) //filter values below threshold
-				this.checkFlag = true;
-			else
-				this.checkFlag = false;
-		}
-		else {
-			if (curValue > this.threshold) //filter values over threshold
-				this.checkFlag = true;
-			else
-				this.checkFlag = false;
+		if (!this.checkFlag){
+			this.window_low = curValue - this.range;
+			this.window_high = curValue + this.range;
 		}
 	}
 }

@@ -18,37 +18,57 @@
  ******************************************************************************/
 package eu.celarcloud.jcatascopia.probepack.filters;
 
+/**
+ * Abstract Filter class used to create customized filters that can be attached to ProbeProperties
+ * 
+ * @author Demetris Trihinas
+ *
+ */
 public abstract class Filter {
 
 	protected double window_low;
 	protected double window_high;
 	protected boolean checkFlag;
 	
+	private boolean globalFilterFlag = false; //if set to true and a metric must be filtered then no other ProbeProperty will be sent to Agent
+	
 	public Filter(){
 		this.window_low = this.window_high;
 	}
 	
 	/**
-	 * checks if provided value is in filter window. 
-	 * if in window then it returns true else it returns false.
-	 * window is then adjusted based on the filter developer's implementation
-	 * of the adjustWindow() method
+	 * This method checks if the provided value is in filter window. 
+	 * If the current value is in the filter window then the return value is true else false.
+	 * The filter window is adjusted based on the filter developer's implementation of the adjustWindow() method
 	 * @return
 	 */
-	public boolean check(double curValue){
-		//System.out.println(curValue+" "+window_low+" "+window_high);
-		if (curValue <= window_high && curValue >= window_low){
+	public boolean check(Object val){
+		double curValue = Double.valueOf(val.toString());
+		
+//		System.out.println("curValue: "+curValue+", window_low: "+window_low+", window_high: "+window_high);
+		
+		if (curValue <= window_high && curValue >= window_low)
 			this.checkFlag = true;
-			//System.out.println("filtered");
-		}
-		else{
+		else
 			this.checkFlag = false;
-			//System.out.println("passed");
-		}
+		
 		this.adjustFilter(curValue);
+		
+//		if (this.checkFlag)
+//			System.out.println("filtered");
+//		else
+//			System.out.println("passed");
+
 		return this.checkFlag;
 	}
 	
 	public abstract void adjustFilter(double curValue);
 
+	public void setGlobalFilterFlag(boolean flag){
+		this.globalFilterFlag = flag;
+	}
+	
+	public boolean getGlobalFilterFlag(){
+		return this.globalFilterFlag;
+	}
 }
