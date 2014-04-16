@@ -270,15 +270,20 @@ public abstract class Probe extends Thread implements IProbe{
 						recvMetric.setAssignedProbeID(this.probeID);
 						this.lastMetric = recvMetric;
 						
-						if (this.filterFlag)
+						if (this.filterFlag){
+							this.lastMetric = new ProbeMetric(recvMetric.getMetricValues(),recvMetric.getMetricTimestamp()); //make a copy
 							this.checkFilters(recvMetric);
+						}	
 						
-						String jsonMetric = this.metricToJSON(recvMetric);
-//						System.out.println(jsonMetric);
+						if (!recvMetric.isEmpty()){ //check if all values were filtered
+							String jsonMetric = this.metricToJSON(recvMetric);
+							System.out.println(jsonMetric);
+							
+							//add to metricQueue if attached to probe
+							if(this.metricQueue != null)
+								this.metricQueue.offer(jsonMetric,500,TimeUnit.MILLISECONDS);
+						}
 						
-						//add to metricQueue if attached to probe
-						if(this.metricQueue != null)
-							this.metricQueue.offer(jsonMetric,500,TimeUnit.MILLISECONDS);
 						this.errorCountFlag = 0;
 					}
 					catch(CatascopiaException e){
@@ -375,9 +380,14 @@ public abstract class Probe extends Thread implements IProbe{
 	}
 	
 	public void turnFilteringOn(int propID, Filter f){
+		this.turnFilteringOn(propID, f, false);
+	}
+	
+	public void turnFilteringOn(int propID, Filter f, boolean globalFilterFlag){
 		if (this.probeProperties.containsKey(propID)){
 			this.filterMap.put(propID, f);
 			this.filterFlag = true;
+			f.setGlobalFilterFlag(globalFilterFlag);
 		}
 	}
 	
@@ -387,10 +397,14 @@ public abstract class Probe extends Thread implements IProbe{
 	
 	
 	private void checkFilters(ProbeMetric metric){
+		boolean flag = false;
 		for (Entry<Integer,Filter> entry :this.filterMap.entrySet()){
 			try {
-				if (entry.getValue().check((Double)metric.getMetricValueByID(entry.getKey())))
+				if (entry.getValue().check(metric.getMetricValueByID(entry.getKey()))){ //send object and let filter do the casting
 					metric.removeMetricValue(entry.getKey());
+					if (entry.getValue().getGlobalFilterFlag())
+						flag = true;
+				}
 			} 
 			catch (CatascopiaException e) {
 				this.writeToProbeLog(Level.SEVERE, e);
@@ -401,6 +415,8 @@ public abstract class Probe extends Thread implements IProbe{
 				this.errorReport();
 			}
 		}
+		if (flag)
+			metric.removeAll();
 	}
 	
 	

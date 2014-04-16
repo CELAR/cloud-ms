@@ -30,7 +30,7 @@ import eu.celarcloud.jcatascopia.exceptions.CatascopiaException;
  * An object of the ProbeMetric class represents a collected monitoring metric group of properties
  *
  */
-public class ProbeMetric {
+public class ProbeMetric{
 	/**
 	 * timestamp of collected metric in ms.  
 	 * Time is expressed as UNIX time. ms from UNIX epoch
@@ -124,5 +124,13 @@ public class ProbeMetric {
 	 */
 	public void setAssignedProbeID(String probeid){
 		this.probeID = probeid;
+	}
+	
+	public void removeAll(){
+		this.values.clear();
+	}
+	
+	public boolean isEmpty(){
+		return this.values.isEmpty();
 	}
 }

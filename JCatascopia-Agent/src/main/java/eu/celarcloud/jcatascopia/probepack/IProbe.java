@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eu.celarcloud.jcatascopia.exceptions.CatascopiaException;
+import eu.celarcloud.jcatascopia.probepack.filters.Filter;
 
 
 public interface IProbe {
@@ -92,4 +93,8 @@ public interface IProbe {
 	public void setPullableFlag(boolean flag);
 	
 	public void pull();
+	
+	public void turnFilteringOn(int propID, Filter f);
+	public void turnFilteringOn(int propID, Filter f, boolean globalFilterFlag);
+	public void turnFilteringOff();
 }
