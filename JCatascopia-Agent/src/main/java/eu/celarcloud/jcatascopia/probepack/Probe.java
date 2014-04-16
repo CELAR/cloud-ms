@@ -277,7 +277,7 @@ public abstract class Probe extends Thread implements IProbe{
 						
 						if (!recvMetric.isEmpty()){ //check if all values were filtered
 							String jsonMetric = this.metricToJSON(recvMetric);
-							System.out.println(jsonMetric);
+//							System.out.println(jsonMetric);
 							
 							//add to metricQueue if attached to probe
 							if(this.metricQueue != null)
