@@ -27,7 +27,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>eu.celarcloud.celar_ms.AgentPack.MonitoringAgent</mainClass>
+                  <mainClass>eu.celarcloud.jcatascopia.agentpack.MonitoringAgent</mainClass>
                 </transformer>
               </transformers>
               <filters>
@@ -57,8 +57,8 @@
           <finalName>JCatascopia-Agent-${project.version}</finalName>
           <archive>
             <manifest>
-              <mainClass>eu.celarcloud.celar_ms.AgentPack.MonitoringAgent</mainClass>
-              <packageName>eu.celarcloud.celar_ms.AgentPack</packageName>
+              <mainClass>eu.celarcloud.jcatascopia.agentpack.MonitoringAgent</mainClass>
+              <packageName>eu.celarcloud.jcatascopia.agentpack</packageName>
             </manifest>
           </archive>
         </configuration>
