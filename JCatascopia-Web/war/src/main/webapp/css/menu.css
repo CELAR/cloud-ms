@@ -1,4 +1,5 @@
 @CHARSET "US-ASCII";
+
 #menu {
 	color: white;
 	font-size: 17px;
@@ -8,6 +9,7 @@
 	background-color: blue;
 	margin-bottom: 25px;
 }
+
 div.menu_item {
 	text-align: center;
 	vertical-align: middle;
@@ -37,16 +39,18 @@ a:link {
 	color: white;
 	text-decoration: none;
 }
+
 a:visited {
 	color: white;
 	text-decoration: none;
 }
+
 a:hover {
 	color: white;
 	text-decoration: none;
 }
+
 a:active {
 	color: white;
 	text-decoration: none;
 }
-

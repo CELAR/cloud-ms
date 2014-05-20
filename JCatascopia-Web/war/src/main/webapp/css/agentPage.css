@@ -5,17 +5,19 @@
 	padding: 3px;
 	margin-bottom: 5px;
 	margin-top: 5px;
-	float:left;
+	float: left;
 	overflow: auto;
 	cursor: pointer;
 	border: 1px solid white;
 	vertical-align: middle;
 }
+
 .instance img {
 	display: inline-block;
 	vertical-align: middle;
 	margin: auto;
 }
+
 .instance span {
 	font-size: 18px;
 }

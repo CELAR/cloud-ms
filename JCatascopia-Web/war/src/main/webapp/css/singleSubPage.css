@@ -1,14 +1,18 @@
 @CHARSET "US-ASCII";
+
 #left_col {
 	border-right: none;
 }
-#subscribedAgents, #unsubcribedAgents{
+
+#subscribedAgents,#unsubcribedAgents {
 	max-height: 400px;
 	overflow: auto;
 }
-#subscribedAgents{
+
+#subscribedAgents {
 	margin-bottom: 25px;
 }
+
 .agent {
 	width: 98%;
 	height: 30px;
@@ -17,14 +21,16 @@
 	margin: 2px 0px;
 	background-color: #F5F5F5;
 }
+
 .agent .container {
 	float: left;
 	width: 80%;
-	height: 30px; 
+	height: 30px;
 	overflow: auto;
 	border: none;
 	margin-bottom: 0px;
 }
+
 .container div.label {
 	/* float: left;  */
 	margin-left: 8px;
@@ -32,6 +38,7 @@
 	line-height: 30px;
 	overflow: auto;
 }
+
 .agent div:nth-child(2) {
 	font-size: 20px;
 	position: absolute;
@@ -39,6 +46,7 @@
 	/* background-color: white; */
 	padding-left: 3px;
 }
+
 .agent div:nth-child(2) div {
 	width: 13px;
 	height: 13px;
@@ -54,9 +62,11 @@
 	margin-top: 7px;
 	cursor: pointer;
 }
+
 .agent div.remove div {
 	background-color: red;
 }
+
 .agent div.add div {
 	background-color: green;
 }

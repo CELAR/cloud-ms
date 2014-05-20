@@ -1,23 +1,28 @@
 @CHARSET "US-ASCII";
 /* status bar */
-#statusbar{
-	padding:3px;
+#statusbar {
+	padding: 3px;
 }
+
 .fixed {
 	position: fixed;
 }
+
 .active {
 	display: block;
 }
-.st_sep{
-	border-left:1px solid #000;
+
+.st_sep {
+	border-left: 1px solid #000;
 }
 
 /* columns */
 footer {
 	/* height: 500px; */
 	/* margin-bottom: 30px; */
+	
 }
+
 #left_col {
 	width: 15%;
 	float: left;
@@ -25,6 +30,7 @@ footer {
 	border-right: 1px #ddd solid;
 	overflow: auto;
 }
+
 #right_col {
 	width: 84%;
 	float: right;
@@ -37,10 +43,12 @@ footer {
 	font-size: 16px;
 	width: 150px;
 }
+
 .group_title {
 	text-decoration: underline;
 	font-size: 20px;
 }
+
 .metric {
 	
 }
@@ -52,6 +60,7 @@ footer {
 	margin-bottom: 8px;
 	border: 1px solid black;
 }
+
 .header {
 	width: 100%;
 	height: 30px;
@@ -62,6 +71,7 @@ footer {
 	text-align: center;
 	position: relative;
 }
+
 .wrapper {
 	width: 100%;
 	height: 300px;
@@ -86,21 +96,25 @@ span.expand {
 	margin-bottom: 8px;
 	border: 1px solid black;
 }
+
 .infowrapper {
 	width: 97%;
 	height: 146px;
 	overflow: auto;
 }
+
 .staticinfo_table {
 	width: 760px;
 	height: 146px;
 }
+
 .staticinfo {
 	height: 36px;
 	line-height: 36px;
 	position: relative;
 	width: 55%;
 }
+
 .staticinfo_label {
 	font-weight: bold;
 	font-size: 16px;
@@ -108,10 +122,12 @@ span.expand {
 	/* position: absolute;
 	left: 0px; */
 }
+
 .staticinfo_value {
 	/*font-size: 16px;*/
 	line-height: 36px;
 	margin: 0px 5px;
 	/*position: absolute;*/
-	left: 150px; padding-right:10px;
+	left: 150px;
+	padding-right: 10px;
 }

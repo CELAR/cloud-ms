@@ -11,9 +11,11 @@
 	width: 50%;
 	position: relative;
 }
+
 #left_col {
 	float: left;
 }
+
 #right_col {
 	float: right;
 }
@@ -25,6 +27,7 @@
 	margin-bottom: 10px;
 	overflow: auto;
 }
+
 .header {
 	height: 30px;
 	line-height: 30px;
@@ -34,6 +37,7 @@
 	font-size: 17px;
 	position: relative;
 }
+
 .content {
 	height: 198px;
 	overflow: auto;
@@ -56,7 +60,7 @@ span.expand {
 .instance {
 	width: 25%;
 	margin-bottom: 5px;
-	float:left;
+	float: left;
 	overflow: auto;
 	cursor: pointer;
 	border: 1px solid white;
@@ -67,18 +71,22 @@ a:link span {
 	color: black;
 	text-decoration: none;
 }
+
 div.block a:link {
 	color: black;
 	text-decoration: none;
 }
+
 div.block a:visited {
 	color: black;
 	text-decoration: none;
 }
+
 div.block a:hover {
 	color: black;
 	text-decoration: none;
 }
+
 div.block a:active {
 	color: black;
 	text-decoration: none;

@@ -54,7 +54,8 @@ public class DBInterface implements IDBInterface{
 	private static final String GET_SUBSCRIPTIONS = "SELECT * FROM subscription_table";
 	private static final String GET_SUB_META = "SELECT * FROM subscription_table WHERE subID=?";
 	private static final String GET_SUB_AGENTS ="SELECT * FROM subscription_agents_table WHERE subID=?";
-	
+	private static final String GET_AVAILABLE_METRICS_ALL_AGENTS = "SELECT * FROM metric_table";
+
 	PreparedStatement getAgentsStmt;
 	PreparedStatement getAgentsAvailableMetricsStmt;
 	PreparedStatement getMetricValuesStmt;
@@ -62,6 +63,7 @@ public class DBInterface implements IDBInterface{
 	PreparedStatement getSubsStmt;
 	PreparedStatement getSubMetaStmt;
 	PreparedStatement getSubAgentsStmt;
+	PreparedStatement getAvailableMetricsAllAgentsStmt;
 	
 	public DBInterface(List<String> endpoints, String keyspace){
 		this.endpoints = endpoints;
@@ -89,6 +91,7 @@ public class DBInterface implements IDBInterface{
 		this.getSubsStmt = session.prepare(GET_SUBSCRIPTIONS);
 		this.getSubMetaStmt = session.prepare(GET_SUB_META);
 		this.getSubAgentsStmt = session.prepare(GET_SUB_AGENTS);
+		this.getAvailableMetricsAllAgentsStmt = session.prepare(GET_AVAILABLE_METRICS_ALL_AGENTS);
 	}
 
 	public void dbClose() {
@@ -362,5 +365,23 @@ public class DBInterface implements IDBInterface{
 			e.printStackTrace();
 		} 
 		return connected;
+	}
+	
+	public ArrayList<MetricObj> getAvailableMetricsForAllAgents(){
+		try{
+			BoundStatement bs = this.getAvailableMetricsAllAgentsStmt.bind();
+			ResultSet rs = session.execute(bs);
+			
+			HashMap<String,MetricObj> map = new HashMap<String,MetricObj>();
+			for (Row row : rs)
+				map.put(row.getString("name"), new MetricObj(row.getString("metricID"), row.getString("name"),row.getString("units"),row.getString("type"),row.getString("mgroup")));
+			
+			ArrayList<MetricObj> metriclist = new ArrayList<MetricObj>(map.values());
+			return metriclist;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;		
 	}
 }

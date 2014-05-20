@@ -526,4 +526,6 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 		} 
 		return connected;
 	}
+	
+	public ArrayList<MetricObj> getAvailableMetricsForAllAgents(){return null;}
 }

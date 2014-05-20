@@ -121,4 +121,29 @@ public class AgentServer {
 			           .entity(sb.toString())
 			           .build();			
 	}
+	
+	@GET
+	@Path("/availableMetrics")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getMetricsForAllAgents(@Context HttpServletRequest req, @Context HttpServletResponse response,
+			              	                @Context ServletContext context){
+		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
+    	    	
+		ArrayList<MetricObj> metriclist = dbInterface.getAvailableMetricsForAllAgents();
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"metrics\":[");
+		boolean first = true;
+		if(metriclist != null)
+			for(MetricObj m: metriclist) {
+				if(!first) sb.append(",");
+				sb.append(m.toJSON());
+				first = false;
+			}
+		sb.append("]}");
+		
+	
+		return Response.status(Response.Status.OK)
+			           .entity(sb.toString())
+			           .build();	
+	}
 }

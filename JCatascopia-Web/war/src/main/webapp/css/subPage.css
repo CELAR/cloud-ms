@@ -1,4 +1,5 @@
 @CHARSET "US-ASCII";
+
 .block {
 	width: 90%;
 	margin: auto;
@@ -6,6 +7,7 @@
 	margin-bottom: 14px;
 	position: relative;
 }
+
 .header {
 	height: 30px;
 	line-height: 30px;
@@ -16,12 +18,14 @@
 	position: relative;
 	z-index: 100;
 }
+
 .content {
 	width: 98%;
 	min-height: 100px;
 	overflow: auto;
 	margin: auto;
 }
+
 .hidden {
 	display: none;
 }
@@ -31,16 +35,19 @@ span.expand {
 	position: absolute;
 	left: 10px;
 }
+
 .shadow {
 	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 }
+
 .border {
 	border: 1px solid black;
 }
+
 #overlay {
-	background-color: rgba(255,255,255,0.5);
+	background-color: rgba(255, 255, 255, 0.5);
 	position: absolute;
 	left: 0px;
 	top: 0px;
@@ -50,12 +57,14 @@ span.expand {
 	vertical-align: middle;
 	text-align: center;
 }
+
 #subList ul {
 	list-style: none;
 	padding: 0px 3px;
 	min-height: 50px;
 }
-#subList ul li{
+
+#subList ul li {
 	height: 30px;
 	font-size: 20px;
 	/* line-height: 30px; */
@@ -69,28 +78,35 @@ span.expand {
 #subList a:link {
 	color: black;
 }
+
 #subList a:visited {
 	color: black;
 }
+
 #subList a:hover {
 	color: black;
 }
+
 #subList a:active {
 	color: black;
 }
+
 .subName {
 	padding: 0px 6px;
 	vertical-align: middle
 }
+
 .hovered {
 	background-color: #D9D9D9;
 }
+
 .hover_text {
 	color: white;
 	font-style: italic;
 	font-size: 14px;
 	vertical-align: middle;
 }
+
 input[type=checkbox] {
 	width: 20px;
 	margin: 0px;
@@ -99,61 +115,73 @@ input[type=checkbox] {
 
 #createView {
 	/* display: none; */
+	
 }
-#createView table{
+
+#createView table {
 	/* width: 100%; */
 	margin: auto;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	/* display: none; */
-	border-collapse:collapse; 
+	border-collapse: collapse;
 	border-spacing: 0;
 	overflow: auto;
 }
-#createView th{
+
+#createView th {
 	font-size: 16px;
 	text-align: right;
 	padding-right: 8px;
 	padding: 4px;
 	min-width: 140px;
 }
-#createView td{
+
+#createView td {
 	font-size: 13px;
 	padding: 4px;
 }
-#metricRealType, #metricRealUnits {
+
+#metricRealType,#metricRealUnits {
 	padding: 0px 9px;
 	font-style: italic;
 }
+
 #createView input[type=text] {
 	margin: 0px;
 	font-size: 13px;
 	border: 1px solid grey;
 	padding: 4px;
 }
+
 #createView input[type=text].invalid {
 	border: 1px solid red;
 	background-image: url('../img/warning_small.png');
 	background-repeat: no-repeat;
 	background-position: center right;
 }
+
 #createView select {
 	font-size: 13px;
 	width: 180px;
 	margin: 0px;
-	border:  1px solid grey;
+	border: 1px solid grey;
 	border-radius: 0px;
 	background-color: white;
 }
+
 #createView select#agents_select {
 	height: 100px;
 }
+
 #createView select[option=selected] {
 	background-color: blue;
 }
+
 #createView select.invalid {
 	border: 1px solid red;
 }
+
 #createView input[type=submit] {
 	font-size: 20px;
 	width: 100px;

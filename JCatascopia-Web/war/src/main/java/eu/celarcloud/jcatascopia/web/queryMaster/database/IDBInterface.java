@@ -43,5 +43,7 @@ public interface IDBInterface{
 	public boolean removeSubscription(String ip, String port, String json);
 	public boolean addAgent(String ip, String port, String json);
 	public boolean removeAgent(String ip, String port, String json);
+	
+	public ArrayList<MetricObj> getAvailableMetricsForAllAgents();
 
 }
