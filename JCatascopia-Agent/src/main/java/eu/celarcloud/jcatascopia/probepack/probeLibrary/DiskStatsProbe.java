@@ -114,7 +114,7 @@ public class DiskStatsProbe extends Probe{
 			BufferedReader br = new BufferedReader(new FileReader(new File(PATH)));
 			String line;
 			while((line = br.readLine())!=null){
-				if(line.contains("sda ") || line.contains("vda ")){
+				if(line.contains("sda ") || line.contains("vda ") || line.contains("xvd")){
 					String[] tokenz = line.split("\\s+");
 					//[white space]8 0 sda 25485 11086 1885590 273084 10149 13330 1076312 471656 0 100500 743000
 					//[white space]253 0 vda 5065 1304 195506 15835 105722 154245 2068512 812391 0 288836 828134
