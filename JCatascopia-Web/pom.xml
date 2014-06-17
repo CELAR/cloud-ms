@@ -28,5 +28,6 @@
 	<modules>
 		<module>war</module>
 		<module>tar</module>
+		<module>rpm</module>
 	</modules>
 </project>
