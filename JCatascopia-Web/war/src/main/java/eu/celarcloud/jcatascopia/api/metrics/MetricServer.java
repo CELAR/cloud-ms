@@ -33,9 +33,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import eu.celarcloud.jcatascopia.web.queryMaster.beans.MetricObj;
 import eu.celarcloud.jcatascopia.web.queryMaster.database.IDBInterface;
 
@@ -149,7 +146,12 @@ public class MetricServer {
 		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
 
 		ArrayList<MetricObj> metriclist = null;
-		if(tstart == null && tend == null){
+		if(tstart == null && tend == null && interval == null){
+			String[] regMetrics = new String[1];
+			regMetrics[0] = metricID;
+			metriclist = dbInterface.getMetricValues(regMetrics);
+		}
+		else if(tstart == null && tend == null){
 			long interv = Long.parseLong(interval);
 			metriclist = dbInterface.getMetricValuesByTime(metricID, interv);
 		}
