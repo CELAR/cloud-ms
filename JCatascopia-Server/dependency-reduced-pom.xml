@@ -63,7 +63,70 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>attach-rpm</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached-rpm</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classifier>${package.os}</classifier>
+          <version>0.0.1</version>
+          <summary>JCatascopia-Server</summary>
+          <name>JCatascopia-Server</name>
+          <group>JCatascopia</group>
+          <vendor>CELAR</vendor>
+          <packager>trihinas@cs.ucy.ac.cy</packager>
+          <copyright>Apache License, Version 2.0</copyright>
+          <url>http://celarcloud.eu</url>
+          <needarch>noarch</needarch>
+          <description>JCatascopia-Server-rpm</description>
+          <mappings>
+            <mapping>
+              <directory>${rpm.install.basedir}/JCatascopia-Server/</directory>
+              <username>root</username>
+              <groupname>root</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>${basedir}/target/${jc.tarball}</location>
+                </source>
+              </sources>
+            </mapping>
+          </mappings>
+          <preinstallScriptlet>
+            <script>echo "Installing JCatascopia-Server via RPM..."</script>
+          </preinstallScriptlet>
+          <postinstallScriptlet>
+            <script>tar xvfz ${rpm.install.basedir}/JCatascopia-Server/${jc.tarball} -C ${rpm.install.basedir}/JCatascopia-Server/
+			                cd  ${rpm.install.basedir}/JCatascopia-Server/${jc.dir}
+			                ./${jc.install}
+							echo "JCatascopia-Server: installation finished..."</script>
+          </postinstallScriptlet>
+          <postremoveScriptlet>
+            <script>/etc/init.d/JCatascopia-Server stop
+	                    	rm -rf /etc/init.d/JCatascopia-Server
+							rm -rf ${rpm.install.basedir}/JCatascopia-Server
+							rm -rf ${rpm.install.basedir}/JCatascopiaServerDir
+							echo "JCatascopia-Server: installation removed..."</script>
+          </postremoveScriptlet>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <properties>
+    <jc.tarball>JCatascopia-Server-${project.version}.tar.gz</jc.tarball>
+    <jc.dir>JCatascopia-Server-${project.version}</jc.dir>
+    <rpm.install.basedir>/usr/local/bin</rpm.install.basedir>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jc.install>installer.sh</jc.install>
+  </properties>
 </project>
 
