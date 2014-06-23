@@ -20,6 +20,7 @@ package eu.celarcloud.jcatascopia.web.queryMaster.database.Cassandra;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -185,6 +186,7 @@ public class DBInterface implements IDBInterface{
 				metriclist.add(new MetricObj(row.getString("metricID"), row.getString("name"),
 						row.getString("units"),row.getString("type"),row.getString("mgroup"),row.getString("value"),t));
 			}
+			Collections.reverse(metriclist); //reverse the order to get an ASCENDING list since cassandra keeps the latest value first for efficiency
 			return metriclist;
 		}
 		catch(Exception e){
