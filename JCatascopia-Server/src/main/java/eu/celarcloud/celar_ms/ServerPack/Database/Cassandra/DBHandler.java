@@ -47,8 +47,9 @@ public class DBHandler implements IDBHandler{
 	private String keyspace;
 	private IJCatascopiaServer server;
 	
-	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID, agentIP, status) VALUES (?,?,?)";
-	private static final String UPDATE_AGENT = "UPDATE agent_table SET status=? WHERE agentID=?";
+	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID, agentIP, status, tstart,tstop) VALUES (?,?,?,now(),NULL)";
+	private static final String UPDATE_AGENT = "UPDATE agent_table SET status=?,tstop=NULL WHERE agentID=?";
+	private static final String UPDATE_AGENT_TERMINATED = "UPDATE agent_table SET status=?,tstop=now() WHERE agentID=?";
 	private static final String DELETE_AGENT = "DELETE FROM agent_Table WHERE agentID=?";
 	private static final String CREATE_METRIC = "INSERT INTO metric_table (agentID, metricID, name, mgroup, type, units) VALUES (?,?,?,?,?,?)";
 	private static final String DELETE_METRIC = "DELETE FROM metric_table WHERE agentID=? AND metricID =?";
@@ -63,6 +64,7 @@ public class DBHandler implements IDBHandler{
 	
 	private PreparedStatement insertAgentStmt;
 	private PreparedStatement updateAgentStmt;
+	private PreparedStatement updateAgentTermStmt;
 	private PreparedStatement deleteAgentStmt;
 	private PreparedStatement insertMetricStmt;
 	private PreparedStatement deleteMetricStmt;
@@ -124,6 +126,8 @@ public class DBHandler implements IDBHandler{
 		                " agentID varchar," + 
 		                " agentIP varchar," +
 		                " status varchar," +
+		                " tstart timeuuid," +
+		                " tstop timeuuid," +
 		                " PRIMARY KEY (agentID)" +
 		                ");";
 				session.execute(cql);
@@ -187,6 +191,7 @@ public class DBHandler implements IDBHandler{
 			
 			this.insertAgentStmt = session.prepare(CREATE_AGENT);
 			this.updateAgentStmt = session.prepare(UPDATE_AGENT);
+			this.updateAgentTermStmt = session.prepare(UPDATE_AGENT_TERMINATED);
 			this.deleteAgentStmt = session.prepare(DELETE_AGENT);
 			this.insertMetricStmt = session.prepare(CREATE_METRIC);
 			this.deleteMetricStmt = session.prepare(DELETE_METRIC);
@@ -217,7 +222,11 @@ public class DBHandler implements IDBHandler{
 
 	public void updateAgent(String agentID, String status){
 		try{
-			BoundStatement bs = this.updateAgentStmt.bind();
+			BoundStatement bs=null;
+			if(!status.equals("TERMINATED"))
+				bs = this.updateAgentStmt.bind();
+			else 
+				bs = this.updateAgentTermStmt.bind();
 			bs.setString("agentID", agentID);
 			bs.setString("status", status);
 			session.execute(bs);		

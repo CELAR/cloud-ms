@@ -92,7 +92,6 @@ public class HeartBeatMonitor extends Thread{
 				    		else{
 				    			if(this.server.getDatabaseFlag())
 									try {
-										//AgentDAO.updateAgent(this.server.dbHandler.getConnection(), curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
 										this.server.dbHandler.updateAgent(curAgent.getAgentID(), AgentObj.AgentStatus.DOWN.name());
 									} 
 				    			    //catch (CatascopiaException e) {
@@ -126,8 +125,9 @@ public class HeartBeatMonitor extends Thread{
 			}
 			this.server.agentMap.remove(host);
 			if(this.server.getDatabaseFlag())
-				//AgentDAO.deleteAgent(this.server.dbHandler.getConnection(), agent.getAgentID());
-				this.server.dbHandler.deleteAgent(agent.getAgentID());
+				//TODO add option in config file to delete or keep log of terminated agents
+				//this.server.dbHandler.deleteAgent(agent.getAgentID());
+				this.server.dbHandler.updateAgent(agent.getAgentID(), AgentObj.AgentStatus.TERMINATED.name());
 		
 		}
 		catch(Exception e){

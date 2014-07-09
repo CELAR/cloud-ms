@@ -117,6 +117,7 @@ public class AgentRegister implements Runnable{
 			this.server.writeToLog(Level.INFO, "New node Agent added, with ID: "+agentID+" and IP: "+agentIP);
 			
 			if(this.server.getDatabaseFlag())
+			
 				try {
 					this.server.dbHandler.createAgent(agent);
 				} 

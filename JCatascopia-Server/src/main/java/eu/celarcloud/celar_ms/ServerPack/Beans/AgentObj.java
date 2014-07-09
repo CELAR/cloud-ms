@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AgentObj{
 	
-	public enum AgentStatus{UP,DOWN,DEAD};
+	public enum AgentStatus{UP,DOWN,TERMINATED};
 	
 	private String agentID;
 	private String agentIP;
