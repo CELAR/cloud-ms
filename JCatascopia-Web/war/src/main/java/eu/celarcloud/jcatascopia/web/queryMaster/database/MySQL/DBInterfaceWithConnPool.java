@@ -186,6 +186,42 @@ public class DBInterfaceWithConnPool implements IDBInterface{
         }
         return null;
 	}
+	
+	public ArrayList<AgentObj> getAgentsWithTimestamps(String status) {
+		String query = "SELECT * FROM agent_table";
+        PreparedStatement stmt = null;
+		Connection c = null;
+        try{
+        	query += (status == null || status.length() == 0) ? "" : " WHERE status='" + status + "'";
+        	
+        	c = this.getConnection();
+   			stmt = c.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<AgentObj> agentlist = new ArrayList<AgentObj>();
+            String tstart;
+	        AgentObj agent;
+            while(rs.next()){
+            	agent = new AgentObj(rs.getString("agentID"),rs.getString("agentIP"),rs.getString("status"));
+            	agentlist.add(agent);
+            	tstart = Long.toString(rs.getTimestamp("tstart").getTime()/1000);
+        		agent.setTstart(tstart);
+            	if (rs.getTimestamp("tstop") != null)
+            		agent.setTstop(Long.toString(rs.getTimestamp("tstop").getTime()/1000));
+            }
+            return agentlist;
+		}
+        catch (SQLException e){
+			e.printStackTrace();
+		}
+        catch (Exception e){
+        	e.printStackTrace();
+        }
+        finally{
+        	this.release(stmt, c);	
+        }
+        return null;
+	}
+	
 
 	/**
 	 * Connects to the given database and retrieves a metadata list of all the available
@@ -528,4 +564,5 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 	}
 	
 	public ArrayList<MetricObj> getAvailableMetricsForAllAgents(){return null;}
+
 }

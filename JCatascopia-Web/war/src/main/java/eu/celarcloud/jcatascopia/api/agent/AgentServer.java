@@ -56,11 +56,16 @@ public class AgentServer {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getAgents(@Context HttpServletRequest req, @Context HttpServletResponse response,
 			              	   @Context ServletContext context, @QueryParam("status") String status, 
-			                   @QueryParam("applicationID") String appID){
+			              	   @QueryParam("time") String time, @QueryParam("applicationID") String appID){
 		
 		IDBInterface dbInterface = (IDBInterface) context.getAttribute("dbInterface");
 		
-		ArrayList<AgentObj> agentlist = dbInterface.getAgents(status);
+		ArrayList<AgentObj> agentlist;
+		if (time == null)
+			agentlist = dbInterface.getAgents(status);
+		else
+			agentlist = dbInterface.getAgentsWithTimestamps(status);
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append(("{\"agents\":["));
 		if(agentlist != null) {

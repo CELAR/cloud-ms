@@ -25,11 +25,21 @@ public class AgentObj{
 	private String agentID;
 	private String agentIP;
 	private String status;
+	private String tstart;
+	private String tstop;
 	
 	public AgentObj(String agentID,String agentIP, String status){
 		this.agentID = agentID;
 		this.agentIP = agentIP;
 		this.status = status;
+	}
+	
+	public AgentObj(String agentID,String agentIP, String status, String tstart, String tstop){
+		this.agentID = agentID;
+		this.agentIP = agentIP;
+		this.status = status;
+		this.setTstart(tstart);
+		this.setTstop(tstop);
 	}
 	
 	public AgentObj(){}
@@ -54,6 +64,22 @@ public class AgentObj{
 		return this.status;
 	}
 	
+	public String getTstart() {
+		return tstart;
+	}
+
+	public void setTstart(String tstart) {
+		this.tstart = tstart;
+	}
+
+	public String getTstop() {
+		return tstop;
+	}
+
+	public void setTstop(String tstop) {
+		this.tstop = tstop;
+	}
+
 	public String toString(){
 		return "Agent>> AgentID: "+this.agentID+" AgentIP: "+this.agentIP+" status: "+this.status;
 	}
@@ -67,6 +93,10 @@ public class AgentObj{
 			sb.append(",\"agentIP\":\""+this.agentIP+"\"");
 		if(this.status != null && this.status.length() > 0)
 			sb.append(",\"status\":\""+this.status+"\"");
+		if(this.tstart != null && this.tstart.length() > 0)
+			sb.append(",\"tstart\":\""+this.tstart+"\"");
+		if(this.tstop != null && this.tstop.length() > 0)
+			sb.append(",\"tstop\":\""+this.tstop+"\"");
 		
 		sb.append("}");
 		return sb.toString();

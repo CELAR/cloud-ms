@@ -29,6 +29,8 @@ import java.util.logging.Level;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import eu.celarcloud.celar_ms.Exceptions.CatascopiaException;
 import eu.celarcloud.celar_ms.ServerPack.IJCatascopiaServer;
 import eu.celarcloud.celar_ms.ServerPack.Beans.AgentObj;
@@ -55,7 +57,8 @@ public class DBHandlerWithConnPool implements IDBHandler{
 	private int CONN_NUM;
 	
 	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID,agentIP,status) VALUES (?,?,?)";
-	private static final String UPDATE_AGENT = "UPDATE agent_table SET status=? WHERE agentID=?";
+	private static final String UPDATE_AGENT = "UPDATE agent_table SET status=?,tstop=NULL WHERE agentID=?";
+	private static final String UPDATE_AGENT_TERMINATED = "UPDATE agent_table SET status=?,tstop=CURRENT_TIMESTAMP WHERE agentID=?";
 	private static final String DELETE_AGENT = "DELETE FROM agent_table WHERE (agentID = ?)";
 	private static final String CREATE_METRIC = "INSERT INTO metric_table (metricID,agentID,name,mgroup,units,type) VALUES (?,?,?,?,?,?)";
 	private static final String DELETE_METRIC = "DELETE FROM metric_table WHERE (metricID = ?) ";
@@ -168,7 +171,9 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			query = "CREATE TABLE IF NOT EXISTS `agent_table` (" +
 					"`agentID` varchar(32) NOT NULL," +
 					"`agentIP` varchar(16) NOT NULL," +
-					"`status` enum('UP','DOWN','DEAD') NOT NULL," +
+					"`status` enum('UP','DOWN','TERMINATED') NOT NULL," +
+					"`tstart` timestamp DEFAULT CURRENT_TIMESTAMP," +
+					"`tstop` timestamp NULL," +
 					"PRIMARY KEY (`agentID`)" +
 					") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = c.prepareStatement(query);
@@ -262,6 +267,9 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			stmt.setString(3, agent.getStatus().name());
 			stmt.executeUpdate();
 		}
+        catch (MySQLIntegrityConstraintViolationException e) {
+        	updateAgent(agent.getAgentID(), AgentObj.AgentStatus.UP.name());	
+        }
         catch (SQLException e) {
 	    	server.writeToLog(Level.SEVERE, "MySQL Handler createAgent>> "+e);
 		} 
@@ -278,7 +286,10 @@ public class DBHandlerWithConnPool implements IDBHandler{
 		Connection c = null;
 	    try{
         	c = this.getConnection();
-	    	stmt = c.prepareStatement(UPDATE_AGENT);
+        	if(!status.equals("TERMINATED"))
+		    	stmt = c.prepareStatement(UPDATE_AGENT);
+        	else
+        		stmt = c.prepareStatement(UPDATE_AGENT_TERMINATED);
 	    	stmt.setString(1, status); 
 	    	stmt.setString(2, agentID);
 	    	stmt.executeUpdate();

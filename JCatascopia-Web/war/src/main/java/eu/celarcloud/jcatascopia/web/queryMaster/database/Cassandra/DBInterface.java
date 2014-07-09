@@ -117,6 +117,34 @@ public class DBInterface implements IDBInterface{
 		}
 		return null;
 	}
+	
+	public ArrayList<AgentObj> getAgentsWithTimestamps(String status){
+		try{
+			BoundStatement bs = this.getAgentsStmt.bind();
+			ResultSet rs = session.execute(bs);
+	        ArrayList<AgentObj> agentlist = new ArrayList<AgentObj>();
+	        String st,tstart,tstop;
+	        AgentObj agent;
+			for (Row row : rs) {
+				st = row.getString("status");
+				if (status == null || status.length() == 0 || status.equals(st)){
+					agent = new AgentObj(row.getString("agentID"),row.getString("agentIP"),st);
+					agentlist.add(agent);	
+					tstart = Long.toString(UUIDs.unixTimestamp(row.getUUID("tstart"))/1000);
+					agent.setTstart(tstart);
+					if (row.getUUID("tstop") != null){
+						tstop = Long.toString(UUIDs.unixTimestamp(row.getUUID("tstop"))/1000);
+						agent.setTstop(tstop);
+					}
+				}
+			}
+			return agentlist;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public ArrayList<MetricObj> getAgentAvailableMetrics(String agentID){
 		try{

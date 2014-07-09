@@ -45,5 +45,7 @@ public interface IDBInterface{
 	public boolean removeAgent(String ip, String port, String json);
 	
 	public ArrayList<MetricObj> getAvailableMetricsForAllAgents();
+	
+	public ArrayList<AgentObj> getAgentsWithTimestamps(String status);
 
 }
