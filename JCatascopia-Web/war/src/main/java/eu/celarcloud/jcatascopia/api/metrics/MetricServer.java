@@ -134,6 +134,8 @@ public class MetricServer {
 	 * @param start The time to start from
 	 * @param end The time to end to
 	 * @return a list of all the values between this timerange
+	 * 
+	 * timestamps should be given in UNIX TIME
 	 */
 	@GET
 	@Path("/{metricid}")

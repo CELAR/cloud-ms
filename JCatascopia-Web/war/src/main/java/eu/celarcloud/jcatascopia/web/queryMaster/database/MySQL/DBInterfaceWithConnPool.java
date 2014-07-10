@@ -54,7 +54,8 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 	private int CONN_NUM;
 	
 	private static final String GET_AGENT_AVAILABLE_METRICS = "SELECT metricID,name,mgroup,units,type FROM metric_table WHERE agentID=?";
-	private static final String GET_METRIC_VALUES_BY_TIMERANGE = "SELECT m1.metricID,m1.value,m1.timestamp, m2.name, m2.type, m2.units, m2.mgroup FROM metric_table as m2 JOIN (SELECT * FROM metric_value_table WHERE metricID=? AND timestamp>=? AND timestamp<=?) as m1 ON m1.metricID=m2.metricID;";
+//	private static final String GET_METRIC_VALUES_BY_TIMERANGE = "SELECT m1.metricID,m1.value,m1.timestamp, m2.name, m2.type, m2.units, m2.mgroup FROM metric_table as m2 JOIN (SELECT * FROM metric_value_table WHERE metricID=? AND timestamp>=? AND timestamp<=?) as m1 ON m1.metricID=m2.metricID;";
+	private static final String GET_METRIC_VALUES_BY_TIMERANGE = "SELECT * FROM metric_value_table WHERE metricID=? AND timestamp>=? AND timestamp<=?";
 	private static final String GET_AVAILABLE_METRICS_FOR_SUBS = "SELECT metricID,name,mgroup,units,type FROM metric_table WHERE ((is_sub is NULL) AND (type='INTEGER' OR type='DOUBLE')) GROUP BY name";
 	private static final String GET_SUBSCRIPTIONS = "SELECT a.subID, b.name FROM subscription_table a JOIN metric_table b ON a.subID = b.agentID";
 	private static final String GET_SUB_META = "SELECT * FROM subscription_table a JOIN metric_table b ON a.subID = b.agentID WHERE a.subID =?";
@@ -261,9 +262,10 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 		if(registeredMetrics==null || registeredMetrics.length==0) return null;
 		
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT m1.*, m3.name, m3.units, m3.type, m3.mgroup FROM metric_value_table as m1 ");
+//		query.append("SELECT m1.*, m3.name, m3.units, m3.type, m3.mgroup FROM metric_value_table as m1 ");
+		query.append("SELECT m1.* FROM metric_value_table as m1 ");
 		query.append("JOIN (SELECT MAX(valueID) as latest FROM metric_value_table GROUP BY metricID) as m2 ON m1.valueID = latest ");
-		query.append("JOIN (SELECT * FROM metric_table ");
+//		query.append("JOIN (SELECT * FROM metric_table ");
 		query.append("WHERE ");
 		
 		boolean first = true; // where clause building
@@ -272,7 +274,7 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 			query.append("metricID =  '"+ s +"' ");
 			first = false;
 		}
-		query.append(") as m3 ON m1.metricID=m3.metricID");
+//		query.append(") as m3 ON m1.metricID=m3.metricID");
 		
 		PreparedStatement stmt = null;
 		Connection c = null;
@@ -308,14 +310,18 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 		String interv = String.valueOf(interval);
 		StringBuilder query = new StringBuilder();
 		if (interv != null){
-			query.append("SELECT m1.metricID,m1.value,m1.timestamp, m2.name, m2.type, m2.units, m2.mgroup FROM metric_table as m2 ");
-			query.append("JOIN (SELECT * FROM metric_value_table WHERE metricID='"+metricID+"' AND timestamp>DATE_SUB(now(), INTERVAL "+interval+" SECOND)) ");
-			query.append("as m1 ON m1.metricID=m2.metricID;");
+//			query.append("SELECT m1.metricID,m1.value,m1.timestamp, m2.name, m2.type, m2.units, m2.mgroup FROM metric_table as m2 ");
+//			query.append("JOIN (SELECT * FROM metric_value_table WHERE metricID='"+metricID+"' AND timestamp>DATE_SUB(now(), INTERVAL "+interval+" SECOND)) ");
+//			query.append("as m1 ON m1.metricID=m2.metricID;");
+			query.append("SELECT * FROM metric_value_table ");
+			query.append("WHERE metricID='"+metricID+"' AND timestamp>DATE_SUB(now(), INTERVAL "+interval+" SECOND);");
 		}
 		else{
-			query.append("SELECT m1.*,m3.name, m3.units, m3.type, m3.mgroup FROM metric_value_table as m1 ");
+//			query.append("SELECT m1.*,m3.name, m3.units, m3.type, m3.mgroup FROM metric_value_table as m1 ");
+//			query.append("JOIN (SELECT MAX(valueID) as latest FROM metric_value_table WHERE metricID='"+metricID+"') as m2 ON m1.valueID = latest ");
+//			query.append("JOIN (SELECT * FROM metric_table) as m3 ON m1.metricID=m3.metricID");
+			query.append("SELECT m1.* FROM metric_value_table as m1 ");
 			query.append("JOIN (SELECT MAX(valueID) as latest FROM metric_value_table WHERE metricID='"+metricID+"') as m2 ON m1.valueID = latest ");
-			query.append("JOIN (SELECT * FROM metric_table) as m3 ON m1.metricID=m3.metricID");
 		}
 
 		PreparedStatement stmt = null;
@@ -349,6 +355,7 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 	/**
 	 * Connects to the given database and retrieves all the values between the given timerange
 	 * for the given metric
+	 * UNIX TIME
 	 */
 	public ArrayList<MetricObj> getMetricValuesByTime(String metricID, long start, long end){
 		PreparedStatement stmt = null;
@@ -357,8 +364,8 @@ public class DBInterfaceWithConnPool implements IDBInterface{
 			c = this.getConnection();
 			stmt = c.prepareStatement(GET_METRIC_VALUES_BY_TIMERANGE);
 			stmt.setString(1, metricID);
-			stmt.setTimestamp(2, new Timestamp(start));
-			stmt.setTimestamp(2, new Timestamp(end));
+			stmt.setTimestamp(2, new Timestamp(start*1000));
+			stmt.setTimestamp(3, new Timestamp(end*1000));
 
             ResultSet rs = stmt.executeQuery();
             ArrayList<MetricObj> metriclist = new ArrayList<MetricObj>();String t = "";
