@@ -62,7 +62,9 @@ public class DBHandlerWithConnPool implements IDBHandler{
 	private static final String DELETE_AGENT = "DELETE FROM agent_table WHERE (agentID = ?)";
 	private static final String CREATE_METRIC = "INSERT INTO metric_table (metricID,agentID,name,mgroup,units,type) VALUES (?,?,?,?,?,?)";
 	private static final String DELETE_METRIC = "DELETE FROM metric_table WHERE (metricID = ?) ";
-	private static final String INSERT_METRIC_VALUE = "INSERT INTO metric_value_table (metricID,timestamp,value) VALUES (?,?,?)";	
+	//private static final String INSERT_METRIC_VALUE = "INSERT INTO metric_value_table (metricID,timestamp,value) VALUES (?,?,?)";	
+	private static final String INSERT_METRIC_VALUE = "INSERT INTO metric_value_table (metricID,timestamp,value,name,mgroup,type,units) VALUES (?,?,?,?,?,?,?)";	
+	
 	private static final String CREATE_SUBSCRIPTION = "INSERT INTO subscription_table (subID,func,originMetric,period) VALUES (?,?,?,?);";
 	private static final String CREATE_METRIC_FOR_SUB = "INSERT INTO metric_table (metricID,agentID,name,mgroup,units,type,is_sub) VALUES (?,?,?,?,?,?,?)";
 	private static final String ADD_AGENT_TO_SUB = "INSERT INTO subscription_agents_table (subID,agentID) VALUES (?,?);";
@@ -194,13 +196,25 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			stmt.executeUpdate();
 			server.writeToLog(Level.INFO, "MySQL DBHandler>> created table: metric_table");
 			
+//			query = "CREATE TABLE IF NOT EXISTS `metric_value_table` (" +
+//					"`valueID` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
+//					"`metricID` varchar(64) NOT NULL," +
+//					"`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+//					"`value` varchar(32) NOT NULL," +
+//					"PRIMARY KEY (`valueID`)) " +
+//					"ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
 			query = "CREATE TABLE IF NOT EXISTS `metric_value_table` (" +
 					"`valueID` bigint(20) unsigned NOT NULL AUTO_INCREMENT," +
 					"`metricID` varchar(64) NOT NULL," +
 					"`timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP," +
 					"`value` varchar(32) NOT NULL," +
+					 "`name` varchar(50) NOT NULL," +
+			        "`mgroup` varchar(50) NOT NULL," +
+			        "`units` varchar(10) NOT NULL," +
+			        "`type` varchar(20) NOT NULL," +
 					"PRIMARY KEY (`valueID`)) " +
 					"ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+			
 			stmt = c.prepareStatement(query);
 			stmt.executeUpdate();
 			server.writeToLog(Level.INFO, "MySQL DBHandler>> created table: metric_value_table");
@@ -379,6 +393,12 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			stmt.setString(1, metric.getMetricID()); 
 			stmt.setTimestamp(2, new java.sql.Timestamp(metric.getTimestamp())); 
 			stmt.setString(3, metric.getValue()); 
+			
+			stmt.setString(4, metric.getName()); 
+			stmt.setString(5, metric.getGroup());
+			stmt.setString(6, metric.getUnits()); 
+			stmt.setString(7, metric.getType());
+			
 			stmt.executeUpdate();		
 	    }
 	    catch (SQLException e) {
