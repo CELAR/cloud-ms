@@ -180,7 +180,9 @@ public class MetricProcessor implements Runnable{
 				}
 				else{
 					//new agent - register
-					agent = new AgentObj(agentID,agentIP);
+					String agentName = (String) json.get("agentName");
+					String agentTags = (String) json.get("tags");
+					agent = new AgentObj(agentID,agentIP,agentName,agentTags);
 					this.server.agentMap.putIfAbsent(agentID, agent);
 					this.server.writeToLog(Level.INFO, "Intermediate Server: "+serverIP+" New node Agent added, with ID: "+agentID+" and IP: "+agentIP);
 	    			//AgentDAO.createAgent(this.server.dbHandler.getConnection(), agent);

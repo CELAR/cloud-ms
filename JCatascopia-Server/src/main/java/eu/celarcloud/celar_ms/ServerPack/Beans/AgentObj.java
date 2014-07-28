@@ -28,16 +28,20 @@ public class AgentObj{
 	
 	private String agentID;
 	private String agentIP;
+	private String agentName;
+	private String agentTags;
 	private AgentStatus agentStatus;
 	private byte attempts;
 	private List<String> metricList;
 	
-	public AgentObj(String agentID,String agentIP){
+	public AgentObj(String agentID,String agentIP,String agentName,String agentTags){
 		this.agentID = agentID;
 		this.agentIP = agentIP;
 		this.agentStatus = AgentStatus.UP;
 		this.attempts = 0;
 		this.metricList = Collections.synchronizedList(new ArrayList<String>());
+		this.agentName = (agentName != null && !agentName.equals("")) ? agentName : this.agentIP;
+		this.agentTags = (agentTags != null && !agentTags.equals("")) ? agentTags : null;
 	}
 	
 	public String getAgentID(){
@@ -50,6 +54,22 @@ public class AgentObj{
 	
 	public void setAgentIP(String ip){
 		this.agentIP = ip;
+	}
+	
+	public String getAgentName(){
+		return this.agentName;
+	}
+	
+	public String getAgentTags(){
+		return this.agentTags;
+	}
+	
+	public void setAgentName(String n){
+		this.agentName = n;
+	}
+	
+	public void setAgentTags(String t){
+		this.agentTags = t;
 	}
 		
 	public boolean isRunning(){
@@ -109,7 +129,7 @@ public class AgentObj{
 			}
 		}
 		catch(Exception e){}
-		return "Agent>> AgentID: "+this.agentID+" AgentIP: "+this.agentIP+" status: "+this.agentStatus+
+		return "Agent>> AgentID: "+this.agentID+" AgentIP: "+this.agentIP+" status: "+this.agentStatus+ " AgentName: "+this.agentName+
 			   " available_metrics: ["+sb.toString()+"]";
 	}
 }

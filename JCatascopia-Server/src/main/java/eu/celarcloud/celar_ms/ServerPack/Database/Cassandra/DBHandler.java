@@ -47,14 +47,15 @@ public class DBHandler implements IDBHandler{
 	private String keyspace;
 	private IJCatascopiaServer server;
 	
-	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID, agentIP, status, tstart,tstop) VALUES (?,?,?,now(),NULL)";
+	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID, agentIP, status, agentName, tags, tstart, tstop) VALUES (?,?,?,?,?,now(),NULL)";
 	private static final String UPDATE_AGENT = "UPDATE agent_table SET status=?,tstop=NULL WHERE agentID=?";
 	private static final String UPDATE_AGENT_TERMINATED = "UPDATE agent_table SET status=?,tstop=now() WHERE agentID=?";
 	private static final String DELETE_AGENT = "DELETE FROM agent_Table WHERE agentID=?";
 	private static final String CREATE_METRIC = "INSERT INTO metric_table (agentID, metricID, name, mgroup, type, units) VALUES (?,?,?,?,?,?)";
 	private static final String DELETE_METRIC = "DELETE FROM metric_table WHERE agentID=? AND metricID =?";
 	private static final String INSERT_METRIC_VALUE = "INSERT INTO metric_value_table " +
-														 "(metricID, event_date, event_timestamp, value, name, mgroup, type, units) VALUES (?,?,?,?,?,?,?,?) USING TTL 2592000";
+														 "(metricID, event_date, event_timestamp, value, name, mgroup, type, units) VALUES (?,?,?,?,?,?,?,?) USING TTL 432000";
+	//ttl set to 5 days. a month is 2592000 seconds
 	private static final String CREATE_SUBSCRIPTION = "INSERT INTO subscription_table " +
 			 											"(subID, metricID, func, originMetric, period, name, mgroup, type, units) VALUES (?,?,?,?,?,?,?,?,?)";;
 	private static final String ADD_AGENT_TO_SUB = "INSERT INTO subscription_agents_table (subID,agentID,agentIP) VALUES (?,?,?);";
@@ -125,6 +126,8 @@ public class DBHandler implements IDBHandler{
 				cql = "CREATE TABLE "+table+" (" + 
 		                " agentID varchar," + 
 		                " agentIP varchar," +
+		                " agentName varchar," + 
+		                " tags varchar," +
 		                " status varchar," +
 		                " tstart timeuuid," +
 		                " tstop timeuuid," +
@@ -213,6 +216,9 @@ public class DBHandler implements IDBHandler{
 			bs.setString("agentID", agent.getAgentID());
 			bs.setString("agentIP", agent.getAgentIP());
 			bs.setString("status", agent.getStatus().name());
+			bs.setString("agentName", agent.getAgentName());
+			if (agent.getAgentTags() != null)
+				bs.setString("tags", agent.getAgentTags());
 			session.execute(bs);
 		}
 		catch(Exception e){

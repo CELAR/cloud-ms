@@ -36,8 +36,10 @@ import eu.celarcloud.celar_ms.SocketPack.ISocket;
  * }
  * AVAILABLE METRICS
  * {
- *    "agentID" : "a953262dfee44b748453389ba7bfb18a"
- *    "agentIP" : "10.16.21.42",
+ *    "agentID"   : "a953262dfee44b748453389ba7bfb18a"
+ *    "agentIP"   : "10.16.21.42",
+ *    "agentName" : "myAgent1"
+ *    "tags"      : "database,cluster1",
  *    "probes" :[
  *                {
  *                   "probeName": "memoryProbe",
@@ -109,12 +111,14 @@ public class AgentRegister implements Runnable{
 		
 		String agentIP = (String) json.get("agentIP");
 		String agentID = (String) json.get("agentID");
+		String agentName = (String) json.get("agentName");
+		String agentTags = (String) json.get("tags");
 		
-		AgentObj a = new AgentObj(agentID,agentIP);
+		AgentObj a = new AgentObj(agentID,agentIP,agentName,agentTags);
 		AgentObj agent = this.server.agentMap.putIfAbsent(agentID, a);
 		if (agent == null){
 			agent = a;
-			this.server.writeToLog(Level.INFO, "New node Agent added, with ID: "+agentID+" and IP: "+agentIP);
+			this.server.writeToLog(Level.INFO, "New node Agent added, with ID: "+agentID+", IP: "+agentIP +" and name: "+agentName);
 			
 			if(this.server.getDatabaseFlag())
 			

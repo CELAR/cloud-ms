@@ -56,7 +56,7 @@ public class DBHandlerWithConnPool implements IDBHandler{
 	private String database;
 	private int CONN_NUM;
 	
-	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID,agentIP,status) VALUES (?,?,?)";
+	private static final String CREATE_AGENT = "INSERT INTO agent_table (agentID,agentIP,status,agentName,tags) VALUES (?,?,?,?,?)";
 	private static final String UPDATE_AGENT = "UPDATE agent_table SET status=?,tstop=NULL WHERE agentID=?";
 	private static final String UPDATE_AGENT_TERMINATED = "UPDATE agent_table SET status=?,tstop=CURRENT_TIMESTAMP WHERE agentID=?";
 	private static final String DELETE_AGENT = "DELETE FROM agent_table WHERE (agentID = ?)";
@@ -173,9 +173,11 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			query = "CREATE TABLE IF NOT EXISTS `agent_table` (" +
 					"`agentID` varchar(32) NOT NULL," +
 					"`agentIP` varchar(16) NOT NULL," +
+					"`agentName` varchar(16) NOT NULL," +
 					"`status` enum('UP','DOWN','TERMINATED') NOT NULL," +
 					"`tstart` timestamp DEFAULT CURRENT_TIMESTAMP," +
 					"`tstop` timestamp NULL," +
+					"`tags` varchar(64) NULL," +
 					"PRIMARY KEY (`agentID`)" +
 					") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 			stmt = c.prepareStatement(query);
@@ -279,6 +281,8 @@ public class DBHandlerWithConnPool implements IDBHandler{
 			stmt.setString(1, agent.getAgentID()); 
 			stmt.setString(2, agent.getAgentIP()); 
 			stmt.setString(3, agent.getStatus().name());
+			stmt.setString(4, agent.getAgentName()); 
+			stmt.setString(5, agent.getAgentTags()); 
 			stmt.executeUpdate();
 		}
         catch (MySQLIntegrityConstraintViolationException e) {
