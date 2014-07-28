@@ -133,7 +133,7 @@ public class ProbeController extends Thread{
 		//reconnect
 		String serverIP = agent.getConfig().getProperty("server_ip", "127.0.0.1");
 		String port = agent.getConfig().getProperty("control_port", "4245");
-		if (!ServerConnector.connect(serverIP, port, agent.getAgentID(), agent.getAgentIP(), agent.getProbeMap()))
+		if (!ServerConnector.connect(serverIP, port, agent))
 			agent.writeToLog(Level.SEVERE, "FAILED to RECONNECT to Monitoring Server at: "+serverIP);
 		else agent.writeToLog(Level.INFO, "Successfuly RECONNECTED to Server at: "+serverIP);
 	}

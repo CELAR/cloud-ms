@@ -30,13 +30,13 @@ import eu.celarcloud.jcatascopia.probepack.ProbeProperty;
 
 public class ServerConnector{
 	
-	public static boolean connect(String ip, String port, String agentID,String agentIP,HashMap<String,IProbe> probelist){
-    	String pingmsg = "{\"agentID\":\""+agentID+"\",\"agentIP\":\""+agentIP+"\"}";
+	public static boolean connect(String ip, String port, IJCatascopiaAgent agent){
+    	String pingmsg = "{\"agentID\":\""+agent.getAgentID()+"\",\"agentIP\":\""+agent.getAgentIP()+"\"}";
 		
     	boolean success = false;
 		String response = sendRequest(ip,port,"AGENT.CONNECT",pingmsg);
 		if (response.contains("OK")){
-			String metricList = compileMetricList(agentID,agentIP,probelist);
+			String metricList = compileMetricList(agent.getAgentID(),agent.getAgentIP(),agent.getAgentName(),agent.getAgentTags(),agent.getProbeMap());
 			response = sendRequest(ip,port,"AGENT.METRICS",metricList);
 			if (response.contains("OK"))
 				success = true;
@@ -49,7 +49,7 @@ public class ServerConnector{
 		return success;	
 	}
 	
-	private static String compileMetricList(String agentID, String agentIP, HashMap<String,IProbe> probelist){
+	private static String compileMetricList(String agentID, String agentIP, String agentName, String tags, HashMap<String,IProbe> probelist){
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"agentID\":\""+agentID+"\",\"agentIP\":\""+agentIP+"\",\"probes\":[");
 		for (Entry<String, IProbe> entry : probelist.entrySet()){
@@ -67,7 +67,10 @@ public class ServerConnector{
 			}
 		}
 		sb.replace(sb.length()-1, sb.length(), "");
-		sb.append("]}");
+		sb.append("]");
+		sb.append(",\"agentName\":\""+agentName+"\"");
+		sb.append(",\"tags\":\""+tags+"\"");
+		sb.append("}");
     	
 		return sb.toString();
 	}

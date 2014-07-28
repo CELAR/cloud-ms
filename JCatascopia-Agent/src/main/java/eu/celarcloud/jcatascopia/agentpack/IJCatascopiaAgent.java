@@ -33,4 +33,6 @@ public interface IJCatascopiaAgent {
 	public boolean inDebugMode();
 	public Properties getConfig();
 	public void deployProbeAtRuntime(String probeClassContainer, String probeClass) throws CatascopiaException;
+	public String getAgentName();
+	public String getAgentTags();
 }

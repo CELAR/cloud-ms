@@ -73,6 +73,8 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 * Agent IP address
 	 */
 	private String agentIPaddress;
+	private String agentName;
+	private String agentTags;
 	/**
 	 * HashMaps to easy retrieve probes either using ID or probeName
 	 */
@@ -118,7 +120,8 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		this.agentID = this.getAgentIDFromFile();
 		//get ip address
 		this.agentIPaddress = CatascopiaNetworking.getMyIP();
-		
+		this.agentName = this.config.getProperty("name", this.agentIPaddress);
+		this.agentTags = this.config.getProperty("tags", "");		
 		this.probeNameMap = new HashMap<String,IProbe>();
 		
 		this.initLogging(); 
@@ -386,7 +389,8 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 			}
 			this.writeToLog(Level.INFO, "Successfuly reported available agent metrics to MS Server at "+serverIP);
 		*/
-			if (!ServerConnector.connect(serverIP, port, this.agentID, this.agentIPaddress, this.probeNameMap)){
+//			if (!ServerConnector.connect(serverIP, port, this.agentID, this.agentIPaddress, this.probeNameMap)){
+			if (!ServerConnector.connect(serverIP, port, this)){
 				this.writeToLog(Level.SEVERE, "FAILED to CONNECT to Monitoring Server at: "+serverIP);
 				throw new CatascopiaException("Could not CONNECT to Monitoring Server",CatascopiaException.ExceptionType.CONNECTION);
 			}
@@ -637,6 +641,14 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 		catch (IllegalAccessException e) {
 			throw new CatascopiaException(e.getMessage(),CatascopiaException.ExceptionType.PROBE_EXISTANCE);
 		}
+	}
+	
+	public String getAgentName() {
+		return this.agentName;
+	}
+
+	public String getAgentTags() {
+		return this.agentTags;
 	}
 	
 	/**
