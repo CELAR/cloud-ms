@@ -105,10 +105,15 @@ public class DBInterface implements IDBInterface{
 			ResultSet rs = session.execute(bs);
 	        ArrayList<AgentObj> agentlist = new ArrayList<AgentObj>();
 	        String st;
+	        AgentObj agent;
 			for (Row row : rs) {
 				st = row.getString("status");
-				if (status == null || status.length() == 0 || status.equals(st))
-					agentlist.add(new AgentObj(row.getString("agentID"),row.getString("agentIP"),st));	
+				if (status == null || status.length() == 0 || status.equals(st)){
+					agent = new AgentObj(row.getString("agentID"),row.getString("agentIP"),st);
+					agent.setAgentName(row.getString("agentName"));
+					agent.setTags(row.getString("tags"));
+					agentlist.add(agent);	
+				}
 			}
 			return agentlist;
 		}
@@ -136,6 +141,8 @@ public class DBInterface implements IDBInterface{
 						tstop = Long.toString(UUIDs.unixTimestamp(row.getUUID("tstop"))/1000);
 						agent.setTstop(tstop);
 					}
+					agent.setAgentName(row.getString("agentName"));
+					agent.setTags(row.getString("tags"));
 				}
 			}
 			return agentlist;

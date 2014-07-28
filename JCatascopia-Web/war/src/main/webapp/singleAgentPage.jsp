@@ -55,6 +55,8 @@ limitations under the License.
 			<!-- javascript generated -->
 		</div>
 		<div class="column" id="right_col">
+			<div id = "agentTitle" style = "margin:0 auto;width:98%;border-bottom:2px solid #ddd;padding-bottom:5px;margin-bottom:8px;margin-top:-8px;font-weight:bold;font-size:x-large;">
+			</div>
 			<div class="infocontainer" align="center">
 				<div class='header'>System Information</div>
 				<div class='infowrapper' align="left">

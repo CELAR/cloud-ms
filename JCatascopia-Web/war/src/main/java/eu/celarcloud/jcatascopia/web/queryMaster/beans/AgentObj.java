@@ -27,22 +27,14 @@ public class AgentObj{
 	private String status;
 	private String tstart;
 	private String tstop;
+	private String agentName;
+	private String tags;
 	
 	public AgentObj(String agentID,String agentIP, String status){
 		this.agentID = agentID;
 		this.agentIP = agentIP;
 		this.status = status;
 	}
-	
-	public AgentObj(String agentID,String agentIP, String status, String tstart, String tstop){
-		this.agentID = agentID;
-		this.agentIP = agentIP;
-		this.status = status;
-		this.setTstart(tstart);
-		this.setTstop(tstop);
-	}
-	
-	public AgentObj(){}
 	
 	public String getAgentID(){
 		return this.agentID;
@@ -79,6 +71,22 @@ public class AgentObj{
 	public void setTstop(String tstop) {
 		this.tstop = tstop;
 	}
+	
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 
 	public String toString(){
 		return "Agent>> AgentID: "+this.agentID+" AgentIP: "+this.agentIP+" status: "+this.status;
@@ -93,6 +101,10 @@ public class AgentObj{
 			sb.append(",\"agentIP\":\""+this.agentIP+"\"");
 		if(this.status != null && this.status.length() > 0)
 			sb.append(",\"status\":\""+this.status+"\"");
+		if(this.agentName != null && this.agentName.length() > 0) 
+			sb.append(",\"agentName\":\""+this.agentName+"\"");
+		if(this.tags != null && this.tags.length() > 0) 
+			sb.append(",\"tags\":\""+this.tags+"\"");
 		if(this.tstart != null && this.tstart.length() > 0)
 			sb.append(",\"tstart\":\""+this.tstart+"\"");
 		if(this.tstop != null && this.tstop.length() > 0)

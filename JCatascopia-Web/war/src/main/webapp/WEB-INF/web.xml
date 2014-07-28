@@ -30,13 +30,13 @@
 	</context-param>
 	<context-param>
 		<param-name>hosts</param-name>
-		<!--<param-value>localhost:3306</param-value> -->
 		<param-value>localhost</param-value>
+		<!--<param-value>localhost:3306</param-value> -->
 	</context-param>
 	<context-param>
 		<param-name>database</param-name>
-		<!--<param-value>catascopiaDB</param-value> -->
 		<param-value>JCatascopiaDB</param-value>
+		<!--<param-value>catascopiaDB</param-value> -->
 	</context-param>
 	<context-param>
 		<param-name>user</param-name>

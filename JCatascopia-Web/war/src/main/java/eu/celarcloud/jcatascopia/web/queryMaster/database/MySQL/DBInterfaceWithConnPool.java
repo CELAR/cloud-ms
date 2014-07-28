@@ -172,8 +172,13 @@ public class DBInterfaceWithConnPool implements IDBInterface{
    			stmt = c.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             ArrayList<AgentObj> agentlist = new ArrayList<AgentObj>();
-            while(rs.next())
-            	agentlist.add(new AgentObj(rs.getString("agentID"),rs.getString("agentIP"),rs.getString("status")));
+	        AgentObj agent;
+            while(rs.next()){
+            	agent = new AgentObj(rs.getString("agentID"),rs.getString("agentIP"),rs.getString("status"));
+            	agent.setAgentName(rs.getString("agentName"));
+				agent.setTags(rs.getString("tags"));
+            	agentlist.add(agent);
+            }
             return agentlist;
 		}
         catch (SQLException e){
@@ -208,6 +213,8 @@ public class DBInterfaceWithConnPool implements IDBInterface{
         		agent.setTstart(tstart);
             	if (rs.getTimestamp("tstop") != null)
             		agent.setTstop(Long.toString(rs.getTimestamp("tstop").getTime()/1000));
+            	agent.setAgentName(rs.getString("agentName"));
+				agent.setTags(rs.getString("tags"));
             }
             return agentlist;
 		}

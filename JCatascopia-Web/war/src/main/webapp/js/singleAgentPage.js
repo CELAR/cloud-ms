@@ -39,6 +39,13 @@ $(document).ready(function(){
 			$(".secondary").removeClass("active");
 		}
 	});
+	
+	var mytitle = null;
+	if (window.params.agentName != null)
+		mytitle = window.params.agentName;
+	else 
+		mytitle = window.params.agentIP;
+	$("#agentTitle").append("Agent: "+ mytitle);
 });
 
 /*

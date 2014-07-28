@@ -55,9 +55,18 @@ function getAgents(){
 		success:function(data) {
 			var dropdown = $("ul.dropdown-menu").html("");
 			for(var i in data.agents) {
+				var txt = null;
+				var link = "singleAgentPage.jsp?agentID="+data.agents[i].agentID+"&agentIP="+data.agents[i].agentIP;
+				var agentName = data.agents[i].agentName;
+				if ( agentName != null){
+					txt = agentName;
+					link += "&agentName="+agentName;
+				}
+				else
+					txt = data.agents[i].agentIP;
+				
 				if(data.agents[i].status == "UP") {
-					var link = "singleAgentPage.jsp?agentID="+data.agents[i].agentID+"&agentIP="+data.agents[i].agentIP;
-					dropdown.append("<li><a href=\""+link+"\" class=\"vm\">"+data.agents[i].agentIP+"</a></li>");
+					dropdown.append("<li><a href=\""+link+"\" class=\"vm\">"+txt+"</a></li>");
 				}
 			}
 			if(typeof updateContent == 'function')

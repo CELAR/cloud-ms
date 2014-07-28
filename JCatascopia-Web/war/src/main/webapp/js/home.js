@@ -54,20 +54,30 @@ function updateContent(json){
 	$("#runningVMsContent").html("");
 	$("#stoppedVMsContent").html("");
 	for(var i in json.agents) {
+		
+		var txt = null;
+		var link = "singleAgentPage.jsp?agentID="+json.agents[i].agentID+"&agentIP="+json.agents[i].agentIP;
+		var agentName = json.agents[i].agentName;
+		if ( agentName != null){
+			txt = agentName;
+			link += "&agentName="+agentName;
+		}
+		else
+			txt = json.agents[i].agentIP;
+		
 		if(json.agents[i].status == "UP") {
 			agentsUP++;
 			panel = $("#runningVMsContent");
-			var link = "singleAgentPage.jsp?agentID="+json.agents[i].agentID+"&agentIP="+json.agents[i].agentIP;
 			panel.append("<a href=\""+link+"\"><div class=\"instance\">"+
 						"<img alt=\"vm\" src=\"img/vm_run.png\" width=\"64\" height=\"64\"><br />"+
-						"<span>"+json.agents[i].agentIP+"</span>"+
+						"<span>"+txt+"</span>"+
 				 		"</div></a>");
 		}
 		else if(json.agents[i].status == "DOWN") {
 			panel = $("#stoppedVMsContent");
 			panel.append("<div class=\"instance\">"+
 						"<img alt=\"vm\" src=\"img/vm_down.png\" width=\"64\" height=\"64\"><br />"+
-						"<span>"+json.agents[i].agentIP+"</span>"+
+						"<span>"+txt+"</span>"+
 				 		"</div>");
 		}
 	}
