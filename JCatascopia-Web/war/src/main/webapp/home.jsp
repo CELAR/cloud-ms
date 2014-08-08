@@ -90,6 +90,26 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
+		
+		
+		<div class="block" align="center" style="clear:both;margin: 0 auto;width:97.5%;">
+			<div class="header" id="clusterviewHeader">
+				<span class="expand">-</span>Cluster View
+			</div>	
+			<div class="content" align="center" id="clusterviewContent" style="height:100%;max-height:650px;padding-bottom:10px;">
+				<div id="clusterWT">
+					<!-- javascript generated -->
+				</div>
+				<div id="clusterND">
+					<h2 style="text-align:left;border-bottom:2px solid #ddd;padding:2px 10px 0px 10px;width:95%;">Not Defined</h2>
+					<div id="cvNotDefined" style="text-align:left;width:95%;overflow:auto;padding:5px 10px 5px 10px; border: 1px solid #ddd;">
+						<!-- javascript generated -->
+					</div>	
+				</div>
+			</div>
+		</div>	
+		
+			
 	</div>
 </body>
 </html>

@@ -33,6 +33,10 @@ $(document).ready(function() {
 	/**canast02**/
 	window.subInterval = window.setInterval(getSubscriptions, 15000);
 	/****/
+	
+	clusterGetAgents();
+	window.clusterInterval = window.setInterval(clusterGetAgents, 15000);
+	$("#clusterND").hide();
 });
 
 /**canast02**/
@@ -115,5 +119,57 @@ function populateSubscriptions(json) {
 	.mouseleave(function() {
 		$(this).css("background-color","");
 		$(this).css("border","1px solid white");
+	});
+}
+
+function clusterView(json){
+	$("#clusterWT").html("");
+	$("#cvNotDefined").html("");
+	$("#clusterND").hide();
+	
+	var clusters = {};
+	
+	for(var i in json.agents){
+		var txt = null;
+		var link = "singleAgentPage.jsp?agentID="+json.agents[i].agentID+"&agentIP="+json.agents[i].agentIP;
+		var agentName = json.agents[i].agentName;
+		if (agentName != null){
+			txt = agentName;
+			link += "&agentName="+agentName;
+		}
+		else
+			txt = json.agents[i].agentIP;
+		
+		if (json.agents[i].status == "UP") {
+			
+			var tags = json.agents[i].tags;
+			if (tags != null){
+				//for now only take the first tag
+				tags = tags.split(",")[0];
+				if (!(tags in clusters)){
+					clusters[tags] = tags;
+					$("#clusterWT").append("<h2 style=\"text-align:left;border-bottom:2px solid #ddd;padding:2px 10px 0px 10px;width:95%;\">"+"Cluster: "+tags+"</h2><div id=\"cv"+tags+"\" style=\"text-align:left;width:95%;overflow:auto;padding:5px 10px 5px 10px; border: 1px solid #ddd;\"></div>");
+				}
+			}
+			else{
+				$("#clusterND").show();
+				tags = "NotDefined";
+			}
+			panel = $("#cv"+tags);
+			panel.append("<a href=\""+link+"\"><div class=\"instance\" style=\"width:12%\">"+
+						"<img alt=\"vm\" src=\"img/vm_run.png\" width=\"64\" height=\"64\"><br />"+
+						"<span>"+txt+"</span>"+
+				 		"</div></a>");
+		}
+	}
+}
+
+function clusterGetAgents(){
+	$.ajax({ 
+		type: "get",
+		url: "restAPI/agents?applicationID=1",
+		dataType: "json",
+		success: clusterView,
+		statusCode:{}
 	});
 }
