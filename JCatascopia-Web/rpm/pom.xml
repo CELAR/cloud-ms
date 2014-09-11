@@ -73,7 +73,7 @@
                 <extensions>true</extensions>
                 <configuration>
 	                <classifier>${package.os}</classifier>
-	                <version>0.0.1</version>
+                    <release>${BUILD_NUMBER}.${package.os}</release>
 	                <summary>JCatascopia-Web</summary>
 	                <name>JCatascopia-Web</name>
 	                <group>JCatascopia</group>
