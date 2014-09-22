@@ -28,7 +28,7 @@
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <api.war>JCatascopia-Web.war</api.war>
-   		<rpm.install.basedir>/usr/share/tomcat6/</rpm.install.basedir>
+   		<rpm.install.basedir>/usr/share/tomcat/</rpm.install.basedir>
     </properties>
 
     <dependencies>
@@ -73,7 +73,7 @@
                 <extensions>true</extensions>
                 <configuration>
 	                <classifier>${package.os}</classifier>
-                    <release>${BUILD_NUMBER}.${package.os}</release>
+                    <!-- <release>${BUILD_NUMBER}.${package.os}</release>-->
 	                <summary>JCatascopia-Web</summary>
 	                <name>JCatascopia-Web</name>
 	                <group>JCatascopia</group>
@@ -84,7 +84,7 @@
 	    		    <needarch>noarch</needarch>
 	    		    <description>JCatascopia-Web-rpm</description>
 	    		    <!-- <requires>
-	    		      <require>tomcat6</require>
+	    		      <require>tomcat</require>
 	    		    </requires>-->
 	                <mappings>
 	                    <mapping>
