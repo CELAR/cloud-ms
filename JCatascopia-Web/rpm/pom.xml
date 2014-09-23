@@ -23,7 +23,6 @@
 	<artifactId>JCatascopia-Web-rpm</artifactId>
 	<packaging>pom</packaging>
 	<name>JCatascopia-Web (rpm)</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -130,5 +129,4 @@
 			</plugin>  
 		</plugins>
 	</build>
-	<version>0.0.1</version>
 </project>
