@@ -619,7 +619,13 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	
 	public void deployProbeAtRuntime(String probeClassContainer, String probeClass) throws CatascopiaException{		
 		try {
-			URL myurl = new URL("file://"+probeClassContainer);
+			URL myurl = null;
+            if (System.getProperty("os.name").toLowerCase().contains("win"))
+                //e.g. probes_external=ExampleProbe,C:/Users/dtrihinas/Desktop/ExampleProbe.jar
+                myurl = new URL("file:///"+probeClassContainer);
+            else
+                myurl = new URL("file://"+probeClassContainer);
+            
 			URLClassLoader classloader = URLClassLoader.newInstance(new URL[]{myurl});
 			Class<IProbe> myclass = (Class<IProbe>) classloader.loadClass(probeClass);
 			IProbe p = myclass.newInstance();
