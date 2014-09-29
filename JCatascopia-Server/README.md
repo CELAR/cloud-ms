@@ -18,6 +18,7 @@ The complete source code of the JCatascopia Monitoring System is open-source and
 
 Getting Started
 ---------------
+JCatascopia-Server is distributed and packaged in RPM, tarball and Jar. The default packaging for the scope of the CELAR project is RPM.
 
 - Add CELAR repository to yum configuration:
 
