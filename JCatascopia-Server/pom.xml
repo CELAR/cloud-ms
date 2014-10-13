@@ -136,7 +136,6 @@
              	<extensions>true</extensions>
              	<configuration>
               		<classifier>${package.os}</classifier>
-              		<version>0.0.1</version>
               		<summary>JCatascopia-Server</summary>
               		<name>JCatascopia-Server</name>
               		<group>JCatascopia</group>
