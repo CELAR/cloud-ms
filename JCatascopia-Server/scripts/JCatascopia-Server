@@ -23,7 +23,7 @@ case $1 in
         fi
         touch $LOCKFILE
         #doing a hack for CELAR
-        { cassandraaaa -f & } &> /dev/null
+        { cassandra -f & } &> /dev/null
         sleep 15s
         #end of hack
         /bin/bash $JCPATH/JCatascopia-Server-start.sh
