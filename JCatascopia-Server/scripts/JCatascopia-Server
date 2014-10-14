@@ -1,43 +1,59 @@
-#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          JCatascopia-Server
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
+# Required-Start:    
+# Required-Stop:     
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: JCatascopia-Server deamon
 # Description:       JCatascopia Monitoring Server v0.2 init.d script
 ### END INIT INFO
-# chkconfig: 345 1 99
 
 # Author: Demetris Trihinas <trihinas@cs.ucy.ac.cy>
 
 NAME=JCatascopia-Server
-LOCKFILE=/tmp/JCatascopia-Server-lock
+LOCKFILE=/var/lock/JCatascopia-Server-lock
 JCPATH=/usr/local/bin/JCatascopiaServerDir
+JCWEB=/usr/share/tomcat/bin
 
 case $1 in
     start)
-	if [ -e $LOCKFILE ] ; then
+		if [ -e $LOCKFILE ] ; then
             echo "$NAME already up and running..."
     	    exit
         fi
         touch $LOCKFILE
+        #doing a hack for CELAR
+        { cassandraaaa -f & } &> /dev/null
+        sleep 15s
+        #end of hack
         /bin/bash $JCPATH/JCatascopia-Server-start.sh
         echo "Starting $NAME..."
+        
+        #start JCatascopia-Web, if available for this node
+        if [ -f $JCWEB ]; then
+                $JCWEB/startup.sh
+        fi
     ;;
     stop)
         if [ -e $LOCKFILE ] ; then
             rm -f $LOCKFILE
-            /bin/bash $JCPATH/JCatascopia-Server-stop.sh
             echo "Stopping $NAME..."
-            exit
-        fi
-	    echo "$NAME not running..."
+        else  
+	    	echo "$NAME not running..."
+	    	exit
+	    fi
+	    /bin/bash $JCPATH/JCatascopia-Server-stop.sh
+	    #stopJCatascopia-Web, if available for this node
+        if [ -f $JCWEB ]; then
+                $JCWEB/shutdown.sh
+        fi	
     ;;
     restart)
-	$0 stop
-	$0 start
+    	if [ -e $LOCKFILE ]; then
+    		rm -f $LOCKFILE
+    	fi
+		$0 stop
+		$0 start
     ;;
     *)
     	echo "Usage: /etc/init.d/$NAME {start|stop|restart}"
