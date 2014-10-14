@@ -16,9 +16,12 @@ fi
 if [[ "$DISTRO" == *CentOS* ]]; then
         echo "distro in use is CentOS"
         chkconfig --add $NAME
+        chkconfig $NAME on
 fi
 if [[ "$DISTRO" == *openSUSE* ]]; then
         echo "distro in use is openSUSE"
         insserv /etc/init.d/$NAME
 fi
+
+/etc/init.d/$NAME restart
 echo "JCatascopia-Server installed..."
