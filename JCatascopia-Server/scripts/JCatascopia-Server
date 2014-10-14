@@ -30,7 +30,7 @@ case $1 in
         echo "Starting $NAME..."
         
         #start JCatascopia-Web, if available for this node
-        if [ -f $JCWEB ]; then
+        if [ -d $JCWEB ]; then
                 $JCWEB/startup.sh
         fi
     ;;
@@ -44,7 +44,7 @@ case $1 in
 	    fi
 	    /bin/bash $JCPATH/JCatascopia-Server-stop.sh
 	    #stopJCatascopia-Web, if available for this node
-        if [ -f $JCWEB ]; then
+        if [ -d $JCWEB ]; then
                 $JCWEB/shutdown.sh
         fi	
     ;;
