@@ -22,10 +22,12 @@ case $1 in
     	    exit
         fi
         touch $LOCKFILE
+        
         #doing a hack for CELAR
-        { cassandra -f & } &> /dev/null
+        cassandra -p /tmp/cass.pid > /dev/null
         sleep 15s
         #end of hack
+        
         /bin/bash $JCPATH/JCatascopia-Server-start.sh
         echo "Starting $NAME..."
         
@@ -47,6 +49,13 @@ case $1 in
         if [ -d $JCWEB ]; then
                 $JCWEB/shutdown.sh
         fi	
+        
+        #doing a hack for CELAR
+        if [ -f /tmp/cass.pid]; then
+        	 kill -9 $(cat /tmp/cass.pid)
+        	rm -rf /tmp/cass.pid
+        fi	
+        #end of hack
     ;;
     restart)
     	if [ -e $LOCKFILE ]; then
