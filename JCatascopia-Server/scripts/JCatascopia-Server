@@ -24,8 +24,9 @@ case $1 in
         touch $LOCKFILE
         
         #doing a hack for CELAR
+        hostname localhost
         cassandra -p /tmp/cass.pid > /dev/null
-        sleep 15s
+        sleep 20s
         #end of hack
         
         /bin/bash $JCPATH/JCatascopia-Server-start.sh
