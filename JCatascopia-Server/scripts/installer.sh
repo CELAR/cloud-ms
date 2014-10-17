@@ -23,5 +23,5 @@ if [[ "$DISTRO" == *openSUSE* ]]; then
         insserv /etc/init.d/$NAME
 fi
 
-/etc/init.d/$NAME restart
+#/etc/init.d/$NAME restart
 echo "JCatascopia-Server installed..."
