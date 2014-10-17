@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
@@ -32,8 +33,10 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.exceptions.NoHostAvailableException;
 import com.datastax.driver.core.policies.Policies;
 import com.datastax.driver.core.utils.UUIDs;
+import com.datastax.driver.core.exceptions.NoHostAvailableException;
 
 import eu.celarcloud.jcatascopia.web.queryMaster.beans.AgentObj;
 import eu.celarcloud.jcatascopia.web.queryMaster.beans.MetricObj;
@@ -75,8 +78,37 @@ public class DBInterface implements IDBInterface{
 		this(endpoints, keyspace);
 	}
 
-	
 	public void dbConnect(){
+		boolean con = false;
+		int interval = 20000;
+		int max = 600000; //after 10min shut everything down
+		int t = 0;
+		
+		while (con == false && t < max){
+			try{
+				this.dbConnect1();
+			}
+			catch(NoHostAvailableException e){
+				String s = "No Database backend available, retry to connect in "+interval/1000+" seconds";
+				System.out.println(s);
+				con = false;
+				t += interval;
+				try {
+					Thread.sleep(interval);
+				} 
+				catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				continue;
+			}
+			con = true;
+		}
+		//if there is still no connection after 10mins, try again and this time don't catch the error
+		if (con == false)
+			this.dbConnect1();
+	}
+	
+	public void dbConnect1(){
 		this.cluster = Cluster.builder().addContactPoints(endpoints.toArray(new String[endpoints.size()]))
 					                     .withRetryPolicy(Policies.defaultRetryPolicy())
 					                     .build();
