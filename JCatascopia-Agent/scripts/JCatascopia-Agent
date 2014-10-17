@@ -1,19 +1,17 @@
-#!/bin/bash
 ### BEGIN INIT INFO
-# Provides:          JCatascopia-Agent
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
+# Provides:          JCatascopia-Server
+# Required-Start:    
+# Required-Stop:     
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: JCatascopia-Agent deamon
 # Description:       JCatascopia Monitoring Agent v0.2 init.d script
 ### END INIT INFO
-# chkconfig: 345 1 99
 
 # Author: Demetris Trihinas <trihinas@cs.ucy.ac.cy>
 
 NAME=JCatascopia-Agent
-LOCKFILE=/tmp/JCatascopia-Agent-lock
+LOCKFILE=/var/lock/JCatascopia-Agent-lock
 JCPATH=/usr/local/bin/JCatascopiaAgentDir
 
 case $1 in

@@ -16,6 +16,7 @@ fi
 if [[ "$DISTRO" == *CentOS* ]]; then
         echo "distro in use is CentOS"
         chkconfig --add $NAME
+        chkconfig $NAME on
 fi
 if [[ "$DISTRO" == *openSUSE* ]]; then
         echo "distro in use is openSUSE"
