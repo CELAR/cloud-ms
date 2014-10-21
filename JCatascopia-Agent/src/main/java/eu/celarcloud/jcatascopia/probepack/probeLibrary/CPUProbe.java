@@ -39,7 +39,7 @@ import eu.celarcloud.jcatascopia.probepack.ProbePropertyType;
 public class CPUProbe extends Probe{
 	
 	private static final String PATH = "/proc/stat";
-	private HashMap<String,Integer> lastValues;
+	private HashMap<String,Long> lastValues;
 	
 	public CPUProbe(String name, int freq){
 		super(name,freq);
@@ -63,13 +63,13 @@ public class CPUProbe extends Probe{
 
 	@Override
 	public ProbeMetric collect() {
-		HashMap<String,Integer> curValues = this.calcValues();
-		HashMap<String,Integer> diffValues = new HashMap<String,Integer>();
+		HashMap<String,Long> curValues = this.calcValues();
+		HashMap<String,Long> diffValues = new HashMap<String,Long>();
 			    
-	    for (Entry<String,Integer> entry : lastValues.entrySet()) {
+	    for (Entry<String,Long> entry : lastValues.entrySet()) {
 	        String key = entry.getKey();
-	        Integer val = entry.getValue();
-			diffValues.put(key, (Integer)curValues.get(key) - val);
+	        Long val = entry.getValue();
+			diffValues.put(key, (Long)curValues.get(key) - val);
 	    }
 	
 	    double cpuTotalUsage;
@@ -120,8 +120,8 @@ public class CPUProbe extends Probe{
 		return new ProbeMetric(values);
 	}
 	
-	private HashMap<String,Integer> calcValues(){
-		HashMap<String,Integer> stats = new HashMap<String,Integer>();
+	private HashMap<String,Long> calcValues(){
+		HashMap<String,Long> stats = new HashMap<String,Long>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(new File(PATH)));
 			String line;
@@ -129,16 +129,16 @@ public class CPUProbe extends Probe{
 				String[] tokenz = null;
 				if (line.startsWith("cpu ")){
 					tokenz = line.split("\\W+");
-					stats.put("cpuUser", Integer.parseInt(tokenz[1]));
-					stats.put("cpuNice", Integer.parseInt(tokenz[2]));
-					stats.put("cpuSystem", Integer.parseInt(tokenz[3]));
-					stats.put("cpuIdle", Integer.parseInt(tokenz[4]));
-					stats.put("cpuIOWait", Integer.parseInt(tokenz[5]));
-					stats.put("cpuIrq", Integer.parseInt(tokenz[6]));
-					stats.put("cpuSoftIrq", Integer.parseInt(tokenz[7]));
+					stats.put("cpuUser", Long.parseLong(tokenz[1]));
+					stats.put("cpuNice", Long.parseLong(tokenz[2]));
+					stats.put("cpuSystem", Long.parseLong(tokenz[3]));
+					stats.put("cpuIdle", Long.parseLong(tokenz[4]));
+					stats.put("cpuIOWait", Long.parseLong(tokenz[5]));
+					stats.put("cpuIrq", Long.parseLong(tokenz[6]));
+					stats.put("cpuSoftIrq", Long.parseLong(tokenz[7]));
 					if(tokenz.length>8)
-						stats.put("cpuSteal", Integer.parseInt(tokenz[8]));
-					else stats.put("cpuSteal", 0);
+						stats.put("cpuSteal", Long.parseLong(tokenz[8]));
+					else stats.put("cpuSteal", 0L);
 					break;
 				}	
 			}
@@ -149,8 +149,8 @@ public class CPUProbe extends Probe{
 			this.writeToProbeLog(Level.SEVERE, e);
 		}
 		    
-	    int cpuTotal = 0;
-	    for (Integer value : stats.values())
+	    long cpuTotal = 0;
+	    for (Long value : stats.values())
 	        cpuTotal += value;
 	    stats.put("cpuTotal", cpuTotal);	
 		return stats;
