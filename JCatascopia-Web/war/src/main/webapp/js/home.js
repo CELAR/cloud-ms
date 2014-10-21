@@ -34,6 +34,22 @@ $(document).ready(function() {
 	window.subInterval = window.setInterval(getSubscriptions, 15000);
 	/****/
 	
+	window.agentMap = {};
+	window.agentMapDOWN = {};
+	
+	$("#consoleDiv").bind("consoleEvt", 
+			function(e,par){
+				var msg = par.Param1;
+				
+				var len=$("#consoleDiv").children().length;
+				if (len > 20)
+					$('#consoleDiv').find("div:lt(2)").html("");	
+				
+				$("#consoleDiv").append("<div id=\"console_row\" style=\"padding:3px;\"> &gt; " + msg +"</div>");
+				$("#consoleDiv").animate({ scrollTop: $("#consoleDiv").prop("scrollHeight") - $('#consoleDiv').height() }, 1000);
+			}
+		);	
+	
 	clusterGetAgents();
 	window.clusterInterval = window.setInterval(clusterGetAgents, 15000);
 	$("#clusterND").hide();
@@ -95,7 +111,7 @@ function updateContent(json){
 		$(this).css("border","1px solid white");
 	});
 	
-	window.graph.newValue(agentsUP,null);
+	window.graph.newValue(agentsUP,clock());
 }
 
 /*
@@ -123,6 +139,7 @@ function populateSubscriptions(json) {
 }
 
 function clusterView(json){
+	console.log(JSON.stringify(json));
 	$("#clusterWT").html("");
 	$("#cvNotDefined").html("");
 	$("#clusterND").hide();
@@ -160,6 +177,43 @@ function clusterView(json){
 						"<img alt=\"vm\" src=\"img/vm_run.png\" width=\"64\" height=\"64\"><br />"+
 						"<span>"+txt+"</span>"+
 				 		"</div></a>");
+			
+			var k = json.agents[i].agentID;
+			var v = json.agents[i].agentIP;
+			if (!(k in window.agentMap)){
+				window.agentMap[k] = v;
+				if (k in window.agentMapDOWN)
+					msg = "<b>AGENT RECONNECTED</b> with ";
+				else
+					msg = "<b>AGENT ADDED</b> with ";
+				if (txt != v && txt != null)
+					msg += " name: "+txt;
+				msg += " ip: "+v+", id: "+k;
+				consoleView("["+clock()+"]" + " " + msg);
+			}
+		}
+		else if (json.agents[i].status == "DOWN") {
+			var k = json.agents[i].agentID;
+			var v = json.agents[i].agentIP;
+			if (k in window.agentMap){
+				delete window.agentMap[k];
+				window.agentMapDOWN[k] = v;
+				msg = "<b>AGENT DOWN</b> with ";
+				if (agentName != v && agentName != null)
+					msg += "name: "+agentName;
+				msg += " ip: "+v+", id: "+k;
+				consoleView("["+clock()+"]" + " " + msg);
+			}
+		}
+		else{
+			var k = json.agents[i].agentID;
+			var v = json.agents[i].agentIP;
+			if (k in window.agentMapDOWN){
+				delete window.agentMapDOWN[k];
+				msg = "<b>AGENT REMOVED</b> with ";
+				msg += "ip: "+v+", id: "+k;
+				consoleView("["+clock()+"]" + " " + msg);
+			}
 		}
 	}
 }
@@ -172,4 +226,9 @@ function clusterGetAgents(){
 		success: clusterView,
 		statusCode:{}
 	});
+}
+
+
+function consoleView(msg){
+	$("#consoleDiv").trigger("consoleEvt",{Param1:msg});
 }

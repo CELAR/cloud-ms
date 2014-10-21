@@ -52,24 +52,19 @@ limitations under the License.
 <body>
 	<!-- header and menu -->
 	<div class="wrapper">
-		<div class="column" id="left_col" align="center">
-			<div class="block">
-				<div class="header"># Running VMs</div>
+	
+		<div class="block" align="center" style="margin: 0 auto;width:97.5%;margin-bottom:10px;">
+			<div class="header" id="elasticityHeader">
+				<span class="expand">-</span>Number of Running Agents in Deployment
+			</div>	
+			<div class="content" align="center" id="elasticityContent" style="height:100%;">
 				<div class="graphContainer" align="center">
-					<canvas width="500" height="200" id="runningVMsGraph">[No canvas supported]</canvas>
+					<canvas width="850" height="300" id="runningVMsGraph">[No canvas supported]</canvas>
 				</div>
 			</div>
-			<div class="block">
-				<div class="header" id="subscriptionsHeader">
-					<span class="expand">-</span>Subscriptions
-				</div>
-				<div class="content" align="center" id="subscriptionsContent">
-					<!-- javascript generated -->
-					<div id="spinner3" style="margin-top: 45px;"></div>
-				</div>
-			</div>
-		</div>
-		<div class="column" id="right_col" align="center">
+		</div>	
+	
+		<div class="column" id="left_col" align="center">
 			<div class="block">
 				<div class="header" id="runningVMsHeader">
 					<span class="expand">-</span>Running VMs
@@ -79,6 +74,7 @@ limitations under the License.
 					<div id="spinner1" style="margin-top: 45px;"></div>
 				</div>
 			</div>
+			
 			<div class="block">
 				<div class="header" id="stoppedVMsHeader">
 					<span class="expand">+</span>VMs Down
@@ -88,15 +84,34 @@ limitations under the License.
 					<!-- javascript generated -->
 					<div id="spinner2" style="margin-top: 45px;"></div>
 				</div>
+			</div>		
+		</div>
+		
+		<div class="column" id="right_col" align="center">
+			<div class="block">
+				<div class="header"><span class="expand">-</span>Console</div>
+				<div class="content" id="consoleContent" align="center">
+					<div id="consoleDiv" style="text-align:left;font-size:medium;padding:3px;overflow: auto;"></div>
+				</div>
+			</div>
+			
+			<div class="block">
+				<div class="header" id="subscriptionsHeader">
+					<span class="expand">+</span>Metric Subscriptions
+				</div>
+				<div class="content" align="center" id="subscriptionsContent" style="display: none;">
+					<!-- javascript generated -->
+					<div id="spinner3" style="margin-top: 45px;"></div>
+				</div>
 			</div>
 		</div>
 		
 		
-		<div class="block" align="center" style="clear:both;margin: 0 auto;width:97.5%;">
+		<div class="block" align="center" style="margin: 0 auto;width:97.5%;">
 			<div class="header" id="clusterviewHeader">
 				<span class="expand">-</span>Cluster View
 			</div>	
-			<div class="content" align="center" id="clusterviewContent" style="height:100%;max-height:650px;padding-bottom:10px;">
+			<div class="content" align="center" id="clusterviewContent" style="height:100%;max-height:650px;padding-bottom:10px;display:none;">
 				<div id="clusterWT">
 					<!-- javascript generated -->
 				</div>

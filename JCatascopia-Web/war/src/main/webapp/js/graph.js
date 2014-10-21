@@ -37,21 +37,19 @@ function Tooltip(timestamp,value){
 function Graph(metric, id) {
 	this.id = id;
 	this.data = [];
-	this.timestampObj = new Timestamp();
-	/**canast**/
 	this.tooltips = [];
 	this.tooltips.push("init");
-	/****/
 	this.data.push(null);
 	this.newVal = 0;
-	this.MAX_LENGTH = 19;
+	this.MAX_LENGTH = 39;
+	this.timestampObj = new Timestamp(this.MAX_LENGTH+1);
 	
 	this.graph = null;
 
 	this.getGraph = function(id, data) {
 		if (!this.graph) {
 			this.graph = new RGraph.Line(id, data)
-			.Set('chart.xticks', 10)
+			.Set('chart.xticks', this.MAX_LENGTH/2 + 1)
 			.Set('chart.background.barcolor1','white')
 			.Set('chart.background.barcolor2','white')
 			.Set('chart.title.xaxis','Time >>>')
@@ -94,9 +92,8 @@ function Graph(metric, id) {
 		if(this.timestampObj.newTimestamp(timestamp) == true) {
 			this.newVal = value;
 			this.data.push(this.newVal);
-			/**canast02**/
 			this.tooltips.push(new Tooltip(timestamp,value).getTooltip());
-			if(this.tooltips.length > 20) {
+			if(this.tooltips.length > this.MAX_LENGTH+1) {
 				this.tooltips.splice(1,1);
 			}
 			this.graph.Set('chart.tooltips', this.tooltips);
@@ -107,7 +104,7 @@ function Graph(metric, id) {
 	}
 }
 
-function Timestamp() {
+function Timestamp(maxlen) {
 	this.timestamps = [null];
 	this.space = 0;
 	this.timestampsNum = 0;
@@ -117,7 +114,7 @@ function Timestamp() {
 				this.timestamps[this.timestamps.length-1] != null &&
 				timestamp == this.timestamps[this.timestamps.length-1]) return false;
 		
-		if(this.timestampsNum < 5 && (this.space >= 3 || this.timestampsNum == 0)) {
+		if(this.timestampsNum < (maxlen/4) && (this.space >= 3 || this.timestampsNum == 0)) {
 			this.timestamps.push(timestamp);
 			this.space = 0;
 			this.timestampsNum++;
@@ -127,7 +124,7 @@ function Timestamp() {
 			this.timestamps.push(null);
 		}
 
-		if(this.timestamps.length > 20) {
+		if(this.timestamps.length > maxlen) {
 			if(this.timestamps[1] != null) this.timestampsNum--;
 			this.timestamps.splice(1, 1);
 		}
