@@ -52,7 +52,7 @@ case $1 in
         fi	
         
         #doing a hack for CELAR
-        if [ -f /tmp/cass.pid]; then
+        if [ -f /tmp/cass.pid ]; then
         	 kill -9 $(cat /tmp/cass.pid)
         	rm -rf /tmp/cass.pid
         fi	
