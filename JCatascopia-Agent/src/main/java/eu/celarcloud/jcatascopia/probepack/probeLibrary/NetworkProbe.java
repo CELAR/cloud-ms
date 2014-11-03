@@ -127,17 +127,23 @@ public class NetworkProbe extends Probe{
                     c++;
                     continue;
 				}
+				
 				//grab the interface name
 				String[] tokenz = line.split(":");
+				
                 //don't want in calculation localhost or bond
                 if (tokenz[0].endsWith(" lo") || tokenz[0].endsWith(" bond"))
                     continue;
+                
                 //now for grabbing data
-                tokenz = tokenz[1].split("\\W+");
-                bytesIN += Long.parseLong(tokenz[1]);
-                packetsIN += Long.parseLong(tokenz[2]);
-                bytesOUT += Long.parseLong(tokenz[9]);
-                packetsOUT += Long.parseLong(tokenz[10]);		
+                //trim added to be compliant with all kernel versions of /proc/net/dev 
+                //where there is not always space after colon (:) 
+                tokenz = tokenz[1].trim().split("\\W+");
+                bytesIN += Long.parseLong(tokenz[0]);
+                packetsIN += Long.parseLong(tokenz[1]);
+                bytesOUT += Long.parseLong(tokenz[8]);
+                packetsOUT += Long.parseLong(tokenz[9]);
+                System.out.println(bytesIN+" "+packetsIN+" "+bytesOUT+" "+packetsOUT);
 			}
 			br.close();
 			stats.put("bytesIN", bytesIN);
