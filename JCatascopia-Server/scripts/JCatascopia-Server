@@ -25,6 +25,9 @@ case $1 in
         
         #doing a hack for CELAR
         hostname localhost
+        if [ -z "$CASSANDRA_HOME" ] ; then
+           source /etc/bash.bashrc
+      	fi
         cassandra -p /tmp/cass.pid > /dev/null
         sleep 20s
         #end of hack
