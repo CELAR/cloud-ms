@@ -13,22 +13,45 @@
 NAME=JCatascopia-Server
 LOCKFILE=/var/lock/JCatascopia-Server-lock
 JCPATH=/usr/local/bin/JCatascopiaServerDir
+JCWEB=/usr/share/tomcat/bin
 
 case $1 in
     start)
 		if [ -e $LOCKFILE ] ; then
             echo "$NAME already up and running..."
     	    exit
-        fi
+        fi   
+             
+        #doing a hack for CELAR
+        hostname localhost
+        cassandra -p /tmp/cass.pid > /dev/null
+        sleep 20s
+        #end of hack
+        
         touch $LOCKFILE
         /bin/bash $JCPATH/JCatascopia-Server-start.sh
         echo "Starting $NAME..."
+        
+        #start JCatascopia-Web, if available for this node
+        if [ -d $JCWEB ]; then
+                $JCWEB/startup.sh
+        fi
     ;;
     stop)
         if [ -e $LOCKFILE ] ; then
             rm -f $LOCKFILE
             echo "Stopping $NAME..."
             /bin/bash $JCPATH/JCatascopia-Server-stop.sh
+		    #stopJCatascopia-Web, if available for this node
+	        if [ -d $JCWEB ]; then
+	                $JCWEB/shutdown.sh
+	        fi	
+	        #doing a hack for CELAR
+	        if [ -f /tmp/cass.pid ]; then
+	        	 kill -9 $(cat /tmp/cass.pid)
+	        	rm -rf /tmp/cass.pid
+	        fi	
+	        #end of hack
         else  
 	    	echo "$NAME not running..."
 	    	exit
