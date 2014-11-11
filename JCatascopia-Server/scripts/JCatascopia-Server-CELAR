@@ -40,8 +40,7 @@ case $1 in
     stop)
         if [ -e $LOCKFILE ] ; then
             rm -f $LOCKFILE
-            echo "Stopping $NAME..."
-            /bin/bash $JCPATH/JCatascopia-Server-stop.sh
+           
 		    #stopJCatascopia-Web, if available for this node
 	        if [ -d $JCWEB ]; then
 	                $JCWEB/shutdown.sh
@@ -52,6 +51,9 @@ case $1 in
 	        	rm -rf /tmp/cass.pid
 	        fi	
 	        #end of hack
+	        
+	         echo "Stopping $NAME..."
+            /bin/bash $JCPATH/JCatascopia-Server-stop.sh
         else  
 	    	echo "$NAME not running..."
 	    	exit
