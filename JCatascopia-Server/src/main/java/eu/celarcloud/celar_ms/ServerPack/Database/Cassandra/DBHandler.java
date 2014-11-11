@@ -141,7 +141,7 @@ public class DBHandler implements IDBHandler{
 	}
 
 	public void dbClose(){
-		this.cluster.shutdown();	
+		this.cluster.close();	
 	}
 	
 	public void dbInit(boolean drop_tables){
@@ -251,6 +251,8 @@ public class DBHandler implements IDBHandler{
 			bs.setString("agentName", agent.getAgentName());
 			if (agent.getAgentTags() != null)
 				bs.setString("tags", agent.getAgentTags());
+			else
+				bs.setToNull("tags");
 			session.execute(bs);
 		}
 		catch(Exception e){
