@@ -143,7 +143,6 @@ public class NetworkProbe extends Probe{
                 packetsIN += Long.parseLong(tokenz[1]);
                 bytesOUT += Long.parseLong(tokenz[8]);
                 packetsOUT += Long.parseLong(tokenz[9]);
-                System.out.println(bytesIN+" "+packetsIN+" "+bytesOUT+" "+packetsOUT);
 			}
 			br.close();
 			stats.put("bytesIN", bytesIN);
