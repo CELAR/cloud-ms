@@ -35,4 +35,5 @@ public interface IJCatascopiaAgent {
 	public void deployProbeAtRuntime(String probeClassContainer, String probeClass) throws CatascopiaException;
 	public String getAgentName();
 	public String getAgentTags();
+	public void terminate();
 }

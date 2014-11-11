@@ -111,7 +111,12 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	 * @param agentDirPath
 	 * @throws CatascopiaException
 	 */
-	public MonitoringAgent(String agentDirPath) throws CatascopiaException {
+	public MonitoringAgent(String agentDirPath, String lockPath) throws CatascopiaException {
+		//remove daemon lock when JVM terminates if Agent is ran in daemon mode
+		if (lockPath != null){
+			File f = new File (lockPath);
+			f.deleteOnExit();
+		}
 		//path to JCatascopia Agent Directory
 		this.JCATASCOPIA_AGENT_HOME = agentDirPath;
 		//parse config file
@@ -664,11 +669,11 @@ public class MonitoringAgent implements IJCatascopiaAgent{
 	public static void main(String[] args) throws CatascopiaException{
 		try{	
 			if (args.length > 0)
-				new MonitoringAgent(args[0]);
+				new MonitoringAgent(args[0], args[1]);
 			else
-				new MonitoringAgent(".");
+				new MonitoringAgent(".", null);
 		}catch(Exception e){
-			System.exit(1);
+			System.exit(0);
 		}
 	}
 }

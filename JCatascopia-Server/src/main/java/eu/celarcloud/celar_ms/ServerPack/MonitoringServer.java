@@ -98,7 +98,12 @@ public class MonitoringServer implements IJCatascopiaServer{
 	private Distributor redistributor;
 	protected Aggregator aggregator;
 	
-	public MonitoringServer(String serverDirPath) throws CatascopiaException{
+	public MonitoringServer(String serverDirPath, String lockPath) throws CatascopiaException{
+		//remove daemon lock when JVM terminates if Server is ran in daemon mode
+		if (lockPath != null){
+			File f = new File (lockPath);
+			f.deleteOnExit();
+		}
 		this.JCATASCOPIA_SERVER_HOME = serverDirPath;
 		//parse config file
 		this.parseConfig();
@@ -349,11 +354,11 @@ public class MonitoringServer implements IJCatascopiaServer{
 	public static void main(String[] args) throws CatascopiaException {
 		try{		
 			if (args.length > 0)
-				new MonitoringServer(args[0]);
+				new MonitoringServer(args[0], args[1]);
 			else
-				new MonitoringServer(".");
+				new MonitoringServer(".", null);
 		}catch(Exception e){
-			System.exit(1);
+			System.exit(0);
 		}
 	}
 
