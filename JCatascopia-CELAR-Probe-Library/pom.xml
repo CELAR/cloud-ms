@@ -11,5 +11,6 @@
   	<module>JCatascopia-Probe-Package</module>
   	<module>CassandraProbe</module>
   	<module>HAProxyProbe</module>
+  	<module>PostgresProbe</module>
   </modules>
 </project>
