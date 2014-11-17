@@ -17,6 +17,7 @@
   	<module>JCatascopia-Web/war</module>
   	<module>JCatascopia-Web/tar</module>
   	<module>JCatascopia-Web/rpm</module>
+  	<module>JCatascopia-CELAR-Probe-Library</module>
   </modules>
 
 </project>
