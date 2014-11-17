@@ -10,5 +10,6 @@
   <modules>
   	<module>JCatascopia-Probe-Package</module>
   	<module>CassandraProbe</module>
+  	<module>HAProxyProbe</module>
   </modules>
 </project>
