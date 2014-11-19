@@ -131,7 +131,7 @@ public class HAProxyProbe extends Probe{
 						stot += Integer.parseInt(tokenz[7]);
 						bin += Integer.parseInt(tokenz[8]);
 						bout += Integer.parseInt(tokenz[9]);
-						err += Integer.parseInt(tokenz[12]);
+						err += (!tokenz[12].equals("")) ? Integer.parseInt(tokenz[12]) : 0;
 						err += Integer.parseInt(tokenz[13]);
 						err += Integer.parseInt(tokenz[14]);
 						if (tokenz.length >= 60)
