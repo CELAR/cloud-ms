@@ -67,8 +67,8 @@ public class CassandraProbe extends Probe{
 		double r,w;
 		long b;
 		for(Entry<String, Integer> entry:keyspaces.entrySet()){
-			r = (temp.get(entry.getKey()+"_readLatency") != null) ? temp.get(entry.getKey()+"_readLatency") : 0.0;
-			w = (temp.get(entry.getKey()+"_writeLatency") != null) ? temp.get(entry.getKey()+"_writeLatency") : 0.0;
+			r = (temp.get(entry.getKey()+"_readLatency") != null) ? temp.get(entry.getKey()+"_readLatency") : Double.NaN;
+			w = (temp.get(entry.getKey()+"_writeLatency") != null) ? temp.get(entry.getKey()+"_writeLatency") : Double.NaN;
 			b = (temp.get(entry.getKey()+"_load") != null) ? temp.get(entry.getKey()+"_load").longValue() : 0;
 			values.put(entry.getValue(), r);
 			values.put(entry.getValue()+1, w);
@@ -81,9 +81,9 @@ public class CassandraProbe extends Probe{
 			values.put(this.loadint, l);
 		}
 		
-		for(Entry<Integer,Object> entry:values.entrySet()){
-			System.out.println(entry.getKey()+" "+entry.getValue());
-		}
+//		for(Entry<Integer,Object> entry:values.entrySet()){
+//			System.out.println(entry.getKey()+" "+entry.getValue());
+//		}
 		
 		return new ProbeMetric(values);
 	}
