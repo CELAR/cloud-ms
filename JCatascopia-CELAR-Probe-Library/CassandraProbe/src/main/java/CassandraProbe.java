@@ -39,18 +39,17 @@ public class CassandraProbe extends Probe{
 		while(i < ks.length){
 			this.addProbeProperty(j++,ks[i]+"_readLatency",ProbePropertyType.DOUBLE,"ms",ks[i]+" keyspace read latency");
 			this.addProbeProperty(j++,ks[i]+"_writeLatency",ProbePropertyType.DOUBLE,"ms",ks[i]+" keyspace write latency");
-			this.addProbeProperty(j++,ks[i]+"_load",ProbePropertyType.LONG,"KB",ks[i]+" keyspace total space used in KBytes");
+			this.addProbeProperty(j++,ks[i]+"_load",ProbePropertyType.LONG,"KB",ks[i]+" keyspace total load generated for this node in KBytes");
 			keyspaces.put(ks[i], c);
 			i++; c += 3;
 		}
 		
-		this.nodeloadflag = Boolean.parseBoolean(this.config.getProperty("calc_node_load","false"));
+		this.nodeloadflag = Boolean.parseBoolean(this.config.getProperty("node.calcNodeLoad","false"));
 		if (nodeloadflag){
 			this.loadint = j;
 			this.addProbeProperty(this.loadint,"node_load",ProbePropertyType.DOUBLE,"KB","load on the node in KB");
-			myIP = getMyIP();
+			myIP = getMyIP(this.config.getProperty("node.netInterface","eth0"));
 			System.out.println("Node Load will attempt to be calculated for host: " + myIP);
-//			myIP="127.0.0.1";
 		}
 		
 		nodetool_path = config.getProperty("nodetool_path", "nodetool");
@@ -68,9 +67,9 @@ public class CassandraProbe extends Probe{
 		double r,w;
 		long b;
 		for(Entry<String, Integer> entry:keyspaces.entrySet()){
-			r = (temp.get(entry.getKey()+"_readLatency") != null) ? temp.get(entry.getKey()+"_readLatency") : Double.NaN;
-			w = (temp.get(entry.getKey()+"_writeLatency") != null) ? temp.get(entry.getKey()+"_writeLatency") : Double.NaN;
-			b = (temp.get(entry.getKey()+"_load") != null) ? temp.get(entry.getKey()+"_load").longValue() : -1;
+			r = (temp.get(entry.getKey()+"_readLatency") != null) ? temp.get(entry.getKey()+"_readLatency") : 0.0;
+			w = (temp.get(entry.getKey()+"_writeLatency") != null) ? temp.get(entry.getKey()+"_writeLatency") : 0.0;
+			b = (temp.get(entry.getKey()+"_load") != null) ? temp.get(entry.getKey()+"_load").longValue() : 0;
 			values.put(entry.getValue(), r);
 			values.put(entry.getValue()+1, w);
 			values.put(entry.getValue()+2, b);
@@ -82,9 +81,9 @@ public class CassandraProbe extends Probe{
 			values.put(this.loadint, l);
 		}
 		
-//		for(Entry<Integer,Object> entry:values.entrySet()){
-//			System.out.println(entry.getKey()+" "+entry.getValue());
-//		}
+		for(Entry<Integer,Object> entry:values.entrySet()){
+			System.out.println(entry.getKey()+" "+entry.getValue());
+		}
 		
 		return new ProbeMetric(values);
 	}
@@ -96,7 +95,6 @@ public class CassandraProbe extends Probe{
 			Process p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
 			BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			//BufferedReader b = new BufferedReader(new FileReader(new File("cassandra_example")));
 			String line = "";
 			while ((line = b.readLine()) != null){
 				if (line.contains("Keyspace: ")){
@@ -182,9 +180,9 @@ public class CassandraProbe extends Probe{
 		return load;
 	}
 	
-	private static String getMyIP(){
+	private static String getMyIP(String nic){
 		try {	
-			String[] cmd = {"/bin/sh", "-c", "ifconfig eth0 | grep -o 'inet addr:[0-9.]*' | grep -o [0-9.]*"};
+			String[] cmd = {"/bin/sh", "-c", "ifconfig "+nic+" | grep -o 'inet addr:[0-9.]*' | grep -o [0-9.]*"};
 			Process p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
 			BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
