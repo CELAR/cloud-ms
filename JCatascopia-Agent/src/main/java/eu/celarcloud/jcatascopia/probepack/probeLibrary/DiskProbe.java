@@ -70,16 +70,21 @@ public class DiskProbe  extends Probe{
 			String line = b.readLine(); //first line is just header, dont want it
 			String[]  tokenz;
 			while ((line = b.readLine()) != null){
-				tokenz = line.split("\\s+");
-				//dont want "none" filesystems and remote partitions. remote partitions contain ':'
-				if(!tokenz[0].startsWith("/") || tokenz[0].contains(":"))
+				try {
+					tokenz = line.split("\\s+");
+					//dont want "none" filesystems and remote partitions. remote partitions contain ':'
+					if(!tokenz[0].startsWith("/") || tokenz[0].contains(":"))
+						continue;
+								
+					diskTotal += Long.parseLong(tokenz[1])/1024; //in MB
+					diskFree  += Long.parseLong(tokenz[3])/1024;  //in MB
+					diskUsed  += (diskTotal - diskFree)/(diskTotal * 1.0) * 100;
+					
+//					System.out.println("diskTotal(MB): "+ diskTotal + " diskFree(MB): "+ diskFree + " diskUsed(%): " + diskUsed);
+				}
+				catch (ArrayIndexOutOfBoundsException e) {
 					continue;
-							
-				diskTotal += Long.parseLong(tokenz[1])/1024; //in MB
-				diskFree  += Long.parseLong(tokenz[3])/1024;  //in MB
-				diskUsed  += (diskTotal - diskFree)/(diskTotal * 1.0) * 100;
-				
-//				System.out.println("diskTotal(MB): "+ diskTotal + " diskFree(MB): "+ diskFree + " diskUsed(%): " + diskUsed);
+				}
 			}
 			b.close();
 			values.put(0, diskTotal);
@@ -87,7 +92,7 @@ public class DiskProbe  extends Probe{
 			values.put(2, diskUsed);
 			return new ProbeMetric(values);
 		}
-		catch(Exception e){
+		catch (Exception e){e.printStackTrace();
 			this.writeToProbeLog(Level.SEVERE, "Couldn't read disk stats");
 		}
 		return null;
