@@ -12,5 +12,6 @@
   	<module>CassandraProbe</module>
   	<module>HAProxyProbe</module>
   	<module>PostgresProbe</module>
+  	<module>ExampleProbe</module>
   </modules>
 </project>

@@ -140,7 +140,7 @@
              	<artifactId>rpm-maven-plugin</artifactId>
              	<extensions>true</extensions>
              	<configuration>
-             	    <release>${BUILD_NUMBER}.${package.os}</release>
+             	    <!-- <release>${BUILD_NUMBER}.${package.os}</release>-->
               		<classifier>${package.os}</classifier>
               		<summary>JCatascopia-Server</summary>
               		<name>JCatascopia-Server</name>

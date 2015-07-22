@@ -107,6 +107,7 @@
             <script>tar xvfz ${rpm.install.basedir}/JCatascopia-Server/${jc.tarball} -C ${rpm.install.basedir}/JCatascopia-Server/
 			                cd  ${rpm.install.basedir}/JCatascopia-Server/${jc.dir}
 			                ./${jc.install}
+			                mv -f ${rpm.install.basedir}/JCatascopia-Server/${jc.dir}/JCatascopia-Server-CELAR /etc/init.d/JCatascopia-Server
 							echo "JCatascopia-Server: installation finished..."</script>
           </postinstallScriptlet>
           <postremoveScriptlet>
