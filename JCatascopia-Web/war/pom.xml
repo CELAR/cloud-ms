@@ -16,7 +16,7 @@
 
 	<parent>
 		<groupId>eu.celarcloud.cloud-ms</groupId>
-		<artifactId>JCatascopia</artifactId>
+		<artifactId>JCatascopia-Web</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 

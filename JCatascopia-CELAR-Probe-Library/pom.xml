@@ -13,5 +13,7 @@
   	<module>HAProxyProbe</module>
   	<module>PostgresProbe</module>
   	<module>ExampleProbe</module>
+  	<module>ScanProbe</module>
+  	<module>ScanWorkerProbe</module>
   </modules>
 </project>

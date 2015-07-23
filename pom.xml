@@ -19,5 +19,15 @@
   	<module>JCatascopia-Web/rpm</module>
   	<module>JCatascopia-CELAR-Probe-Library</module>
   </modules>
-
+   
+  <repositories>
+	<repository>
+		<id>CELAR Nexus repository - SNAPSHOTS</id>
+		<url>http://snf-175960.vm.okeanos.grnet.gr/nexus/content/repositories/snapshots/</url>
+	</repository>
+	<repository>
+		<id>CELAR Nexus repository - RELEASES</id>
+		<url>http://snf-175960.vm.okeanos.grnet.gr/nexus/content/repositories/releases/</url>
+	</repository>
+  </repositories>
 </project>
