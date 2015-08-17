@@ -16,7 +16,7 @@ import eu.celarcloud.jcatascopia.probepack.ProbePropertyType;
 
 public class CassandraProbe extends Probe{
 	
-	private static int DEFAULT_SAMPLING_PERIOD = 45;
+	private static int DEFAULT_SAMPLING_PERIOD = 20;
 	private static String DEFAULT_PROBE_NAME = "CassandraProbe";
 	
 	private static final String CONFIG_PATH = "cassandra.properties";
