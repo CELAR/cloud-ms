@@ -15,5 +15,6 @@
   	<module>ExampleProbe</module>
   	<module>ScanProbe</module>
   	<module>ScanWorkerProbe</module>
+  	<module>DataPlayProbe</module>
   </modules>
 </project>
