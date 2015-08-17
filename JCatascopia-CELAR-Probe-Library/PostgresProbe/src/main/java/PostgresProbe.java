@@ -1,9 +1,6 @@
-
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,7 +22,7 @@ import eu.celarcloud.jcatascopia.probepack.ProbePropertyType;
  */
 public class PostgresProbe extends Probe{
 	
-	private static int DEFAULT_SAMPLING_PERIOD = 30;
+	private static int DEFAULT_SAMPLING_PERIOD = 20;
 	private static String DEFAULT_PROBE_NAME = "PostgresProbe";
 	
 	private static final String CONFIG_PATH = "postgres.properties";
