@@ -38,7 +38,7 @@ public class DataPlayProbe extends Probe{
 	}
 	
 	public DataPlayProbe(){
-		this("DataplayProbe",30);
+		this("DataplayProbe",20);
 	}
 	
 	@Override
