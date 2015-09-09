@@ -1,0 +1,37 @@
+{
+  "probe": "ScanProbe",
+  "desc": "A JCatascopia/CELAR Probe collecting SCAN usage stats",
+  "metrics": [
+    {
+      "name": "queueLength",
+      "desc": "queue length"
+    },
+    {
+      "name": "avgCpuUsage",
+      "desc": "average task CPU usage"
+    },
+    {
+      "name": "avgMemoryUsage",
+      "desc": "average task memory usage"
+    },
+    {
+      "name": "workerUtilisation",
+      "desc": "worker pool utilisation (1 = all active, 0 = all idle)"
+    },
+    {
+      "name": "rewardLostToQueueing",
+      "desc": "reward lost due to tasks queueing"
+    },
+    {
+      "name": "rewardLostToSmallWorkers",
+      "desc": "reward lost due to workers unable to offer sufficient local parallelism"
+    },
+    {
+      "name": "totalReward",
+      "desc": "total reward gained so far"
+    }
+  ],
+  "os": [
+    "all"
+  ]
+}
