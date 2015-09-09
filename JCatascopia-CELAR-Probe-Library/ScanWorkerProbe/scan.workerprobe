@@ -1,0 +1,21 @@
+{
+  "probe": "ScanWorkerProbe",
+  "desc": "A JCatascopia/CELAR Probe collecting SCAN worker usage stats",
+  "metrics": [
+    {
+      "name": "idleCoresProp",
+      "desc": "Proportion of cores idle"
+    },
+    {
+      "name": "idleMemProp",
+      "desc": "Proportion of memory idle"
+    },
+    {
+      "name": "freeDiskProp",
+      "desc": "Proportion of scratch disk free"
+    }
+  ],
+  "os": [
+    "all"
+  ]
+}
