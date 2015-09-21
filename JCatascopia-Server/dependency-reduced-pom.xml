@@ -7,6 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>JCatascopia-Server</artifactId>
+  <version>0.0.2-SNAPSHOT</version>
   <build>
     <resources>
       <resource>
