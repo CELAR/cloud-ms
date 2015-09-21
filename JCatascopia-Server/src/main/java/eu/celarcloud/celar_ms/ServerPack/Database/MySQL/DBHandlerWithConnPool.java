@@ -87,6 +87,37 @@ public class DBHandlerWithConnPool implements IDBHandler{
 	}
 	
 	public void dbConnect(){
+		boolean con = false;
+		int interval = 20000;
+		int max = 600000; //after 10min shut everything down
+		int t = 0;
+		
+		while (con == false && t < max){
+			try{
+				this.dbConnect1();
+			}
+			catch(Exception e){
+				String s = "No Database backend available, retry to connect in "+interval/1000+" seconds";
+				System.out.println(s);
+				this.server.writeToLog(Level.WARNING, e.getMessage() + " " + s);
+				con = false;
+				t += interval;
+				try {
+					Thread.sleep(interval);
+				} 
+				catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				continue;
+			}
+			con = true;
+		}
+		//if there is still no connection after 10mins, try again and this time don't catch the error
+		if (con == false)
+			this.dbConnect1();
+	}
+	
+	public void dbConnect1(){
 		try {
 	        dataSource = new BasicDataSource();
 	        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
