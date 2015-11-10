@@ -1,0 +1,52 @@
+{
+  "probe": "PostgresProbe",
+  "desc": "Probe that collects performance metrics from Postgres database",
+  "metrics": [
+    {
+      "name": "pgActiveConnections",
+      "desc": "total number of active connections to database"
+    },
+    {
+      "name": "pgDBsizeKB",
+      "desc": "total disk usage of database in KB"
+    },
+    {
+      "name": "pgBlocksDiskRead",
+      "desc": "blocks read directly from disk or operating system since last checkpoint"
+    },
+    {
+      "name": "pgBlocksCacheHit",
+      "desc": "Blocks read from PostgreSQL Cache per second since last checkpoint"
+    }
+  ],
+  "config_params": [
+    {
+      "path": "/src/main/resources",
+      "params": [
+        {
+          "name": "postgres.host",
+          "mandatory": "false"
+        },
+        {
+          "name": "postgres.port",
+          "mandatory": "false"
+        },
+        {
+          "name": "postgres.username",
+          "mandatory": "true"
+        },
+        {
+          "name": "postgres.password",
+          "mandatory": "true"
+        },
+        {
+          "name": "postgres.database",
+          "mandatory": "true"
+        }
+      ]
+    }
+  ],
+  "os": [
+    "linux"
+  ]
+}

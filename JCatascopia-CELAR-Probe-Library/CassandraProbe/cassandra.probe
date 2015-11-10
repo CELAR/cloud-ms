@@ -1,0 +1,44 @@
+{
+  "probe": "CassandraProbe",
+  "desc": "Probe that collects read/write latency from Cassandra database",
+  "metrics": [
+    {
+      "name": "[keyspace]_readLatency",
+      "desc": "read latency for the selected keyspace"
+    },
+    {
+      "name": "[keyspace]_writeLatency",
+      "desc": "write latency for the selected keyspace"
+    },
+    {
+      "name": "[keyspace]_load",
+      "desc": "total load generated (in KBytes) for the selected keyspace on this specific node"
+    }
+  ],
+  "config_params": [
+    {
+      "path": "/src/main/resources",
+      "params": [
+        {
+          "name": "keyspaces",
+          "mandatory": "true"
+        },
+        {
+          "name": "nodetool_path",
+          "mandatory": "false"
+        },
+        {
+          "name": "node.calcNodeLoad",
+          "mandatory": "false"
+        },
+        {
+          "name": "node.netInterface",
+          "mandatory": "false"
+        }
+      ]
+    }
+  ],
+  "os": [
+    "linux"
+  ]
+}

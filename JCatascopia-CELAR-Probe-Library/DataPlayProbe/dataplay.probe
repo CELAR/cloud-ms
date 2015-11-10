@@ -1,0 +1,36 @@
+{
+  "probe": "DataPlayProbe",
+  "desc": "A JCatascopia Probe collecting DataPlay master node stats",
+  "metrics": [
+    {
+      "name": "mean",
+      "desc": ""
+    },
+    {
+      "name": "standev",
+      "desc": ""
+    },
+    {
+      "name": "variation",
+      "desc": ""
+    }
+  ],
+  "config_params": [
+    {
+      "path": "/src/main/resources",
+      "params": [
+        {
+          "name": "playgen.ip",
+          "mandatory": "true"
+        },
+        {
+          "name": "playgen.port",
+          "mandatory": "true"
+        }
+      ]
+    }
+  ],
+  "os": [
+    "all"
+  ]
+}

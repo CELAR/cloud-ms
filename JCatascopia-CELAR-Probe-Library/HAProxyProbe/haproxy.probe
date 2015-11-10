@@ -1,0 +1,64 @@
+{
+  "probe": "HAProxyProbe",
+  "desc": "HAProxyProbe collect's HAProxy Load Balancer usage stats",
+  "metrics": [
+    {
+      "name": "activeSessions",
+      "desc": "Number of active connections"
+    },
+    {
+      "name": "requestRate",
+      "desc": "Requests per second"
+    },
+    {
+      "name": "proxyBytesIN",
+      "desc": "Bytes IN per second"
+    },
+    {
+      "name": "proxyBytesOUT",
+      "desc": "Bytes OUT per second"
+    },
+    {
+      "name": "avgResponseTime",
+      "desc": "Average response time in ms of all servers"
+    },
+    {
+      "name": "servers",
+      "desc": "Number of servers behind proxy"
+    },
+    {
+      "name": "errorRate",
+      "desc": "Errors per second"
+    }
+  ],
+  "config_params": [
+    {
+      "path": "/src/main/resources",
+      "params": [
+        {
+          "name": "haproxy_username",
+          "mandatory": "true"
+        },
+        {
+          "name": "haproxy_password",
+          "mandatory": "true"
+        },
+        {
+          "name": "haproxy_ip",
+          "mandatory": "true"
+        },
+        {
+          "name": "haproxy_port",
+          "mandatory": "true"
+        },
+        {
+          "name": "haproxy_proxy_name",
+          "mandatory": "true"
+        }
+      ]
+    }
+  ],
+  "os": [
+    "all"
+  ]
+}
