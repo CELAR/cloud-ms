@@ -73,7 +73,7 @@ public class PostgresProbe extends Probe{
 		try {
 			ResultSet rs = this.ps.executeQuery();
 			if (rs.next()){
-				System.out.println("pgActiveConnections: "+rs.getString("numbackends")+", pgDBsizeKB: "+rs.getInt("dbsize")/1024+", pgBlocksDiskRead: "+rs.getString("blks_read")+", pgBlocksCacheHit: "+rs.getString("blks_hit"));
+				//System.out.println("pgActiveConnections: "+rs.getString("numbackends")+", pgDBsizeKB: "+rs.getInt("dbsize")/1024+", pgBlocksDiskRead: "+rs.getString("blks_read")+", pgBlocksCacheHit: "+rs.getString("blks_hit"));
 				values = new HashMap<Integer,Object>();
 				values.put(0, Integer.parseInt(rs.getString("numbackends")));
 				values.put(1, rs.getInt("dbsize")/1024);
